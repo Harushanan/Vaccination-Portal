@@ -75,7 +75,7 @@ const WelcomePage = () => {
                     color: '#003333'
                 }}>
                     <h1 style={{
-                    fontSize: '52px',
+                    fontSize: '40px',
                     marginBottom: '20px',
                     background: 'linear-gradient(90deg, #00c6ff,rgba(0, 115, 255, 0.79))',
                     color: 'white',
@@ -88,20 +88,20 @@ const WelcomePage = () => {
                 }}>
                     Your Health, Our Priority</h1>
 
-              <p style={{
-    fontSize: '25px',
-    fontWeight: '500',
-    color: '#2c3e50',
-    marginTop: '10px',
-    fontFamily: "'Segoe UI', sans-serif",
-    lineHeight: '1.6'
-}}>
+                <p style={{
+                    fontSize: '20px',
+                    fontWeight: '500',
+                    color: '#2c3e50',
+                    marginTop: '10px',
+                    fontFamily: "'Segoe UI', sans-serif",
+                    lineHeight: '1.6'
+                }}>
    
-    ✔ Protect your health with timely vaccinations. <br />
-    ✔ Shield your loved ones from preventable diseases. <br />
-    ✔ Access safe, verified vaccination services online. <br />
-    ✔ Book your slot anytime, anywhere. <br />
-    ✔ Stay updated. Stay protected. Stay strong.
+                ✔ Protect your health with timely vaccinations. <br />
+                ✔ Shield your loved ones from preventable diseases. <br />
+                ✔ Access safe, verified vaccination services online. <br />
+                ✔ Book your slot anytime, anywhere. <br />
+                ✔ Stay updated. Stay protected. Stay strong.
 </p>
 
 
@@ -110,7 +110,7 @@ const WelcomePage = () => {
                style={{
                    padding: '14px 28px',
                    fontSize: '1.2em',
-                   background: 'linear-gradient(135deg, #00eaff,rgba(25, 0, 255, 0.63))',
+                   background: 'linear-gradient(135deg,rgb(174, 0, 255),rgba(25, 0, 255, 0.51))',
                    color: '#ffffff',
                    border: 'none',
                    borderRadius: '10px',

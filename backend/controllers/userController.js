@@ -31,6 +31,7 @@ const loginuser = async (req, res) => {
 const signupuser = async (req, res) => {
     try {
         const { email, password } = req.body;
+        console.log("UserModel : " , UserModel);
         const userExists = await UserModel.findOne({ email }); //02
 
         if (!userExists) {

@@ -17,14 +17,7 @@ app.use(cors());
 const connectDatabase = require('./config/database');
 
 connectDatabase();
-
-
-
-
 app.use(userRoutes);
-//app.use()
-
-
 app.listen(process.env.PORT, () => console.log(`Server started on port ${process.env.PORT}`));
 
 

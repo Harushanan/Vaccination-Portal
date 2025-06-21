@@ -10,7 +10,7 @@ import axios from 'axios';
 function Signup() {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
-    const [setconformPassword, setsetconformPassword] = useState("");
+    const [conformPassword, setconformPassword] = useState("");
     const [email, setEmail] = useState("");
     const [address , setAddress] = useState("");
     const [phone, setPhone] = useState("");
@@ -44,7 +44,7 @@ function Signup() {
                 return;
              }
 
-        if(setconformPassword != password){
+        if(conformPassword != password){
             setError("Password not match");
             return;
 
@@ -132,8 +132,8 @@ function Signup() {
             
             <div className="container" style={{ display: 'flex', flex: 1, height: '80vh' }}>
                 <div className="left-side" style={{ flex: 2.0, background: `url(${loginbackground})no-repeat center center/cover`  }}></div>
-                <div className="right-side" style={{ flex: 1, display: 'flex', justifyContent: 'center', alignItems: 'center', backgroundColor: '#f4f4f4', padding: '20px' }}>
-                    <form onSubmit={handleSignup}    className="login-box" style={{ background: 'white', padding: '30px', borderRadius: '10px', boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)', width: '100%', maxWidth: '600px' }}>
+                <div className="right-side" style={{ flex: 1, display: 'flex', justifyContent: 'center', alignItems: 'center', backgroundColor: '#f4f4f4', padding: '20px'}}>
+                    <form onSubmit={handleSignup}    className="login-box" style={{ background: 'white', padding: '30px', borderRadius: '10px', boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)', width: '100%', maxWidth: '600px'}}>
                         <h2 style={{ textAlign: 'center', marginBottom: '25px' }}>Create Account</h2>
                         <b>Name</b>
                         <input
