@@ -116,7 +116,7 @@ const [vaccine, setvaccine] = useState([]);
             <input
               type="text"
               name="reason"
-              placeholder="Amount"
+              placeholder="Add Count"
               style={{ 
                 padding: '6px 10px', 
                 width: '70%', 

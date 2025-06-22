@@ -5,12 +5,11 @@ import Cookies from 'js-cookie';
 import AdminHeader from '../../Component/AdminHeader';
 import Sidebar from '../../Component/Sidebar';
 
-function AdminDashboard() {
+function DeleteUser() {
   const [user, setUser] = useState([]);
   const [reasonByEmail, setReasonByEmail] = useState({});
   const [searchQuery, setSearchQuery] = useState('');
   const [searchResults, setSearchResults] = useState([]);
-  const [dropdownVisible, setDropdownVisible] = useState(false);
 
   const navigate = useNavigate();
 
@@ -18,7 +17,7 @@ function AdminDashboard() {
   const customername = userSession ? userSession.user.username : "Guest";
 
   useEffect(() => {
-    axios.get("http://localhost:3000/studentdeatiles")
+    axios.get("http://localhost:3000/deletuserdeatiles")
       .then((result) => { 
         setUser(result.data);
         setSearchResults(result.data);
@@ -45,32 +44,7 @@ function AdminDashboard() {
     setSearchQuery(e.target.value);
   };
 
-  const deleteUser = (email, e) => {
-    e.preventDefault();
-
-    const reason = reasonByEmail[email];
-    if (!reason || reason.trim() === "") {
-      alert("Please enter a reason to delete the user.");
-      return;
-    }
-
-    const confirmDelete = window.confirm("Are you sure you want to delete?");
-    if (confirmDelete) {
-      axios.post("http://localhost:3000/deleteuser", { email, reason })
-        .then(() => {
-          setUser(prevUsers => prevUsers.filter(u => u.email !== email));
-          setReasonByEmail(prev => {
-            const copy = {...prev};
-            delete copy[email];
-            return copy;
-          });
-        })
-        .catch((err) => {
-          console.error("Delete Error:", err);
-        });
-    }
-  };
-   const navLinkStyle = {
+  const navLinkStyle = {
     color: 'white',
     textDecoration: 'none',
     fontWeight: '600',
@@ -123,12 +97,12 @@ function AdminDashboard() {
               padding: 0,
               margin: 0
             }}>
-              <li><Link to="/adminDashboard" style={navLinkStyle}>Current Patients</Link></li>
-              <li><Link to="/delete-user" style={navLinkStyle}>Delete Patients</Link></li>
+              <li><Link to="/adminDashboard" style={navLinkStyle}>Current Patient</Link></li>
+              <li><Link to="/delete-user" style={navLinkStyle}>Delete Patient</Link></li>
             </ul>
           </nav>
 
-          <h1 style={{ marginBottom: '10px' }}>Current Customers</h1>
+          <h1 style={{ marginBottom: '10px' }}>Delete Patient</h1>
 
           <div style={{ marginBottom: '20px' }}>
             <input
@@ -148,7 +122,7 @@ function AdminDashboard() {
           </div>
 
           <h2 style={{ marginBottom: '20px' }}>
-            Total number of customers: {searchResults.length}
+            Total number of Delete Patient: {searchResults.length}
           </h2>
 
           <table style={{ width: '100%', borderCollapse: 'collapse', boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)' }}>
@@ -159,7 +133,10 @@ function AdminDashboard() {
                 <th style={tableHeaderStyle}>Address</th>
                 <th style={tableHeaderStyle}>Phone Number</th>
                 <th style={{ ...tableHeaderStyle, textAlign: 'center' }}>View Details</th>
-                <th style={tableHeaderStyle}>Reason</th>
+                <th style={tableHeaderStyle}>Remove Reason</th>
+                <th style={tableHeaderStyle}>Remove date</th>
+                <th style={tableHeaderStyle}>Remove By</th>
+                <th style={{ ...tableHeaderStyle, textAlign: 'center' }}>Add</th>
               </tr>
             </thead>
             <tbody>
@@ -180,29 +157,32 @@ function AdminDashboard() {
                         cursor: 'pointer',
                         transition: 'background-color 0.3s'
                       }}
-                      onClick={() => alert(`Viewing details for ${ob.username}`)}
+                      //onClick={() => alert(`Viewing details for ${ob.username}`)}
                     >
                       View
                     </button>
                   </td>
-                  <td style={tableCellStyle}>
-                    <form style={{ display: 'flex', alignItems: 'center' }} onSubmit={(e) => deleteUser(ob.email, e)}>
-                      <input
-                        type="text"
-                        name="reason"
-                        value={reasonByEmail[ob.email] || ''}
-                        onChange={(e) => setReasonByEmail(prev => ({ ...prev, [ob.email]: e.target.value }))}
-                        placeholder="Reason"
-                        style={{ padding: '8px', width: '70%', borderRadius: '4px', border: '1px solid #ccc', marginRight: '10px' }}
-                      />
-                      <button
-                        type="submit"
-                        style={{ padding: '8px 15px', backgroundColor: '#f44336', color: '#fff', border: 'none', borderRadius: '5px', cursor: 'pointer', transition: 'background-color 0.3s' }}
-                      >
-                        Delete
-                      </button>
-                    </form>
-                  </td>
+                   <td style={tableCellStyle}>{ob.reason}</td>
+                    <td style={tableCellStyle}>{ob.date}</td>
+                     <td style={tableCellStyle}>{ob.removeby}</td>
+
+                     <td style={{ ...tableCellStyle, textAlign: 'center' }}>
+                    <button
+                      style={{
+  padding: '10px 20px',
+  backgroundColor: 'rgb(23, 104, 151)',
+  color: '#fff',
+  border: 'none',
+  borderRadius: '5px',
+  cursor: 'pointer',
+  transition: 'background-color 0.3s'
+}}
+
+                      
+                    >
+                      Add
+                    </button> /</td>
+                 
                 </tr>
               ))}
             </tbody>
@@ -225,4 +205,13 @@ const tableCellStyle = {
   border: '1px solid #ddd',
 };
 
-export default AdminDashboard;
+export default DeleteUser;
+
+
+
+
+
+
+
+
+

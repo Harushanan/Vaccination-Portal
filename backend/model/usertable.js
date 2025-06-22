@@ -22,14 +22,6 @@ const deletuser = new mongoose.Schema({
     date:String
 });
 
-const adminuser = new mongoose.Schema({
-    username: String,
-    email: String,
-    phone: String,
-    address: String,
-    role: String,
-    date:String
-});
 
 async function createPermanentAdmin() {
     const adminEmail = "admin@my2025gmail.com"; 
@@ -58,8 +50,7 @@ async function createPermanentAdmin() {
 
 const UserModel = mongoose.model("loginRegister", loginRegister);
 const DeletedUserModel = mongoose.model("deletuser", deletuser);
-const AdminUserModel = mongoose.model("adminuser", adminuser);
 
-module.exports = { UserModel, DeletedUserModel , AdminUserModel , createPermanentAdmin};
+module.exports = { UserModel, DeletedUserModel  , createPermanentAdmin};
 
 

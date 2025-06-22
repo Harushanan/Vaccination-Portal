@@ -9,22 +9,20 @@ import Forgotpassword from "./Component/layouts/Forgotpassword"
 import AdminDashboard from "./View/AdminPanel/AdminDashboard";
 import AddVaccin from "./View/AdminPanel/AddVaccin";
 import ViewVaccine from "./View/AdminPanel/ViewVaccine"
+import AdminFaq from './View/AdminPanel/AdminFaq'
+import DeletUser from "./View/AdminPanel/DeletUser"
 
 
 
-import DeletUser from "./Component/layouts/DeletUser"
-import UserDashboard from "./Component/layouts/UserDashboard";
-import OTP from "./Component/layouts/OTP";
-import AddAdmin from "./Component/layouts/AddAdmin";
+
+//----------Patient side ------------//
+import Faq from './View/PatientSide/Faq'
+import UserDashboard from "./View/PatientSide/UserDashboard";
+
+
 import WelcomePage from "./Component/Welcome";
 import Profile from "./Component/layouts/ViewProfile";
 import ProfileUpdate from "./Component/layouts/Updateprofile";
-
-
-import AdminHeader from "./Component/AdminHeader"
-
-
-
 
 
 function App() {
@@ -35,16 +33,21 @@ function App() {
             <Route path="/sign-up" element={<Signup />} />
             <Route path="/forgot-password" element={<Forgotpassword />} />
             <Route path="/adminDashboard" element={<AdminDashboard />} />
-            <Route path="/delet-user" element={<DeletUser />} />
-            <Route path="/userDashboard" element={<UserDashboard />} />
-            <Route path="/otp" element={<OTP />} />
-            <Route path="/adddAdmin" element={<AddAdmin />} />
+            <Route path="/delete-user" element={<DeletUser />} />
+          
+        
             <Route path="/" element={<WelcomePage />} />
             <Route path="/profile" element={<Profile/>}/>
             <Route path="/updateprofile" element={<ProfileUpdate/>}/>
 
             <Route path="/AddVaccin" element={<AddVaccin/>}/>
             <Route path="/ViewVaccin" element={<ViewVaccine/>}/>
+            <Route path="/AdminFaq" element={<AdminFaq/>}/>
+
+
+          
+            <Route path="/userDashboard" element={<UserDashboard />} />
+            <Route path="/faq" element={<Faq />} />
           </Routes>
         </BrowserRouter>
         

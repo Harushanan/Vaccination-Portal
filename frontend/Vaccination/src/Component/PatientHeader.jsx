@@ -1,29 +1,24 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Link, useNavigate } from "react-router-dom";
-import logo from '../../assets/images/Logo.png';
 import Cookies from 'js-cookie'; 
-import userprofile from '../../assets/images/userimge.png'
+import userprofile from '../assets/images/userimge.png';
 
-function UserDashboard() {
-    const navigate = useNavigate();
-    const [dropdownVisible, setDropdownVisible] = useState(false);
+function PatientHeader() {
+  const navigate = useNavigate();
+  const [dropdownVisible, setDropdownVisible] = useState(false);
 
-    const userSession = Cookies.get('user') ? JSON.parse(Cookies.get('user')) : null;
-    const customername = userSession ? userSession.user.username : "Guest";
+  const userSession = Cookies.get('user') ? JSON.parse(Cookies.get('user')) : null;
+  const customername = userSession ? userSession.user.username : "Guest";
 
-    function logout() {
-        const logoutConfirm = window.confirm("Are you sure you want to logout?");
-        if (logoutConfirm) {
-            Cookies.remove("user");
-            navigate('/'); 
-        }
+  function logout() {
+    const logoutConfirm = window.confirm("Are you sure you want to logout?");
+    if (logoutConfirm) {
+      Cookies.remove("user");
+      navigate('/');
     }
+  }
 
-    return (
-       <>
-  <div style={{ minHeight: '90vh', display: 'flex', flexDirection: 'column', backgroundColor: '#e6f7ff' }}>
-    
-    {/* Header */}
+  return (
     <div style={{
       background: 'linear-gradient(90deg, #004d40, #00acc1)',
       padding: '20px 40px',
@@ -52,17 +47,14 @@ function UserDashboard() {
         💉 <span style={{ margin: '0 8px' }}>VaxCare</span> <span style={{ color: '#f44336' }}>+</span> ❤️
       </a>
 
-      {/* Navigation Links */}
+      {/* Navigation */}
       <div style={{ display: 'flex', gap: '20px' }}>
-        <Link to="/booking" style={{ color: 'white', fontSize: '18px', textDecoration: 'none' }}>Booking</Link>
-        <Link to="/faq" style={{ color: 'white', fontSize: '18px', textDecoration: 'none' }}>FAQ</Link>
-        <Link to="/about" style={{ color: 'white', fontSize: '18px', textDecoration: 'none' }}>About Us</Link>
         <Link to="/booking" style={{ color: 'white', fontSize: '18px', textDecoration: 'none' }}>Booking</Link>
         <Link to="/faq" style={{ color: 'white', fontSize: '18px', textDecoration: 'none' }}>FAQ</Link>
         <Link to="/about" style={{ color: 'white', fontSize: '18px', textDecoration: 'none' }}>About Us</Link>
       </div>
 
-      {/* Profile and Dropdown */}
+      {/* Profile + Dropdown */}
       <div style={{ display: "flex", alignItems: "center", cursor: "pointer", position: "relative" }} onClick={() => setDropdownVisible(!dropdownVisible)}>
         <img src={userprofile} alt="User" style={{ width: "60px", height: "60px", borderRadius: "50%", border: "3px solid aqua", marginRight: "10px" }} />
         <h2 style={{ color: 'white' }}><b>{customername}</b></h2>
@@ -85,16 +77,7 @@ function UserDashboard() {
         )}
       </div>
     </div>
-
-    {/* Main Welcome Content */}
-    <div style={{ padding: "40px", textAlign: "center" }}>
-      <h1>Welcome Customer! {customername}</h1>
-    </div>
-
-  </div>
-</>
-
-    );
+  );
 }
 
-export default UserDashboard;
+export default PatientHeader;

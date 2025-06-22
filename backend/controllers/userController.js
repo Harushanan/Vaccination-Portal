@@ -1,5 +1,5 @@
 const bcrypt = require('bcryptjs');
-const { UserModel, DeletedUserModel ,AdminUserModel } = require('../model/usertable')
+const { UserModel, DeletedUserModel} = require('../model/usertable')
 
 
 //--------------- Login details ------------------- //

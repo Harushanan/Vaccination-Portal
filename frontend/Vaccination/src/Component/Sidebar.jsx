@@ -57,7 +57,7 @@ function Sidebar() {
         { to: "/adminDashboard", label: "User Management" },
         { to: "/AddVaccin", label: "Vaccination Management" },
         { to: "/reports", label: "Reports" },
-        { to: "/faq-management", label: "FAQ Management" },
+        { to: "/AdminFaq", label: "FAQ Management" },
         { to: "/settings", label: "Settings" },
       ].map((link) => (
         <Link

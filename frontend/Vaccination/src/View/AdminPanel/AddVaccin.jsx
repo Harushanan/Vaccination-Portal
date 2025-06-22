@@ -25,11 +25,11 @@ function AddVaccin() {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-   axios.post("http://localhost:3000/addvaccine", { Name, Type, Date, Slots, Age, Doses, Manufacturer, Instructions})
+   axios.post("http://localhost:3000/addvaccine", { Name, Type,Slots, Age, Doses, Manufacturer, Instructions})
     .then((result) => {
             if (result.data.message === "Vaccine added successfully") {  
                 setSuccess("Vaccine added successfully");
-                setTimeout(() => { navigate('ViewVaccin') }, 3000);
+                setTimeout(() => { navigate('/ViewVaccin') }, 3000);
             } 
         })
         .catch((err) => {
