@@ -44,14 +44,14 @@ function PatientHeader() {
       }}
         onMouseEnter={e => (e.currentTarget.style.transform = 'scale(1.05)')}
         onMouseLeave={e => (e.currentTarget.style.transform = 'scale(1)')}>
-        💉 <span style={{ margin: '0 8px' }}>VaxCare</span> <span style={{ color: '#f44336' }}>+</span> ❤️
+        💉 <span style={{ margin: '0 8px' }}>VaxCareHP</span> <span style={{ color: '#f44336' }}>+</span> ❤️
       </a>
 
       {/* Navigation */}
       <div style={{ display: 'flex', gap: '20px' }}>
-        <Link to="/booking" style={{ color: 'white', fontSize: '18px', textDecoration: 'none' }}>Booking</Link>
+        <Link to="/BookingVaccine" style={{ color: 'white', fontSize: '18px', textDecoration: 'none' }}>Booking</Link>
         <Link to="/faq" style={{ color: 'white', fontSize: '18px', textDecoration: 'none' }}>FAQ</Link>
-        <Link to="/about" style={{ color: 'white', fontSize: '18px', textDecoration: 'none' }}>About Us</Link>
+        <Link to="/SelectBooking" style={{ color: 'white', fontSize: '18px', textDecoration: 'none' }}>About Us</Link>
       </div>
 
       {/* Profile + Dropdown */}

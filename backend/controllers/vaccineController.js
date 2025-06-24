@@ -35,5 +35,37 @@ const vaccinelist = async (req, res) => {
     }
 };
 
+const updatecount = async (req, res) => {
+  try {
+    const { newcount, id } = req.body;
 
-module.exports = { addvaccine , vaccinelist};
+    const vaccine = await VaccineModel.findByIdAndUpdate(id,{ Slots: newcount },{ new: true });
+    
+    res.status(200).json({ message: "Count updated successfully", vaccine });
+  } catch (error) {
+    console.error("Error updating vaccine:", error.message);
+    res.status(500).json({ message: "Server error while updating vaccine." });
+  }
+};
+
+const vaccineid = async (req, res) => { 
+  try {
+    const { id } = req.params; // ✅ use req.params
+
+    const getvaccine = await VaccineModel.findById(id); // ✅ no need to wrap id in an object
+    
+    if (!getvaccine) {
+      return res.status(404).json({ message: "Vaccine not found" });
+    }
+
+    res.status(200).json({ message: "Vaccine fetched successfully", getvaccine });
+  } catch (error) {
+    console.error("Error fetching vaccine:", error.message);
+    res.status(500).json({ message: "Server error while fetching vaccine." });
+  }
+};
+
+
+
+
+module.exports = { addvaccine , vaccinelist , updatecount , vaccineid};

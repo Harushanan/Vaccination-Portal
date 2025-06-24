@@ -128,7 +128,7 @@ function AdminDashboard() {
             </ul>
           </nav>
 
-          <h1 style={{ marginBottom: '10px' }}>Current Customers</h1>
+          <h1 style={{ marginBottom: '10px' }}>Current Patient</h1>
 
           <div style={{ marginBottom: '20px' }}>
             <input

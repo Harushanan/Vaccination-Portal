@@ -4,6 +4,7 @@ import React from "react";
 import Login from "./Component/layouts/Login";
 import Signup from "./Component/layouts/Signup";
 import Forgotpassword from "./Component/layouts/Forgotpassword"
+import CheckUser from "./Component/layouts/CheckUser"
 
 //------- Admin Panel ----------//
 import AdminDashboard from "./View/AdminPanel/AdminDashboard";
@@ -18,6 +19,8 @@ import DeletUser from "./View/AdminPanel/DeletUser"
 //----------Patient side ------------//
 import Faq from './View/PatientSide/Faq'
 import UserDashboard from "./View/PatientSide/UserDashboard";
+import BookingVaccine from "./View/PatientSide/BookingVaccine";
+import SelectBooking from "./View/PatientSide/SelectBooking"
 
 
 import WelcomePage from "./Component/Welcome";
@@ -37,6 +40,7 @@ function App() {
           
         
             <Route path="/" element={<WelcomePage />} />
+            <Route path="/CheckUser" element={<CheckUser />} />
             <Route path="/profile" element={<Profile/>}/>
             <Route path="/updateprofile" element={<ProfileUpdate/>}/>
 
@@ -48,11 +52,13 @@ function App() {
           
             <Route path="/userDashboard" element={<UserDashboard />} />
             <Route path="/faq" element={<Faq />} />
+            <Route path="/BookingVaccine" element={<BookingVaccine />} />
+             <Route path="/SelectBooking/:id" element={<SelectBooking />} />
           </Routes>
         </BrowserRouter>
         
         
-    </>)
+    </>)                   
 }
 
 export default App;

@@ -142,7 +142,7 @@ function Signup() {
                             name="username"
                             onChange={(e) => setUsername(e.target.value)}
                             required
-                            style={{ width: '100%', padding: '12px', margin: '10px 0', border: '1px solid #ddd', borderRadius: '5px' , fontSize:'16px' }}/>
+                            style={{ width: '100%', padding: '10px', margin: '10px 0', border: '1px solid #ddd', borderRadius: '5px' , fontSize:'16px' }}/>
 
                         <b>Email</b>
                         <input

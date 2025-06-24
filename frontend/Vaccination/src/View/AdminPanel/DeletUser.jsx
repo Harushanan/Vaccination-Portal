@@ -181,7 +181,7 @@ function DeleteUser() {
                       
                     >
                       Add
-                    </button> /</td>
+                    </button> </td>
                  
                 </tr>
               ))}

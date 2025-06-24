@@ -55,10 +55,11 @@ function Sidebar() {
       {[
         { to: "/adminDashboard1", label: "Dashboard" },
         { to: "/adminDashboard", label: "User Management" },
+         { to: "", label: "Medical Staff Management" },
         { to: "/AddVaccin", label: "Vaccination Management" },
-        { to: "/reports", label: "Reports" },
+        { to: "/", label: "Reports" },
         { to: "/AdminFaq", label: "FAQ Management" },
-        { to: "/settings", label: "Settings" },
+        //{ to: "", label: "Settings" },
       ].map((link) => (
         <Link
           key={link.to}

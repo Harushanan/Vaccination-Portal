@@ -64,7 +64,6 @@ function AdminHeader() {
             textAlign: "left",
             zIndex: 10
           }}>
-            <Link to='/profile' style={{ display: "block", padding: "10px", textDecoration: "none", color: "black" }}>View Profile</Link>
             <button
               onClick={logout}
               style={{

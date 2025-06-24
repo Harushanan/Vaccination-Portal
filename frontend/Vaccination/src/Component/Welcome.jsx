@@ -17,7 +17,7 @@ const WelcomePage = () => {
                 navigate('/adminDashboard');
             }
         } else {
-            navigate('/login');
+            navigate('/CheckUser');
         }
     }
 
