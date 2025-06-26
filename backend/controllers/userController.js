@@ -96,13 +96,15 @@ const updateprofile = async (req, res) => {
 //--------------- Display user data ------------------- //
 const displayuser = async (req, res) => {
     try {
-        const users = await UserModel.find(); 
+        // Fetch users where role is NOT 'admin'
+        const users = await UserModel.find({ role: { $ne: "admin" } });
         res.json(users);
     } catch (err) {
         console.error("Database error:", err);
         res.status(500).json({ message: "Database connection failed" });
     }
 };
+
 
 const displaydeletuser = async (req, res) => {
     try {

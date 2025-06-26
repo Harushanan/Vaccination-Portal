@@ -12,8 +12,11 @@ const WelcomePage = () => {
     function checksession() {
         if (userSession != null) {
             if (userSession.user.role === "customer") {
-                navigate('/userDashboard');
-            } else {
+                navigate('/patient/userDashboard');
+            } else if  (userSession.user.role === "nurse"){
+                navigate('/nurse/nurseDashboard');
+            }
+             else {
                 navigate('/adminDashboard');
             }
         } else {
@@ -58,7 +61,7 @@ const WelcomePage = () => {
         onMouseEnter={e => (e.currentTarget.style.transform = 'scale(1.05)')}
         onMouseLeave={e => (e.currentTarget.style.transform = 'scale(1)')}
     >
-        💉 <span style={{ margin: '0 8px' }}>VaxCare</span> <span style={{ color: '#f44336' }}>+</span> ❤️
+        💉 <span style={{ margin: '0 8px' }}>VaxCareHP</span> <span style={{ color: '#f44336' }}>+</span> ❤️
     </a>
 
                 </div>

@@ -2,9 +2,9 @@ const BookingModel = require('../model/booking')
 
 const bookingvaccine = async (req, res) => {
   try {
-    const {fullname,email,contact,address,age,date,vaccine,dose,healthConditions,allergies} = req.body;
+    const {fullname,email,contact,address,age,date,vaccine,dose,healthConditions,allergies ,center,} = req.body;
 
-    const newBooking = await BookingModel.create({fullname,email,contact,address,age,date,vaccine,dose,healthConditions,allergies});
+    const newBooking = await BookingModel.create({fullname,email,contact,address,age,date,vaccine,dose,healthConditions,allergies ,center});
 
     res.status(201).json({
       message: "Vaccine inserted successfully",
@@ -24,7 +24,9 @@ const vaccinepersonlist = async (req, res) => {
   try {
     const { myemail } = req.params; // ✅ use req.params
 
-    const getbooking = await BookingModel.findOne({email:myemail}); // ✅ no need to wrap id in an object
+   const getbooking = await BookingModel.find({ email: myemail });
+   console.log("getbooking:", getbooking); // Returns an array
+
     
     if (!getbooking) {
       return res.status(404).json({ message: "Vaccine booking  not found" });

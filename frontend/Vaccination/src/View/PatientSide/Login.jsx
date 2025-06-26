@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import Cookies from 'js-cookie';
 import axios from 'axios';
 
-import loginbackground from '../../../src/assets/images/Login.png';
+import loginbackground from '../../assets/images/Login.png';
 
 function Login() {
     const [email, setEmail] = useState("");
@@ -36,7 +36,7 @@ function Login() {
                     const expirationTime = new Date().getTime() + 24 * 60 * 60 * 1000;
                     Cookies.set("user", JSON.stringify({ user: getuser, expirationTime }), { expires: 1 });
 
-                    role === "customer" ? navigate("/userDashboard") : navigate("/adminDashboard");
+                    role === "customer" ? navigate("/patient/userDashboard") : navigate("/adminDashboard");
                 } else {
                     setError("Unexpected response from server.");
                 }
@@ -165,7 +165,7 @@ function Login() {
 
                         <p style={{ textAlign: 'center', marginTop: '10px' }}>
                             Don't have an account?
-                            <Link to="/sign-up" style={{ color: 'blue', textDecoration: 'none' }}> Sign up</Link>
+                            <Link to="/patient/sign-up" style={{ color: 'blue', textDecoration: 'none' }}> Sign up</Link>
                         </p>
 
                         {error && <p style={{ textAlign: "center", color: "red" }}>{error}</p>}

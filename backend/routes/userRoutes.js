@@ -3,7 +3,8 @@ const { loginuser, signupuser, updateuserpw, displayuser , deleteuser , displayd
 const {addvaccine , vaccinelist , updatecount , vaccineid} = require('../controllers/vaccineController')
 const {displayfaq , submitfaq , deletefaq , updatefaq} = require('../controllers/faqcontoller');
 const {bookingvaccine , vaccinepersonlist} = require('../controllers/bookingController');
-
+const {nursesignupuser , nuserloginuser , nursedeatiles , deletenurse , deletenursedeatiles} = require('../controllers/NurseController')
+const {addcenter , displaycenter , displayonecenter , updatecenter} = require('../controllers/centerContoller')
 
 const router = express.Router();
 
@@ -39,6 +40,20 @@ router.get('/vaccinelist/:id', vaccineid);
 router.post('/bookingvaccine', bookingvaccine);
 router.get('/vaccinepersonlist/:myemail', vaccinepersonlist);
 
+
+//-------------------Nurse  Mangement-----------------------------//
+router.post('/nurseregister', nursesignupuser);
+router.post('/nurselogin', nuserloginuser);
+router.get('/nursedeatiles', nursedeatiles);
+router.post('/deletenurse', deletenurse);
+router.get('/deletenursedeatiles', deletenursedeatiles);
+
+
+//-------------------Add Center -------------------//
+router.post('/addcenter' , addcenter)
+router.get('/displaycenter' , displaycenter)
+router.get('/displaycenter/:id' , displayonecenter)
+router.put('/updatecenter/:id' , updatecenter)
 
 
 

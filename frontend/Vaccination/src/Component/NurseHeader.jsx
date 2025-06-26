@@ -1,30 +1,28 @@
 import React, { useState } from 'react';
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import Cookies from 'js-cookie'; 
-import userprofile from '../assets/images/userimge.png';
+import nurseprofile from '../assets/images/userimge.png'; // Change if nurse has a separate image
 
-function PatientHeader() {
+function NurseHeader() {
   const navigate = useNavigate();
   const location = useLocation();
   const [dropdownVisible, setDropdownVisible] = useState(false);
 
-  const userSession = Cookies.get('user') ? JSON.parse(Cookies.get('user')) : null;
-  const customername = userSession ? userSession.user.username : "Guest";
+  const nurseSession = Cookies.get('user') ? JSON.parse(Cookies.get('user')) : null;
+  const nurseName = nurseSession ? nurseSession.user.username : "Nurse";
 
   function logout() {
-    const logoutConfirm = window.confirm("Are you sure you want to logout?");
-    if (logoutConfirm) {
+    if (window.confirm("Are you sure you want to logout?")) {
       Cookies.remove("user");
       navigate('/');
     }
   }
 
-  const getLinkStyle = (path) => ({
-    color: location.pathname === path ? '#ffeb3b' : 'white',
+  const linkStyle = (path) => ({
+    color: location.pathname === path ? '#FFD700' : 'white',
     fontSize: '18px',
     textDecoration: 'none',
-    fontWeight: location.pathname === path ? 'bold' : 'normal',
-    borderBottom: location.pathname === path ? '2px solid #ffeb3b' : 'none',
+    borderBottom: location.pathname === path ? '2px solid #FFD700' : 'none',
     paddingBottom: '2px'
   });
 
@@ -42,7 +40,6 @@ function PatientHeader() {
       borderBottom: '3px solid #fff'
     }}>
       
-      {/* Brand */}
       <a href="#" style={{
         fontSize: '32px',
         fontWeight: 'bold',
@@ -54,21 +51,21 @@ function PatientHeader() {
       }}
         onMouseEnter={e => (e.currentTarget.style.transform = 'scale(1.05)')}
         onMouseLeave={e => (e.currentTarget.style.transform = 'scale(1)')}>
-        💉 <span style={{ margin: '0 8px' }}>VaxCareHP</span> <span style={{ color: '#f44336' }}>+</span> ❤️
+        🩺 <span style={{ margin: '0 8px' }}>VaxCareHP</span> <span style={{ color: '#f44336' }}>+</span>
       </a>
 
-      {/* Navigation */}
+      {/* Navigation Links */}
       <div style={{ display: 'flex', gap: '20px' }}>
-        <Link to="/patient/userDashboard" style={getLinkStyle("/patient/userDashboard")}>Home</Link>
-        <Link to="/about" style={getLinkStyle("/about")}>About Us</Link>
-        <Link to="/patient/BookingVaccine" style={getLinkStyle("/patient/BookingVaccine")}>Booking</Link>
-        <Link to="/patient/faq" style={getLinkStyle("/patient/faq")}>FAQ</Link>
+        <Link to="/nurse/nurseDashboard" style={linkStyle("/nurse/nurseDashboard")}>Home</Link>
+        <Link to="/nurse/viewBooking" style={linkStyle("/nurse/viewBooking")}>View Bookings</Link>
+        <Link to="/nurse/patientDetails" style={linkStyle("/nurse/patientDetails")}>Patients</Link>
+        <Link to="/nurse/faq" style={linkStyle("/nurse/faq")}>FAQ</Link>
       </div>
 
-      {/* Profile + Dropdown */}
+      {/* Profile & Dropdown */}
       <div style={{ display: "flex", alignItems: "center", cursor: "pointer", position: "relative" }} onClick={() => setDropdownVisible(!dropdownVisible)}>
-        <img src={userprofile} alt="User" style={{ width: "60px", height: "60px", borderRadius: "50%", border: "3px solid aqua", marginRight: "10px" }} />
-        <h2 style={{ color: 'white' }}><b>{customername}</b></h2>
+        <img src={nurseprofile} alt="Nurse" style={{ width: "60px", height: "60px", borderRadius: "50%", border: "3px solid aqua", marginRight: "10px" }} />
+        <h2 style={{ color: 'white' }}><b>{nurseName}</b></h2>
         <span style={{ fontSize: "24px", marginLeft: "10px", color: "black" }}>☰</span>
 
         {dropdownVisible && (
@@ -82,7 +79,7 @@ function PatientHeader() {
             borderRadius: "5px",
             textAlign: "left"
           }}>
-            <Link to='/profile' style={{ display: "block", padding: "10px", textDecoration: "none", color: "black" }}>View Profile</Link>
+            <Link to='/nurse/profile' style={{ display: "block", padding: "10px", textDecoration: "none", color: "black" }}>View Profile</Link>
             <a onClick={logout} style={{ display: "block", padding: "10px", textDecoration: "none", color: "black", cursor: "pointer" }}>Logout</a>
           </div>
         )}
@@ -91,4 +88,4 @@ function PatientHeader() {
   );
 }
 
-export default PatientHeader;
+export default NurseHeader;

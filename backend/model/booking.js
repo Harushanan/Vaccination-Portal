@@ -11,6 +11,8 @@ const bookingSchema = new mongoose.Schema({
   dose: { type: String, required: true },
   healthConditions: { type: String, default: "none" },
   allergies: { type: String, default: "none" },
+  center:{ type: String, default: "none" },
+  status:{type: String, default: "pending"}
 }, {
   timestamps: true
 });

@@ -4,14 +4,13 @@ import axios from 'axios';
 import Cookies from 'js-cookie'; 
 import AdminHeader from '../../Component/AdminHeader';
 import Sidebar from '../../Component/Sidebar';
-import { toast, ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
 
-function AdminDashboard() {
+function StaffDahboard() {
   const [user, setUser] = useState([]);
   const [reasonByEmail, setReasonByEmail] = useState({});
   const [searchQuery, setSearchQuery] = useState('');
   const [searchResults, setSearchResults] = useState([]);
+  const [dropdownVisible, setDropdownVisible] = useState(false);
 
   const navigate = useNavigate();
 
@@ -19,7 +18,7 @@ function AdminDashboard() {
   const customername = userSession ? userSession.user.username : "Guest";
 
   useEffect(() => {
-    axios.get("http://localhost:3000/studentdeatiles")
+    axios.get("http://localhost:3000/nursedeatiles")
       .then((result) => { 
         setUser(result.data);
         setSearchResults(result.data);
@@ -51,30 +50,27 @@ function AdminDashboard() {
 
     const reason = reasonByEmail[email];
     if (!reason || reason.trim() === "") {
-      toast.error('Please enter a reason to delete the user.');
+      alert("Please enter a reason to delete the user.");
       return;
     }
 
     const confirmDelete = window.confirm("Are you sure you want to delete?");
     if (confirmDelete) {
-      axios.post("http://localhost:3000/deleteuser", { email, reason })
+      axios.post("http://localhost:3000/deletenurse", { email, reason })
         .then(() => {
           setUser(prevUsers => prevUsers.filter(u => u.email !== email));
           setReasonByEmail(prev => {
-            const copy = { ...prev };
+            const copy = {...prev};
             delete copy[email];
             return copy;
           });
-          toast.success("User deleted successfully.");
         })
         .catch((err) => {
           console.error("Delete Error:", err);
-          toast.error("Failed to delete user.");
         });
     }
   };
-
-  const navLinkStyle = {
+   const navLinkStyle = {
     color: 'white',
     textDecoration: 'none',
     fontWeight: '600',
@@ -86,15 +82,19 @@ function AdminDashboard() {
 
   return (
     <>
-      <AdminHeader />
+      {/* Header */}
+      <AdminHeader/>
 
+      {/* Main container */}
       <div style={{
         display: 'flex',
         minHeight: '90vh',
         backgroundColor: '#e6f7ff',
       }}>
-        <Sidebar />
+        {/* Sidebar */}
+        <Sidebar/>
 
+        {/* Main content */}
         <main
           style={{
             flex: 1,
@@ -103,6 +103,7 @@ function AdminDashboard() {
             fontFamily: 'Segoe UI, sans-serif',
           }}
         >
+          {/* Inner Nav */}
           <nav style={{
             background: 'linear-gradient(90deg,rgb(0, 77, 64),rgba(0, 68, 193, 0.95))',
             padding: '10px 60px',
@@ -122,12 +123,12 @@ function AdminDashboard() {
               padding: 0,
               margin: 0
             }}>
-              <li><Link to="/adminDashboard" style={navLinkStyle}>Current Patients</Link></li>
-              <li><Link to="/delete-user" style={navLinkStyle}>Delete Patients</Link></li>
+              <li><Link to="/StaffDahboard" style={navLinkStyle}>Current Staff</Link></li>
+              <li><Link to="/DeleteStaff" style={navLinkStyle}>Delete Staff</Link></li>
             </ul>
           </nav>
 
-          <h1 style={{ marginBottom: '10px' }}>Current Patient</h1>
+          <h1 style={{ marginBottom: '10px' }}>Current Staff</h1>
 
           <div style={{ marginBottom: '20px' }}>
             <input
@@ -147,15 +148,15 @@ function AdminDashboard() {
           </div>
 
           <h2 style={{ marginBottom: '20px' }}>
-            Total number of customers: {searchResults.length}
+            Total number of Staff: {searchResults.length}
           </h2>
 
           <table style={{ width: '100%', borderCollapse: 'collapse', boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)' }}>
             <thead style={{ backgroundColor: '#f4f4f4', color: '#333' }}>
               <tr>
                 <th style={tableHeaderStyle}>Name</th>
+                 <th style={tableHeaderStyle}>Nurse ID</th>
                 <th style={tableHeaderStyle}>Email</th>
-                <th style={tableHeaderStyle}>Address</th>
                 <th style={tableHeaderStyle}>Phone Number</th>
                 <th style={{ ...tableHeaderStyle, textAlign: 'center' }}>View Details</th>
                 <th style={tableHeaderStyle}>Reason</th>
@@ -165,8 +166,8 @@ function AdminDashboard() {
               {searchResults.map((ob, index) => (
                 <tr key={ob.email} style={{ backgroundColor: index % 2 === 0 ? '#fafafa' : '#fff' }}>
                   <td style={tableCellStyle}>{ob.username}</td>
+                  <td style={tableCellStyle}>{ob.nursingId}</td>
                   <td style={tableCellStyle}>{ob.email}</td>
-                  <td style={tableCellStyle}>{ob.address}</td>
                   <td style={tableCellStyle}>{ob.phone}</td>
                   <td style={{ ...tableCellStyle, textAlign: 'center' }}>
                     <button
@@ -208,8 +209,6 @@ function AdminDashboard() {
           </table>
         </main>
       </div>
-
-      <ToastContainer position="top-right" autoClose={3000} />
     </>
   );
 }
@@ -226,4 +225,4 @@ const tableCellStyle = {
   border: '1px solid #ddd',
 };
 
-export default AdminDashboard;
+export default StaffDahboard;

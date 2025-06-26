@@ -24,7 +24,7 @@ function BookingVaccine() {
   );
 
   const getVaccine = (id)=>{
-     navigate(`/SelectBooking/${id}`)
+     navigate(`/patient/BookingVaccine/${id}`)
   }
 
   return (

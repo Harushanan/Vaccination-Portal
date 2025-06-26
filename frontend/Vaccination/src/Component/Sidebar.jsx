@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import Cookies from 'js-cookie';
 
 function Sidebar() {
   const [hoveredLink, setHoveredLink] = useState(null);
   const navigate = useNavigate();
+  const location = useLocation(); // 👈 Get current route
+  const currentPath = location.pathname;
 
   const logout = () => {
     const logoutConfirm = window.confirm("Are you sure you want to logout this account?");
@@ -14,19 +16,31 @@ function Sidebar() {
     }
   };
 
-  const sidebarLinkStyle = (isHovered) => ({
-    color: isHovered ? '#00e5ff' : 'white',
+  const sidebarLinkStyle = (isHovered, isActive) => ({
+    color: isActive ? '#00e5ff' : isHovered ? '#00e5ff' : 'white',
     textDecoration: 'none',
-    fontWeight: '600',
+    fontWeight: isActive ? '700' : '600',
     fontSize: '17px',
     padding: '10px 15px',
     borderRadius: '5px',
     transition: 'background-color 0.3s, color 0.3s',
     display: 'block',
     userSelect: 'none',
-    backgroundColor: isHovered ? '#00796b' : 'transparent',
+    backgroundColor: isActive
+      ? '#00695c'
+      : isHovered
+      ? '#00796b'
+      : 'transparent',
     cursor: 'pointer'
   });
+
+  const links = [
+    { to: "/adminDashboard", label: "Patient Management" },
+    { to: "/StaffDahboard", label: "Medical Staff Management" },
+    { to: "/AddVaccin", label: "Vaccination Management" },
+    { to: "/AddCenter", label: "Add Vaccination Centers" },
+    { to: "/AdminFaq", label: "FAQ Management" },
+  ];
 
   return (
     <nav
@@ -52,32 +66,27 @@ function Sidebar() {
         Admin Panel
       </h2>
 
-      {[
-        { to: "/adminDashboard1", label: "Dashboard" },
-        { to: "/adminDashboard", label: "User Management" },
-         { to: "", label: "Medical Staff Management" },
-        { to: "/AddVaccin", label: "Vaccination Management" },
-        { to: "/", label: "Reports" },
-        { to: "/AdminFaq", label: "FAQ Management" },
-        //{ to: "", label: "Settings" },
-      ].map((link) => (
-        <Link
-          key={link.to}
-          to={link.to}
-          onMouseEnter={() => setHoveredLink(link.to)}
-          onMouseLeave={() => setHoveredLink(null)}
-          style={sidebarLinkStyle(hoveredLink === link.to)}
-        >
-          {link.label}
-        </Link>
-      ))}
+      {links.map((link) => {
+        const isActive = currentPath === link.to;
+        return (
+          <Link
+            key={link.to}
+            to={link.to}
+            onMouseEnter={() => setHoveredLink(link.to)}
+            onMouseLeave={() => setHoveredLink(null)}
+            style={sidebarLinkStyle(hoveredLink === link.to, isActive)}
+          >
+            {link.label}
+          </Link>
+        );
+      })}
 
       <button
         onClick={logout}
         onMouseEnter={() => setHoveredLink('logout')}
         onMouseLeave={() => setHoveredLink(null)}
         style={{
-          ...sidebarLinkStyle(hoveredLink === 'logout'),
+          ...sidebarLinkStyle(hoveredLink === 'logout', false),
           backgroundColor: 'transparent',
           border: 'none',
           width: '100%',

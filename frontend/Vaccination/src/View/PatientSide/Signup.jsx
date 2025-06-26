@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Link , useNavigate } from "react-router-dom";
 
-import loginbackground from '../../../src/assets/images/Login.png';
+import loginbackground from '../../assets/images/Login.png';
 
 
 import axios from 'axios';
@@ -101,7 +101,7 @@ function Signup() {
     </a>
 
     <Link
-    to="/login"
+    to="/patient/login"
     style={{
         display: 'inline-block',
         padding: '12px 26px',

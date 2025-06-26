@@ -69,8 +69,9 @@ function AdminFaq() {
         <main style={{ flex: 1, padding: '30px 40px', fontFamily: 'Segoe UI, sans-serif' }}>
           <nav style={navStyle}>
             <ul style={navListStyle}>
-              <li><Link to="/AddVaccin" style={navLinkStyle}>Add Vaccine</Link></li>
-              <li><Link to="/ViewVaccin" style={navLinkStyle}>View Vaccine</Link></li>
+              <li><Link to="" style={navLinkStyle}>Patient FAQs</Link></li>
+              <li><Link to="" style={navLinkStyle}>Nurse FAQs</Link></li>
+
             </ul>
           </nav>
 

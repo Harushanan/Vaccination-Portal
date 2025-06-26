@@ -1,8 +1,11 @@
 import { BrowserRouter , Routes , Route,Link } from "react-router-dom";
 
+
+
 import React from "react";
-import Login from "./Component/layouts/Login";
-import Signup from "./Component/layouts/Signup";
+
+
+
 import Forgotpassword from "./Component/layouts/Forgotpassword"
 import CheckUser from "./Component/layouts/CheckUser"
 
@@ -12,15 +15,30 @@ import AddVaccin from "./View/AdminPanel/AddVaccin";
 import ViewVaccine from "./View/AdminPanel/ViewVaccine"
 import AdminFaq from './View/AdminPanel/AdminFaq'
 import DeletUser from "./View/AdminPanel/DeletUser"
+import StaffDahboard from "./View/AdminPanel/StaffDahboard"
+import DeleteStaff from "./View/AdminPanel/DeleteStaff";
+import AddCenter from "./View/AdminPanel/AddCenter";
+import ViewCenter from "./View/AdminPanel/ViewCenter";
+import Updatecenter from "./View/AdminPanel/Updatecenter";
 
 
 
 
 //----------Patient side ------------//
 import Faq from './View/PatientSide/Faq'
+import Login from "./View/PatientSide/Login";
+import Signup from "./View/PatientSide/Signup";
 import UserDashboard from "./View/PatientSide/UserDashboard";
 import BookingVaccine from "./View/PatientSide/BookingVaccine";
 import SelectBooking from "./View/PatientSide/SelectBooking"
+
+
+//----------Nurse side ------------//
+
+import NurseLogin from "./View/NursePanel/NurseLogin";
+import NurseSignup from "./View/NursePanel/NurseSingup"
+import NurseDashboard from "./View/NursePanel/NurseDashboard"
+
 
 
 import WelcomePage from "./Component/Welcome";
@@ -32,8 +50,29 @@ function App() {
     return (<> 
        <BrowserRouter>
          <Routes>
-            <Route path="/login" element={<Login />} />
-            <Route path="/sign-up" element={<Signup />} />
+
+          {/* Patient Routes */}
+            <Route path="/patient/login" element={<Login />} />
+            <Route path="/patient/sign-up" element={<Signup />} />
+            <Route path="/patient/userDashboard" element={<UserDashboard />} />
+            <Route path="/patient/BookingVaccine" element={<BookingVaccine />} />
+            <Route path="/patient/BookingVaccine/:id" element={<SelectBooking />} />
+            <Route path="/patient/faq" element={<Faq />} />
+
+
+             {/* Nurse Routes */}
+            <Route path="/nurse/login" element={<NurseLogin />} />
+            <Route path="/nurse/sign-up" element={<NurseSignup />} />
+            <Route path="/nurse/nurseDashboard" element={<NurseDashboard />} />
+            
+
+
+
+
+
+
+
+
             <Route path="/forgot-password" element={<Forgotpassword />} />
             <Route path="/adminDashboard" element={<AdminDashboard />} />
             <Route path="/delete-user" element={<DeletUser />} />
@@ -44,16 +83,24 @@ function App() {
             <Route path="/profile" element={<Profile/>}/>
             <Route path="/updateprofile" element={<ProfileUpdate/>}/>
 
+
+            {/*------------Admin--------------------*/}
+
             <Route path="/AddVaccin" element={<AddVaccin/>}/>
             <Route path="/ViewVaccin" element={<ViewVaccine/>}/>
             <Route path="/AdminFaq" element={<AdminFaq/>}/>
+            <Route path="/StaffDahboard" element={<StaffDahboard/>}/>
+            <Route path="/DeleteStaff" element={<DeleteStaff/>}/>
+            <Route path="/AddCenter" element={<AddCenter/>}/>
+            <Route path="/ViewCenter" element={<ViewCenter/>}/>
+            <Route path="/ViewCenter/:id" element={<Updatecenter />} />
 
 
           
-            <Route path="/userDashboard" element={<UserDashboard />} />
-            <Route path="/faq" element={<Faq />} />
-            <Route path="/BookingVaccine" element={<BookingVaccine />} />
-             <Route path="/SelectBooking/:id" element={<SelectBooking />} />
+            
+            
+           
+             
           </Routes>
         </BrowserRouter>
         

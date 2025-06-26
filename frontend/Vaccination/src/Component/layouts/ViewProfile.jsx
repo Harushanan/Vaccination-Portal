@@ -18,7 +18,7 @@ const Profile = () => {
         .then((result) => {
           if (result.data.message === "Booking fetched successfully") {
             // Wrap single object into array
-            setVaccines([result.data.getbooking]);
+            setVaccines(result.data.getbooking);
           }
         })
         .catch((error) => {
@@ -150,7 +150,7 @@ const Profile = () => {
       <NormalHeader />
       <div style={styles.page}>
         <Link
-          to={userSession.user?.role === "admin" ? "/adminDashboard" : "/userDashboard"}
+          to={userSession.user?.role === "admin" ? "/adminDashboard" : "/patient/userDashboard"}
           style={styles.backLink}
         >
           <b> ← Back</b>
@@ -184,6 +184,7 @@ const Profile = () => {
                     <th style={styles.th}>Vaccine</th>
                     <th style={styles.th}>Dose Type</th>
                     <th style={styles.th}>Date</th>
+                    <th style={styles.th}>Center</th>
                     <th style={styles.th}>Status</th>
                   </tr>
                 </thead>
@@ -194,7 +195,31 @@ const Profile = () => {
                         <td style={styles.td}>{vaccine.vaccine}</td>
                         <td style={styles.td}>{vaccine.dose}</td>
                         <td style={styles.td}>{vaccine.date}</td>
-                        <td style={styles.td}>{vaccine.status || "Pending"}</td>
+                        <td style={styles.td}>{vaccine.center}</td>
+                       <td style={styles.td}>
+  <span style={{
+    padding: '10px',
+    borderRadius: '20px',
+    fontWeight: '600',
+    fontSize: '13px',
+    color:
+      vaccine.status === "pending" ? "#ff9800" :
+      vaccine.status === "approve" ? "#2e7d32" :
+      vaccine.status === "reject" ? "#c62828" :
+      vaccine.status === "inject" ? "#1565c0" : "#000",
+    backgroundColor:
+      vaccine.status === "pending" ? "#fff3cd" :
+      vaccine.status === "approve" ? "#d0f0c0" :
+      vaccine.status === "reject" ? "#fdecea" :
+      vaccine.status === "inject" ? "#e3f2fd" : "#eee",
+    textAlign: 'center',
+    display: 'inline-block',
+    minWidth: '80px'
+  }}>
+    {vaccine.status}
+  </span>
+</td>
+
                       </tr>
                     ))
                   ) : (
