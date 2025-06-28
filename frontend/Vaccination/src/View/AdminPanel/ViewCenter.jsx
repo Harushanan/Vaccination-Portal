@@ -36,7 +36,7 @@ function ViewCenter() {
   const handleEdit = (center) => {
     const id = center._id
     console.log("I click : " , id)
-    navigate(`/ViewCenter/${id}`)
+    navigate(`/admin/ViewCenter/${id}`)
   };
 
   return (
@@ -56,8 +56,8 @@ function ViewCenter() {
             justifyContent: 'center'
           }}>
             <ul style={{ display: 'flex', listStyle: 'none', gap: '40px', padding: 0 }}>
-              <li><Link to="/AddCenter" style={navLinkStyle}>Add Center</Link></li>
-              <li><Link to="/ViewCenter" style={navLinkStyle}>View Center</Link></li>
+              <li><Link to="/admin/AddCenter" style={navLinkStyle}>Add Center</Link></li>
+              <li><Link to="/admin/ViewCenter" style={navLinkStyle}>View Center</Link></li>
             </ul>
           </nav>
 

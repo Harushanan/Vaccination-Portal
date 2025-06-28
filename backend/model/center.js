@@ -36,8 +36,11 @@ const centerSchema = new mongoose.Schema({
  nurse: {
   type: String,
   default: "Not Assign"
-}
-
+},
+  nursingId:  {
+    type: String,
+    default: "Not Assign"
+  }
 });
 
 const CenterModel = mongoose.model("VaccinationCenter", centerSchema);

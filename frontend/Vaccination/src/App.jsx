@@ -10,6 +10,7 @@ import Forgotpassword from "./Component/layouts/Forgotpassword"
 import CheckUser from "./Component/layouts/CheckUser"
 
 //------- Admin Panel ----------//
+import AdminLogin from "./View/AdminPanel/AdminLogin";
 import AdminDashboard from "./View/AdminPanel/AdminDashboard";
 import AddVaccin from "./View/AdminPanel/AddVaccin";
 import ViewVaccine from "./View/AdminPanel/ViewVaccine"
@@ -38,6 +39,9 @@ import SelectBooking from "./View/PatientSide/SelectBooking"
 import NurseLogin from "./View/NursePanel/NurseLogin";
 import NurseSignup from "./View/NursePanel/NurseSingup"
 import NurseDashboard from "./View/NursePanel/NurseDashboard"
+import ViewSchedul from "./View/NursePanel/viewSchedul";
+import ViewBooking from "./View/NursePanel/ViewBooking";
+
 
 
 
@@ -64,9 +68,22 @@ function App() {
             <Route path="/nurse/login" element={<NurseLogin />} />
             <Route path="/nurse/sign-up" element={<NurseSignup />} />
             <Route path="/nurse/nurseDashboard" element={<NurseDashboard />} />
+             <Route path="/nurse/viewSchedul" element={<ViewSchedul/>} />
+             <Route path="/nurse/ViewBooking" element={<ViewBooking/>} />
             
 
-
+            {/*Admin Routes*/}
+             <Route path="/admin/login" element={<AdminLogin/>} />
+             <Route path="/admin/adminDashboard" element={<AdminDashboard/>} />
+              <Route path="/admin/delete-user" element={<DeletUser />} />
+              <Route path="/admin/StaffDahboard" element={<StaffDahboard/>}/>
+            <Route path="/admin/DeleteStaff" element={<DeleteStaff/>}/>
+            <Route path="/admin/AddVaccin" element={<AddVaccin/>}/>
+            <Route path="/admin/ViewVaccin" element={<ViewVaccine/>}/>
+            <Route path="/admin/AdminFaq" element={<AdminFaq/>}/>
+            <Route path="/admin/AddCenter" element={<AddCenter/>}/>
+            <Route path="/admin/ViewCenter" element={<ViewCenter/>}/>
+             <Route path="/admin/ViewCenter/:id" element={<Updatecenter />} />
 
 
 
@@ -74,8 +91,8 @@ function App() {
 
 
             <Route path="/forgot-password" element={<Forgotpassword />} />
-            <Route path="/adminDashboard" element={<AdminDashboard />} />
-            <Route path="/delete-user" element={<DeletUser />} />
+           
+           
           
         
             <Route path="/" element={<WelcomePage />} />
@@ -86,14 +103,10 @@ function App() {
 
             {/*------------Admin--------------------*/}
 
-            <Route path="/AddVaccin" element={<AddVaccin/>}/>
-            <Route path="/ViewVaccin" element={<ViewVaccine/>}/>
-            <Route path="/AdminFaq" element={<AdminFaq/>}/>
-            <Route path="/StaffDahboard" element={<StaffDahboard/>}/>
-            <Route path="/DeleteStaff" element={<DeleteStaff/>}/>
-            <Route path="/AddCenter" element={<AddCenter/>}/>
-            <Route path="/ViewCenter" element={<ViewCenter/>}/>
-            <Route path="/ViewCenter/:id" element={<Updatecenter />} />
+            
+            
+          
+           
 
 
           

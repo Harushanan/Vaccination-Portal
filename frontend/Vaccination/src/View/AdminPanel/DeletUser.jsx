@@ -97,8 +97,8 @@ function DeleteUser() {
               padding: 0,
               margin: 0
             }}>
-              <li><Link to="/adminDashboard" style={navLinkStyle}>Current Patient</Link></li>
-              <li><Link to="/delete-user" style={navLinkStyle}>Delete Patient</Link></li>
+              <li><Link to="/admin/adminDashboard" style={navLinkStyle}>Current Patients</Link></li>
+                            <li><Link to="/admin/delete-user" style={navLinkStyle}>Delete Patients</Link></li>
             </ul>
           </nav>
 

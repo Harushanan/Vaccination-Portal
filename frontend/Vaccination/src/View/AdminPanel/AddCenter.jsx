@@ -33,7 +33,7 @@ function AddCenter() {
     .then((result) => {
       if (result.data.message === "centerCreated") {
         setSuccess("Center added successfully");
-        setTimeout(() => navigate('/ViewCenter'), 3000);
+        setTimeout(() => navigate('/admin/ViewCenter'), 3000);
       } else if (result.data.message === "centerAlreadyExists") {
         setError("Center already exists");
       }
@@ -66,8 +66,8 @@ function AddCenter() {
             fontFamily: 'Segoe UI, sans-serif'
           }}>
             <ul style={{ display: 'flex', listStyle: 'none', gap: '40px', padding: 0, margin: 0 }}>
-              <li><Link to="/AddCenter" style={navLinkStyle}>Add Center</Link></li>
-              <li><Link to="/ViewCenter" style={navLinkStyle}>View Center</Link></li>
+               <li><Link to="/admin/AddCenter" style={navLinkStyle}>Add Center</Link></li>
+                            <li><Link to="/admin/ViewCenter" style={navLinkStyle}>View Center</Link></li>
             </ul>
           </nav>
 

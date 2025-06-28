@@ -97,8 +97,8 @@ function DeleteStaff() {
               padding: 0,
               margin: 0
             }}>
-              <li><Link to="/StaffDahboard" style={navLinkStyle}>Current Staff</Link></li>
-              <li><Link to="/DeleteStaff" style={navLinkStyle}>Delete Staff</Link></li>
+               <li><Link to="/admin/StaffDahboard" style={navLinkStyle}>Current Staff</Link></li>
+              <li><Link to="/admin/DeleteStaff" style={navLinkStyle}>Delete Staff</Link></li>
             </ul>
           </nav>
 

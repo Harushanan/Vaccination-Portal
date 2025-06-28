@@ -3,9 +3,9 @@ import { Link, useNavigate } from "react-router-dom";
 import Cookies from 'js-cookie';
 import axios from 'axios';
 
-import loginbackground from '../../assets/images/Login.png';
+import loginbackground from '../../assets/images/adminlogin.png';
 
-function Login() {
+function AdminLogin() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [error, setError] = useState("");
@@ -91,7 +91,7 @@ function Login() {
 
                     role === "customer"
                         ? navigate("/patient/userDashboard")
-                        : navigate("/adminDashboard");
+                        : navigate("/admin/adminDashboard");
                 } else {
                     setError("Unexpected response from server.");
                 }
@@ -231,4 +231,4 @@ function Login() {
     );
 }
 
-export default Login;
+export default AdminLogin;

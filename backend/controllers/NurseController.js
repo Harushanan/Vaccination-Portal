@@ -1,4 +1,6 @@
 const {NurseModel , NurseDeleteModel} = require('../model/nurse')
+const {CenterModel} = require('../model/center')
+const BookingModel = require('../model/booking')
 const bcrypt = require('bcryptjs');
 
 //--------------- Login details ------------------- //
@@ -102,4 +104,34 @@ const deletenursedeatiles = async (req, res) => {
 };
 
 
-module.exports = { nursesignupuser , nuserloginuser , nursedeatiles , deletenurse , deletenursedeatiles}
+const bookingData = async (req, res) => {
+  try {
+    const { nurseid } = req.params;
+   
+    
+    const hospital = await CenterModel.findOne({nursingId:nurseid});
+    
+
+
+    if (!hospital) {
+      return res.status(404).json({ message: "Center not found for this nurse" });
+    }
+
+    const booking = await BookingModel.find({ center: hospital.center });
+    console.log("booking : " , booking);
+
+    if (!booking) {
+      return res.status(404).json({ message: "Booking not found for this center" });
+    }
+
+    res.json(booking);
+
+  } catch (err) {
+    console.error("Database error:", err);
+    res.status(500).json({ message: "Database connection failed" });
+  }
+};
+
+
+
+module.exports = { nursesignupuser , nuserloginuser , nursedeatiles , deletenurse , deletenursedeatiles , bookingData}

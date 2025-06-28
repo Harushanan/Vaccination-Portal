@@ -9,7 +9,6 @@ function Updatecenter() {
   const { id } = useParams();
   const navigate = useNavigate();
 
-  // State for center
   const [originalData, setOriginalData] = useState(null);
 
   const [center, setCenter] = useState('');
@@ -19,25 +18,22 @@ function Updatecenter() {
   const [phone, setPhone] = useState('');
   const [startTime, setStartTime] = useState('');
   const [closeTime, setCloseTime] = useState('');
-  const [selectedNurse, setSelectedNurse] = useState('');
 
   const [nurses, setNurses] = useState([]);
+  const [selectedNurse, setSelectedNurse] = useState({ username: '', nurseID: '' });
 
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
 
-
   useEffect(() => {
     axios.get("http://localhost:3000/nursedeatiles")
-      .then((result) => { 
+      .then((result) => {
         setNurses(result.data);
       })
-      .catch((error) => console.error("Error fetching data:", error));
+      .catch((error) => console.error("Error fetching nurses:", error));
   }, []);
 
-  // Fetch center and nurse list
   useEffect(() => {
-    // Center details
     axios.get(`http://localhost:3000/displaycenter/${id}`)
       .then((result) => {
         if (result.data.message === "Center fetched successfully") {
@@ -50,13 +46,14 @@ function Updatecenter() {
           setPhone(data.phone);
           setStartTime(data.startTime);
           setCloseTime(data.closeTime);
-          setSelectedNurse(data.nurse || '');
+          if (data.nurse) {
+            setSelectedNurse(data.nurse);
+          }
         }
       })
       .catch((error) => {
         console.error("Error fetching center data:", error);
       });
-
   }, [id]);
 
   const isFormChanged = originalData && (
@@ -67,7 +64,7 @@ function Updatecenter() {
     phone !== originalData.phone ||
     startTime !== originalData.startTime ||
     closeTime !== originalData.closeTime ||
-    selectedNurse !== (originalData.nurse || '')
+    JSON.stringify(selectedNurse) !== JSON.stringify(originalData.nurse || {})
   );
 
   const handleSubmit = (e) => {
@@ -80,11 +77,12 @@ function Updatecenter() {
       phone,
       startTime,
       closeTime,
-      nurse: selectedNurse
+      nurse: selectedNurse.username,
+      nursingId:selectedNurse.nurseID
     }).then((res) => {
       if (res.data.message === "Center updated successfully") {
         toast.success("Center updated successfully");
-        setTimeout(() => navigate('/ViewCenter'), 3000);
+        setTimeout(() => navigate('/admin/ViewCenter'), 3000);
       } else {
         setError("Update failed.");
       }
@@ -102,6 +100,7 @@ function Updatecenter() {
 
         <div style={styles.container}>
           <form onSubmit={handleSubmit} style={styles.form}>
+
             <label style={styles.label}>
               Vaccine Center (Hospital):
               <input
@@ -182,15 +181,18 @@ function Updatecenter() {
             <label style={styles.label}>
               Assign Nurse:
               <select
-                value={selectedNurse}
-                onChange={(e) => setSelectedNurse(e.target.value)}
+                value={JSON.stringify(selectedNurse)}
+                onChange={(e) => setSelectedNurse(JSON.parse(e.target.value))}
                 required
                 style={styles.input}
               >
                 <option value="">-- Select Nurse --</option>
                 {nurses.map((nurse, index) => (
-                  <option key={index} value={nurse.username}>
-                    {nurse.username} 
+                  <option
+                    key={index}
+                    value={JSON.stringify({ username: nurse.username, nurseID: nurse.nursingId })}
+                  >
+                    {nurse.username} ({nurse.nursingId})
                   </option>
                 ))}
               </select>
@@ -213,7 +215,7 @@ function Updatecenter() {
           </form>
         </div>
       </div>
-       <ToastContainer position="top-right" autoClose={3000} />
+      <ToastContainer position="top-right" autoClose={3000} />
     </div>
   );
 }

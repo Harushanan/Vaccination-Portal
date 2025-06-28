@@ -39,8 +39,33 @@ const vaccinepersonlist = async (req, res) => {
   }
 };
 
+const updatestatus = async (req, res) => {
+  const { id } = req.params;
+  const { status } = req.body;
+
+  try {
+    const updatedStatus = await BookingModel.findByIdAndUpdate(
+      id,
+      { status: status },
+      { new: true } // Return the updated document
+    );
+
+    console.log("Update Booking:", updatedStatus);
+
+    if (updatedStatus) {
+      res.json({ message: "Status updated successfully" });
+    } else {
+      res.status(404).json({ message: "Booking not found" });
+    }
+  } catch (error) {
+    console.error("Update error:", error);
+    res.status(500).json({ message: "Internal Server Error" });
+  }
+};
 
 
 
 
-module.exports ={bookingvaccine , vaccinepersonlist}
+
+
+module.exports ={bookingvaccine , vaccinepersonlist , updatestatus}

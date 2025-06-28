@@ -29,7 +29,7 @@ function AddVaccin() {
     .then((result) => {
             if (result.data.message === "Vaccine added successfully") {  
                 setSuccess("Vaccine added successfully");
-                setTimeout(() => { navigate('/ViewVaccin') }, 3000);
+                setTimeout(() => { navigate('/admin/ViewVaccin') }, 3000);
             } 
         })
         .catch((err) => {
@@ -86,8 +86,8 @@ function AddVaccin() {
               padding: 0,
               margin: 0
             }}>
-              <li><Link to="/AddVaccin" style={navLinkStyle}>Add Vaccin</Link></li>
-              <li><Link to="/ViewVaccin" style={navLinkStyle}>View Vaccin</Link></li>
+              <li><Link to="/admin/AddVaccin" style={navLinkStyle}>Add Vaccin</Link></li>
+              <li><Link to="/admin/ViewVaccin" style={navLinkStyle}>View Vaccin</Link></li>
             </ul>
           </nav>
 

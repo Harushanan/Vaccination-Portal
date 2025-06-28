@@ -77,8 +77,8 @@ function ViewVaccine() {
               padding: 0,
               margin: 0
             }}>
-              <li><Link to="/AddVaccin" style={navLinkStyle}>Add Vaccin</Link></li>
-              <li><Link to="/adminDashboard" style={navLinkStyle}>View Vaccin</Link></li>
+              <li><Link to="/admin/AddVaccin" style={navLinkStyle}>Add Vaccin</Link></li>
+              <li><Link to="/admin/ViewVaccin" style={navLinkStyle}>View Vaccin</Link></li>
             </ul>
           </nav>
 

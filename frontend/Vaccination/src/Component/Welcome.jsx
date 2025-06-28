@@ -1,140 +1,119 @@
-import React from 'react';
-import background from '../assets/images/Welcome2.png';
+import React, { useState, useEffect } from 'react';
+import background from '../assets/images/welocom2.png';
 import { useNavigate } from "react-router-dom";
 import Cookies from 'js-cookie';
 
 const WelcomePage = () => {
-    const userSession = Cookies.get('user') ? JSON.parse(Cookies.get('user')) : null;
-    console.log("User session:", userSession);
+  const userSession = Cookies.get('user') ? JSON.parse(Cookies.get('user')) : null;
+  const navigate = useNavigate();
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
 
-    const navigate = useNavigate();
+  useEffect(() => {
+    const handleResize = () => setWindowWidth(window.innerWidth);
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
-    function checksession() {
-        if (userSession != null) {
-            if (userSession.user.role === "customer") {
-                navigate('/patient/userDashboard');
-            } else if  (userSession.user.role === "nurse"){
-                navigate('/nurse/nurseDashboard');
-            }
-             else {
-                navigate('/adminDashboard');
-            }
-        } else {
-            navigate('/CheckUser');
-        }
+  const isMobile = windowWidth < 768;
+
+  function checksession() {
+    if (userSession) {
+      if (userSession.user.role === "customer") {
+        navigate('/patient/userDashboard');
+      } else if (userSession.user.role === "nurse") {
+        navigate('/nurse/nurseDashboard');
+      } else {
+        navigate('/adminDashboard');
+      }
+    } else {
+      navigate('/CheckUser');
     }
+  }
 
-    return (
-        <>
-            <div style={{
-                minHeight: '90vh',
-                display: 'flex',
-                flexDirection: 'column',
-                backgroundColor: '#e6f7ff'
-            }}>
+  const containerStyle = {
+    minHeight: '100vh',
+    display: 'flex',
+    flexDirection: isMobile ? 'column' : 'row',
+    backgroundColor: '#f0f9ff',
+    fontFamily: "'Segoe UI', sans-serif",
+  };
 
-                {/* Header */}
-                <div style={{
-                    background: 'linear-gradient(90deg, #004d40, #00acc1)',
-                 padding: '20px 40px',
-                 display: 'flex',
-                 justifyContent: 'space-between',
-                 alignItems: 'center',
-                 flexWrap: 'wrap',
-                 position: 'sticky',
-                 top: 0,
-                 zIndex: 1000,
-                 boxShadow: '0 6px 15px rgba(0, 0, 0, 0.4)',
-                borderBottom: '3px solid #fff'
-                }}>
-                 <a
-        href="#"
-        style={{
-            fontSize: '32px',
-            fontWeight: 'bold',
-            color: 'white',
-            textDecoration: 'none',
-            display: 'flex',
-            alignItems: 'center',
-            transition: 'all 0.3s ease',
-        }}
-        onMouseEnter={e => (e.currentTarget.style.transform = 'scale(1.05)')}
-        onMouseLeave={e => (e.currentTarget.style.transform = 'scale(1)')}
-    >
-        💉 <span style={{ margin: '0 8px' }}>VaxCareHP</span> <span style={{ color: '#f44336' }}>+</span> ❤️
-    </a>
+  const leftPanelStyle = {
+    flex: 1,
+    padding: isMobile ? '40px 20px' : '80px 60px',
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    background: 'linear-gradient(135deg, #e0f7fa, #ffffff)',
+    textAlign: isMobile ? 'center' : 'left',
+  };
 
-                </div>
+  const rightPanelStyle = {
+    flex: 1,
+    backgroundImage: `url(${background})`,
+    backgroundSize: 'cover',
+    backgroundPosition: 'center',
+    minHeight: isMobile ? '300px' : 'auto',
+  };
 
-                {/* Main Section */}
-                <main style={{
-                    flex: 1,
-                    padding: '60px 20px',
-                    textAlign:"left",
-                    backgroundColor: '#cceeff',
-                    backgroundImage: `url(${background})`,
-                    backgroundSize: 'cover',
-                    backgroundPosition: 'center',
-                    color: '#003333'
-                }}>
-                    <h1 style={{
-                    fontSize: '40px',
-                    marginBottom: '20px',
-                    background: 'linear-gradient(90deg, #00c6ff,rgba(0, 115, 255, 0.79))',
-                    color: 'white',
-                    display: 'inline-block',
-                    padding: '15px 30px',
-                    borderRadius: '16px',
-                    boxShadow: '0 4px 20px rgba(0,0,0,0.2)',
-                    fontFamily: "'Segoe UI', sans-serif",
-                    textShadow: '1px 1px 4px rgba(0,0,0,0.4)'
-                }}>
-                    Your Health, Our Priority</h1>
+  const logoStyle = {
+    fontSize: isMobile ? '26px' : '36px',
+    fontWeight: 'bold',
+    color: '#004d40',
+    marginBottom: '30px',
+  };
 
-                <p style={{
-                    fontSize: '20px',
-                    fontWeight: '500',
-                    color: '#2c3e50',
-                    marginTop: '10px',
-                    fontFamily: "'Segoe UI', sans-serif",
-                    lineHeight: '1.6'
-                }}>
-   
-                ✔ Protect your health with timely vaccinations. <br />
-                ✔ Shield your loved ones from preventable diseases. <br />
-                ✔ Access safe, verified vaccination services online. <br />
-                ✔ Book your slot anytime, anywhere. <br />
-                ✔ Stay updated. Stay protected. Stay strong.
-</p>
+  const headingStyle = {
+    fontSize: isMobile ? '28px' : '42px',
+    color: '#004d40',
+    marginBottom: '20px',
+    fontWeight: '700',
+  };
 
+  const paragraphStyle = {
+    fontSize: isMobile ? '16px' : '18px',
+    lineHeight: '1.7',
+    color: '#333',
+    marginBottom: '30px',
+  };
 
+  const buttonStyle = {
+    padding: '14px 32px',
+    fontSize: isMobile ? '16px' : '18px',
+    background: 'linear-gradient(135deg, #26a69a, #0097a7)',
+    color: '#ffffff',
+    border: 'none',
+    borderRadius: '8px',
+    cursor: 'pointer',
+    fontWeight: 'bold',
+    transition: 'all 0.3s ease',
+    boxShadow: '0 6px 20px rgba(0,0,0,0.2)',
+  };
 
-               <button onClick={checksession}
-               style={{
-                   padding: '14px 28px',
-                   fontSize: '1.2em',
-                   background: 'linear-gradient(135deg,rgb(174, 0, 255),rgba(25, 0, 255, 0.51))',
-                   color: '#ffffff',
-                   border: 'none',
-                   borderRadius: '10px',
-                   fontWeight: 'bold',
-                   marginTop: '25px',
-                   cursor: 'pointer',
-                   transition: 'all 0.3s ease',
-                   boxShadow: '0 4px 12px rgba(0,0,0,0.2)'
-                }}
-                  onMouseOver={e => e.target.style.transform = 'scale(1.05)'}
-                  onMouseOut={e => e.target.style.transform = 'scale(1)'}>
-                 <b>Get Vaccinated Now</b>
-                </button>
+  return (
+    <div style={containerStyle}>
+      {/* Left Text Panel */}
+      <div style={leftPanelStyle}>
+        <div style={logoStyle}>💉 VaxCareHP <span style={{ color: '#f44336' }}>+</span> ❤️</div>
+        <h1 style={headingStyle}>Vaccinate for a Safer Tomorrow</h1>
+        <p style={paragraphStyle}>
+          At VaxCareHP, we help you stay protected with easy, fast, and verified vaccinations.
+          Book your appointment, track your records, and keep your family safe—all in one place.
+        </p>
+        <button
+          style={buttonStyle}
+          onClick={checksession}
+          onMouseOver={e => (e.target.style.transform = 'scale(1.05)')}
+          onMouseOut={e => (e.target.style.transform = 'scale(1)')}
+        >
+          Get Vaccinated Now 💉
+        </button>
+      </div>
 
-                </main>
-
-               
-               
-            </div>
-        </>
-    );
+      {/* Right Image Panel */}
+      <div style={rightPanelStyle}></div>
+    </div>
+  );
 };
 
 export default WelcomePage;

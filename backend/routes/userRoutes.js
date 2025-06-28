@@ -2,8 +2,8 @@ const express = require('express');
 const { loginuser, signupuser, updateuserpw, displayuser , deleteuser , displaydeletuser , addAdmin ,displayadmin , deleteaccount , updateprofile } = require('../controllers/userController');
 const {addvaccine , vaccinelist , updatecount , vaccineid} = require('../controllers/vaccineController')
 const {displayfaq , submitfaq , deletefaq , updatefaq} = require('../controllers/faqcontoller');
-const {bookingvaccine , vaccinepersonlist} = require('../controllers/bookingController');
-const {nursesignupuser , nuserloginuser , nursedeatiles , deletenurse , deletenursedeatiles} = require('../controllers/NurseController')
+const {bookingvaccine , vaccinepersonlist , updatestatus} = require('../controllers/bookingController');
+const {nursesignupuser , nuserloginuser , nursedeatiles , deletenurse , deletenursedeatiles , bookingData} = require('../controllers/NurseController')
 const {addcenter , displaycenter , displayonecenter , updatecenter} = require('../controllers/centerContoller')
 
 const router = express.Router();
@@ -37,8 +37,11 @@ router.put('/updatefaq/:id', updatefaq);
 
 //-------------------Booking Mangement-----------------------------//
 router.get('/vaccinelist/:id', vaccineid);
+router.put('/updatebooking/:id', updatestatus);
 router.post('/bookingvaccine', bookingvaccine);
 router.get('/vaccinepersonlist/:myemail', vaccinepersonlist);
+
+
 
 
 //-------------------Nurse  Mangement-----------------------------//
@@ -54,6 +57,7 @@ router.post('/addcenter' , addcenter)
 router.get('/displaycenter' , displaycenter)
 router.get('/displaycenter/:id' , displayonecenter)
 router.put('/updatecenter/:id' , updatecenter)
+router.get('/bookingData/:nurseid' , bookingData)
 
 
 

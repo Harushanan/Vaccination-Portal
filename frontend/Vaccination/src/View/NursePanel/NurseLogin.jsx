@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Cookies from 'js-cookie';
 import axios from 'axios';
@@ -9,8 +9,61 @@ function NurseLogin() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [error, setError] = useState("");
+    const [windowWidth, setWindowWidth] = useState(window.innerWidth);
 
     const navigate = useNavigate();
+
+    useEffect(() => {
+        const handleResize = () => setWindowWidth(window.innerWidth);
+        window.addEventListener("resize", handleResize);
+        return () => window.removeEventListener("resize", handleResize);
+    }, []);
+
+    const getResponsiveStyles = (width) => {
+        if (width <= 768) {
+            return {
+                layout: {
+                    flexDirection: 'column',
+                    height: 'auto',
+                },
+                leftSide: {
+                    width: '100%',
+                    height: '200px',
+                },
+                rightSide: {
+                    width: '100%',
+                    padding: '20px',
+                },
+                form: {
+                    padding: '20px',
+                    width: '90%',
+                },
+                headerFontSize: '24px',
+            };
+        } else {
+            return {
+                layout: {
+                    flexDirection: 'row',
+                    height: '80vh',
+                },
+                leftSide: {
+                    flex: 2,
+                },
+                rightSide: {
+                    flex: 1,
+                    padding: '20px',
+                },
+                form: {
+                    padding: '30px',
+                    width: '100%',
+                    maxWidth: '500px',
+                },
+                headerFontSize: '32px',
+            };
+        }
+    };
+
+    const responsive = getResponsiveStyles(windowWidth);
 
     const handleLogin = async (e) => {
         e.preventDefault();
@@ -23,7 +76,7 @@ function NurseLogin() {
 
         try {
             const response = await axios.post("http://localhost:3000/nurselogin", { email, password });
-            const { message, getuser, role } = response.data;
+            const { message, getuser } = response.data;
 
             setError("Please wait...");
 
@@ -35,8 +88,7 @@ function NurseLogin() {
                 } else if (message === "Successfullogin") {
                     const expirationTime = new Date().getTime() + 24 * 60 * 60 * 1000;
                     Cookies.set("user", JSON.stringify({ user: getuser, expirationTime }), { expires: 1 });
-
-                    navigate("/nurse/nurseDashboard")
+                    navigate("/nurse/nurseDashboard");
                 } else {
                     setError("Unexpected response from server.");
                 }
@@ -80,30 +132,31 @@ function NurseLogin() {
             </div>
 
             {/* Content */}
-            <div className="container" style={{ display: 'flex', flex: 1, height: '80vh' }}>
-                <div className="left-side" style={{
-                    flex: 1.4,
+            <div style={{ display: 'flex', flex: 1, ...responsive.layout }}>
+                <div style={{
+                    ...responsive.leftSide,
                     background: `url(${loginbackground}) no-repeat center center/cover`
                 }}></div>
 
-                <div className="right-side" style={{
-                    flex: 1,
+                <div style={{
+                    ...responsive.rightSide,
                     display: 'flex',
                     justifyContent: 'center',
                     alignItems: 'center',
                     backgroundColor: '#f4f4f5',
-                    padding: '20px'
                 }}>
-                    <form onSubmit={handleLogin} className="login-box" style={{
+                    <form onSubmit={handleLogin} style={{
                         background: 'white',
-                        padding: '30px',
                         borderRadius: '10px',
                         boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)',
-                        width: '100%',
-                        maxWidth: '500px',
-                        minHeight: '300px'
+                        minHeight: '300px',
+                        ...responsive.form,
                     }}>
-                        <h1 style={{ textAlign: 'center', marginBottom: '25px' }}>Nurse Login</h1>
+                        <h1 style={{
+                            textAlign: 'center',
+                            marginBottom: '25px',
+                            fontSize: responsive.headerFontSize
+                        }}>Nurse Login</h1>
 
                         <b>Email</b>
                         <input
@@ -113,7 +166,7 @@ function NurseLogin() {
                             required
                             onChange={(e) => setEmail(e.target.value)}
                             style={{
-                                width: '100%',
+                                width: '90%',
                                 padding: '12px',
                                 margin: '12px 0',
                                 border: '1px solid #ddd',
@@ -130,7 +183,7 @@ function NurseLogin() {
                             required
                             onChange={(e) => setPassword(e.target.value)}
                             style={{
-                                width: '100%',
+                                width: '90%',
                                 padding: '12px',
                                 margin: '10px 0',
                                 border: '1px solid #ddd',

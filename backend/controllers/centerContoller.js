@@ -53,7 +53,7 @@ const displayonecenter = async (req, res) => {
 
 const updatecenter = async (req, res) => {
   const { id } = req.params;
-  const { center, address, venue, email, phone, startTime, closeTime, nurse } = req.body;
+  const { center, address, venue, email, phone, startTime, closeTime, nurse , nursingId} = req.body;
 
   try {
     const updatedCenter = await CenterModel.findByIdAndUpdate(id, {
@@ -64,7 +64,8 @@ const updatecenter = async (req, res) => {
         phone,
         startTime,
         closeTime,
-        nurse
+        nurse,
+        nursingId
       },
       { new: true } // returns the updated document
     );

@@ -35,11 +35,11 @@ function Sidebar() {
   });
 
   const links = [
-    { to: "/adminDashboard", label: "Patient Management" },
-    { to: "/StaffDahboard", label: "Medical Staff Management" },
-    { to: "/AddVaccin", label: "Vaccination Management" },
-    { to: "/AddCenter", label: "Add Vaccination Centers" },
-    { to: "/AdminFaq", label: "FAQ Management" },
+    { to: "/admin/adminDashboard", label: "Patient Management" },
+    { to: "/admin/StaffDahboard", label: "Medical Staff Management" },
+    { to: "/admin/AddVaccin", label: "Vaccination Management" },
+    { to: "/admin/AddCenter", label: "Add Vaccination Centers" },
+    { to: "/admin/AdminFaq", label: "FAQ Management" },
   ];
 
   return (
