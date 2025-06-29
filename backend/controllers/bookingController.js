@@ -1,4 +1,5 @@
 const BookingModel = require('../model/booking')
+const {VaccineModel} = require("../model/vaccine")
 
 const bookingvaccine = async (req, res) => {
   try {
@@ -22,10 +23,9 @@ const bookingvaccine = async (req, res) => {
 
 const vaccinepersonlist = async (req, res) => { 
   try {
-    const { myemail } = req.params; // ✅ use req.params
+    const { myemail } = req.params; 
 
    const getbooking = await BookingModel.find({ email: myemail });
-   console.log("getbooking:", getbooking); // Returns an array
 
     
     if (!getbooking) {
@@ -41,22 +41,45 @@ const vaccinepersonlist = async (req, res) => {
 
 const updatestatus = async (req, res) => {
   const { id } = req.params;
-  const { status } = req.body;
+  const { status, reason, nursename, nurseId } = req.body;
 
   try {
+    const getbook = await BookingModel.findById(id); 
+
+    if (!getbook) {
+      return res.status(404).json({ message: "Booking not found" });
+    }
+
+    const getvaccine = await VaccineModel.findOne({ Name: getbook.vaccine }); // ✅ fix: correct query
+
+    if (!getvaccine) {
+      return res.status(404).json({ message: "Vaccine not found" });
+    }
+
+    // ✅ Update booking status
     const updatedStatus = await BookingModel.findByIdAndUpdate(
       id,
-      { status: status },
-      { new: true } // Return the updated document
+      {
+        status,
+        removereason:reason,
+        injectBy: nursename,
+        injectById: nurseId
+      },
+      { new: true }
     );
 
-    console.log("Update Booking:", updatedStatus);
+    if (status === "approve" && getvaccine.Slots > 0) {
+      const finalslot = getvaccine.Slots - 1;
 
-    if (updatedStatus) {
-      res.json({ message: "Status updated successfully" });
-    } else {
-      res.status(404).json({ message: "Booking not found" });
+      await VaccineModel.findByIdAndUpdate(
+        getvaccine._id,
+        { Slots: finalslot },
+        { new: true }
+      );
     }
+
+    res.json({ message: "Status updated successfully" });
+
   } catch (error) {
     console.error("Update error:", error);
     res.status(500).json({ message: "Internal Server Error" });

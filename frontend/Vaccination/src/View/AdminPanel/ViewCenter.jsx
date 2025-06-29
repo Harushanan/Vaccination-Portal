@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from "react-router-dom";
 import AdminHeader from '../../Component/AdminHeader';
 import Sidebar from '../../Component/Sidebar';
+import Footer from "../../Component/Footer"
 import axios from 'axios';
 import hospital from "../../assets/images/hospital.png"
 
@@ -102,6 +103,7 @@ function ViewCenter() {
           </div>
         </main>
       </div>
+      <Footer/>
     </>
   );
 }

@@ -4,6 +4,8 @@ import { Link, useNavigate } from "react-router-dom";
 import loginbackground from '../../assets/images/Login.png';
 import axios from "axios";
 
+import Footer from "../../Component/Footer"
+
 function Signup() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -370,6 +372,7 @@ function Signup() {
           </form>
         </div>
       </div>
+      <Footer/>
     </>
   );
 }

@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import loginbackground from '../../assets/images/nurselogin.png';
+import Footer from "../../Component/Footer"
 
 function NurseSignup() {
   const [username, setUsername] = useState("");
@@ -365,6 +366,7 @@ function NurseSignup() {
           </form>
         </div>
       </div>
+      <Footer/>
     </>
   );
 }

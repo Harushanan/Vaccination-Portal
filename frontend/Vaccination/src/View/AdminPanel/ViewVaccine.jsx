@@ -4,6 +4,7 @@ import axios from 'axios';
 import Cookies from 'js-cookie';
 import AdminHeader from '../../Component/AdminHeader';
 import Sidebar from '../../Component/Sidebar';
+import Footer from "../../Component/Footer"
 
 let count = 0;
 
@@ -191,6 +192,7 @@ function ViewVaccine() {
 
         </main>
       </div>
+      <Footer/>
     </>
   );
 }

@@ -1,13 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { Link, useLocation ,useNavigate } from 'react-router-dom';
 import NurseHeader from '../../Component/NurseHeader';
 import Cookies from 'js-cookie';
 import axios from 'axios';
-import Footer from '../../Component/Footer';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-
-function ViewBooking() {
+import Footer from "../../Component/Footer"
+function RejectedBooking() {
   const userSession = Cookies.get('user') ? JSON.parse(Cookies.get('user')) : null;
   const nurseId = userSession ? userSession.user.nursingId : "Guest";
 
@@ -25,19 +24,21 @@ function ViewBooking() {
   }, []);
 
   const handleApprove = (bookingId) => {
-    axios.put(`http://localhost:3000/updatebooking/${bookingId}`, { status: "approve" })
-      .then((res) => {
-        if (res.data.message === "Status updated successfully") {
-          toast.success("Status updated successfully");
-          setTimeout(() => navigate('/nurse/ViewBooking'), 3000);
-        } else {
-          toast.error("Update failed.");
-        }
-      }).catch((err) => {
-        toast.error("Error while updating status.");
-        console.error(err);
-      });
-  };
+
+  axios.put(`http://localhost:3000/updatebooking/${bookingId}`, {status: "approve"})
+  .then((res) => {
+    if (res.data.message === "Status updated successfully") {
+      toast.success("Status updated successfully");
+      setTimeout(() => navigate('/nurse/ViewBooking'), 3000);
+    } else {
+      setError("Update failed.");
+    }
+  }).catch((err) => {
+     toast.error("Error while updating status.");
+    console.error(err);
+  });
+};
+
 
   const handleReject = (index) => {
     setRejectIndex(index === rejectIndex ? null : index);
@@ -45,18 +46,20 @@ function ViewBooking() {
   };
 
   const handleRejectSubmit = (bookingId) => {
-    axios.put(`http://localhost:3000/updatebooking/${bookingId}`, { status: "reject", reason: rejectReason })
-      .then((res) => {
-        if (res.data.message === "Status updated successfully") {
-          toast.success("Status updated successfully");
-          setTimeout(() => navigate('/nurse/ViewBooking'), 3000);
-        } else {
-          toast.error("Update failed.");
-        }
-      }).catch((err) => {
-        toast.error("Error while updating status.");
-        console.error(err);
-      });
+    console.log("Rejected:", bookingId, "Reason:", rejectReason);
+
+    axios.put(`http://localhost:3000/updatebooking/${bookingId}`, {status: "reject" , reason :rejectReason })
+  .then((res) => {
+    if (res.data.message === "Status updated successfully") {
+      toast.success("Status updated successfully");
+      setTimeout(() => navigate('/nurse/ViewBooking'), 3000);
+    } else {
+      setError("Update failed.");
+    }
+  }).catch((err) => {
+     toast.error("Error while updating status.");
+    console.error(err);
+  });
     setRejectIndex(null);
     setRejectReason('');
   };
@@ -221,15 +224,18 @@ function ViewBooking() {
       <div className="dashboard-container">
         <NurseHeader />
 
+        {/* Navigation Bar */}
         <nav>
           <ul>
-            <li><Link to="/nurse/viewSchedul" style={getLinkStyle("/nurse/viewSchedul")}>Schedule Center</Link></li>
-            <li><Link to="/nurse/ViewBooking" style={getLinkStyle("/nurse/ViewBooking")}>Schedule Appointment</Link></li>
-            <li><Link to="/nurse/ApprovedBooking" style={getLinkStyle("/nurse/ApprovedBooking")}>Approved Appointments</Link></li>
-            <li><Link to="/nurse/RejectedBooking" style={getLinkStyle("/nurse/RejectedBooking")}>Rejected Appointments</Link></li>
+           <li><Link to="/nurse/viewSchedul" style={getLinkStyle("/nurse/viewSchedul")}>Schedule Center</Link></li>
+                       <li><Link to="/nurse/ViewBooking" style={getLinkStyle("/nurse/ViewBooking")}>Schedule Appointment</Link></li>
+                       <li><Link to="/nurse/ApprovedBooking" style={getLinkStyle("/nurse/ApprovedBooking")}>Approved Appointments</Link></li>
+                       <li><Link to="/nurse/RejectedBooking" style={getLinkStyle("/nurse/RejectedBooking")}>Rejected Appointments</Link></li>
           </ul>
+         
         </nav>
 
+        {/* Booking Table */}
         <div className="booking-table-container">
           {book.length > 0 ? (
             <table>
@@ -244,75 +250,50 @@ function ViewBooking() {
                   <th>Allergies</th>
                   <th>Date</th>
                   <th>Status</th>
-                  <th>Action</th>
+                  <th>Reason</th>
                 </tr>
               </thead>
-              <tbody>
-                {book.map((booking, index) => (
-                  <tr key={index}>
-                    <td>{booking.fullname}</td>
-                    <td>{booking.age}</td>
-                    <td>{booking.contact}</td>
-                    <td>{booking.vaccine}</td>
-                    <td>{booking.dose}</td>
-                    <td>{booking.healthConditions}</td>
-                    <td>{booking.allergies}</td>
-                    <td>{booking.date || "N/A"}</td>
-                    <td>
-                      <span style={{
-                        padding: '10px',
-                        borderRadius: '20px',
-                        fontWeight: '600',
-                        fontSize: '13px',
-                        color:
-                          booking.status === "pending" ? "#ff9800" :
-                            booking.status === "approve" ? "#2e7d32" :
-                              booking.status === "reject" ? "#c62828" :
-                                booking.status === "inject" ? "#1565c0" : "#000",
-                        backgroundColor:
-                          booking.status === "pending" ? "#fff3cd" :
-                            booking.status === "approve" ? "#d0f0c0" :
-                              booking.status === "reject" ? "#fdecea" :
-                                booking.status === "inject" ? "#e3f2fd" : "#eee",
-                        textAlign: 'center',
-                        display: 'inline-block',
-                        minWidth: '80px'
-                      }}>
-                        {booking.status}
-                      </span>
-                    </td>
-                    <td>
-                      {booking.status !== "inject" && (
-                        <>
-                          <button className="btn approve-btn" onClick={() => handleApprove(booking._id)}>Approve</button>
-                          <button className="btn reject-btn" onClick={() => handleReject(index)}>Reject</button>
-                          {rejectIndex === index && (
-                            <div className="reject-form">
-                              <input
-                                type="text"
-                                placeholder="Reason"
-                                required
-                                value={rejectReason}
-                                onChange={(e) => setRejectReason(e.target.value)}
-                              />
-                              <button onClick={() => handleRejectSubmit(booking._id)}>Confirm</button>
-                            </div>
-                          )}
-                        </>
-                      )}
-                      <button className="btn view-btn">View</button>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
+             <tbody>
+  {book
+    .filter((booking) => booking.status === "reject") // only approved
+    .map((booking, index) => (
+      <tr key={index}>
+        <td>{booking.fullname}</td>
+        <td>{booking.age}</td>
+        <td>{booking.contact}</td>
+        <td>{booking.vaccine}</td>
+        <td>{booking.dose}</td>
+        <td>{booking.healthConditions}</td>
+        <td>{booking.allergies}</td>
+        <td>{booking.date || "N/A"}</td>
+        <td>
+          <span style={{
+            padding: '10px',
+            borderRadius: '20px',
+            fontWeight: '600',
+            fontSize: '13px',
+            color: "#c62828",
+            backgroundColor: "#fdecea",
+            textAlign: 'center',
+            display: 'inline-block',
+            minWidth: '80px'
+          }}>
+            {booking.status}
+          </span>
+        </td>
+        <td style={{color:"red"}}><b>{booking.removereason}</b></td>
+      </tr>
+  ))}
+</tbody>
+
             </table>
           ) : (
             <div className="no-booking">No bookings found.</div>
           )}
         </div>
       </div>
-      <ToastContainer position="top-right" autoClose={3000} />
-      <Footer/>
+       <ToastContainer position="top-right" autoClose={3000} />
+       <Footer/>
     </>
   );
 }
@@ -327,4 +308,4 @@ const navLinkStyle = {
   transition: 'color 0.3s ease'
 };
 
-export default ViewBooking;
+export default RejectedBooking;

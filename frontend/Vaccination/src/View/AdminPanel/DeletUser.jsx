@@ -4,6 +4,7 @@ import axios from 'axios';
 import Cookies from 'js-cookie'; 
 import AdminHeader from '../../Component/AdminHeader';
 import Sidebar from '../../Component/Sidebar';
+import Footer from "../../Component/Footer"
 
 function DeleteUser() {
   const [user, setUser] = useState([]);
@@ -189,6 +190,7 @@ function DeleteUser() {
           </table>
         </main>
       </div>
+      <Footer/>
     </>
   );
 }

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import NormalHeader from '../../Component/NormalHeader';
 import axios from 'axios';
+import Footer from "../../Component/Footer"
 import { useNavigate, useParams } from 'react-router-dom';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -93,6 +94,7 @@ function Updatecenter() {
   };
 
   return (
+    <>
     <div style={pageStyle}>
       <NormalHeader />
       <div style={containerStyle}>
@@ -217,6 +219,8 @@ function Updatecenter() {
       </div>
       <ToastContainer position="top-right" autoClose={3000} />
     </div>
+    <Footer/>
+    </>
   );
 }
 

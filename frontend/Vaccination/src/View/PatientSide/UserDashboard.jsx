@@ -2,6 +2,7 @@ import React from 'react';
 import PatientHeader from '../../Component/PatientHeader';
 import Cookies from 'js-cookie';
 import vaccineImage from '../../assets/images/vaccineheader.png';
+import Footer from '../../Component/Footer'
 
 function UserDashboard() {
   const userSession = Cookies.get('user') ? JSON.parse(Cookies.get('user')) : null;
@@ -160,6 +161,7 @@ function UserDashboard() {
           </div>
         </div>
       </div>
+      <Footer/>
     </>
   );
 }

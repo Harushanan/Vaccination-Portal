@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import PatientHeader from '../../Component/PatientHeader';
 import Cookies from 'js-cookie';
 import axios from 'axios';
+import Footer from "../../Component/Footer"
 
 function Faq() {
   const userSession = Cookies.get('user') ? JSON.parse(Cookies.get('user')) : null;
@@ -46,6 +47,7 @@ function Faq() {
   };
 
   return (
+    <>
     <div style={{
       minHeight: '100vh',
       fontFamily: 'Segoe UI, sans-serif',
@@ -216,6 +218,8 @@ function Faq() {
         )}
       </div>
     </div>
+     <Footer/>
+     </>
   );
 }
 

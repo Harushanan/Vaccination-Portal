@@ -4,6 +4,7 @@ import userprofile from '../../assets/images/userimge.png';
 import Cookies from 'js-cookie';
 import axios from 'axios';
 import NormalHeader from '../NormalHeader';
+import Footer from "../Footer"
 
 const Profile = () => {
   const navigate = useNavigate();
@@ -186,6 +187,8 @@ const Profile = () => {
                     <th style={styles.th}>Date</th>
                     <th style={styles.th}>Center</th>
                     <th style={styles.th}>Status</th>
+                     <th style={styles.th}>Reason</th>
+                     <th style={styles.th}>InjectBy</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -219,7 +222,15 @@ const Profile = () => {
     {vaccine.status}
   </span>
 </td>
+<td style={vaccine.removereason === "no reason provided" 
+    ? styles.td 
+    : { ...styles.td, color: "red" }}>
+  {vaccine.removereason === "no reason provided" ? "-" : vaccine.removereason}
+</td>
 
+<td style={styles.td}>
+  {vaccine.status === "inject" ? `${vaccine.injectBy} (${vaccine.injectById})` : "-"}
+</td>
                       </tr>
                     ))
                   ) : (
@@ -233,6 +244,7 @@ const Profile = () => {
           </div>
         </div>
       </div>
+      <Footer/>
     </>
   );
 };

@@ -4,6 +4,7 @@ import Cookies from 'js-cookie';
 import axios from 'axios';
 
 import loginbackground from '../../assets/images/Login.png';
+import Footer from "../../Component/Footer"
 
 function Login() {
     const [email, setEmail] = useState("");
@@ -227,6 +228,7 @@ function Login() {
                     </form>
                 </div>
             </div>
+            <Footer/>
         </div>
     );
 }

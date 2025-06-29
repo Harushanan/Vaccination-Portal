@@ -4,6 +4,7 @@ import NurseHeader from '../../Component/NurseHeader';
 import Cookies from 'js-cookie';
 import axios from 'axios';
 import hospital from "../../assets/images/hospital.png";
+import Footer from "../../Component/Footer"
 
 function ViewSchedul() {
   const userSession = Cookies.get('user') ? JSON.parse(Cookies.get('user')) : null;
@@ -137,8 +138,9 @@ function ViewSchedul() {
             flexWrap: 'wrap'
           }}>
             <li><Link to="/nurse/viewSchedul" style={getLinkStyle("/nurse/viewSchedul")}>Schedule Center</Link></li>
-            <li><Link to="/nurse/ViewBooking" style={getLinkStyle("/nurse/ViewBooking")}>Schedule Appointment</Link></li>
-            <li><Link to="/nurse/rejected-appointments" style={getLinkStyle("/nurse/rejected-appointments")}>Rejected Appointments</Link></li>
+                        <li><Link to="/nurse/ViewBooking" style={getLinkStyle("/nurse/ViewBooking")}>Schedule Appointment</Link></li>
+                        <li><Link to="/nurse/ApprovedBooking" style={getLinkStyle("/nurse/ApprovedBooking")}>Approved Appointments</Link></li>
+                        <li><Link to="/nurse/RejectedBooking" style={getLinkStyle("/nurse/RejectedBooking")}>Rejected Appointments</Link></li>
           </ul>
         </nav>
 
@@ -165,6 +167,7 @@ function ViewSchedul() {
           <p style={{ textAlign: 'center', marginTop: '30px' }}>No centers assigned.</p>
         )}
       </div>
+      <Footer/>
     </>
   );
 }

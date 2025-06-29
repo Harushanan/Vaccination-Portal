@@ -4,6 +4,8 @@ import AdminHeader from '../../Component/AdminHeader';
 import Sidebar from '../../Component/Sidebar';
 import axios from 'axios';
 
+import Footer from "../../Component/Footer"
+
 function AddCenter() {
   const [center, setCenter] = useState('');
   const [address, setAddress] = useState('');
@@ -153,6 +155,7 @@ function AddCenter() {
           </div>
         </main>
       </div>
+      <Footer/>
     </>
   );
 }

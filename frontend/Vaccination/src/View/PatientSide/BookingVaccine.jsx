@@ -4,6 +4,7 @@ import Cookies from 'js-cookie';
 import axios from 'axios';
 import vaccineimage from '../../assets/images/vaccine.png';
 import { useNavigate } from 'react-router-dom';
+import Footer from '../../Component/Footer';
 
 function BookingVaccine() {
   const [vaccine, setVaccine] = useState([]);
@@ -28,6 +29,7 @@ function BookingVaccine() {
   }
 
   return (
+   <>
     <div style={pageStyle}>
       <PatientHeader />
       <div style={containerStyle}>
@@ -74,6 +76,9 @@ function BookingVaccine() {
         </div>
       </div>
     </div>
+    <Footer/>
+   
+   </>
   );
 }
 

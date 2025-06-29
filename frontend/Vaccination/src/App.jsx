@@ -41,18 +41,22 @@ import NurseSignup from "./View/NursePanel/NurseSingup"
 import NurseDashboard from "./View/NursePanel/NurseDashboard"
 import ViewSchedul from "./View/NursePanel/viewSchedul";
 import ViewBooking from "./View/NursePanel/ViewBooking";
-
-
-
-
+import ApprovedBooking from "./View/NursePanel/ApprovedBooking";
+import RejectedBooking from "./View/NursePanel/RejectedBooking";
 import WelcomePage from "./Component/Welcome";
 import Profile from "./Component/layouts/ViewProfile";
 import ProfileUpdate from "./Component/layouts/Updateprofile";
+import RouteGuard from "./auth-view/RouteGuard";
+
+
+import UnauthPage from "./auth-view/UnauthPage";
+import NotFound from "./auth-view/NotFound";
 
 
 function App() {
     return (<> 
        <BrowserRouter>
+        <RouteGuard />
          <Routes>
 
           {/* Patient Routes */}
@@ -70,6 +74,8 @@ function App() {
             <Route path="/nurse/nurseDashboard" element={<NurseDashboard />} />
              <Route path="/nurse/viewSchedul" element={<ViewSchedul/>} />
              <Route path="/nurse/ViewBooking" element={<ViewBooking/>} />
+             <Route path="/nurse/ApprovedBooking" element={<ApprovedBooking/>} />
+             <Route path="/nurse/RejectedBooking" element={<RejectedBooking/>} />
             
 
             {/*Admin Routes*/}
@@ -111,7 +117,8 @@ function App() {
 
           
             
-            
+          <Route path="*" element={<NotFound />} />
+          <Route path="/unauth-page" element={<UnauthPage />} />  
            
              
           </Routes>

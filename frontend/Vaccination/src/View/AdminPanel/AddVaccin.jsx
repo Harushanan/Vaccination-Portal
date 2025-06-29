@@ -3,6 +3,7 @@ import { Link , useNavigate  } from "react-router-dom";
 import AdminHeader from '../../Component/AdminHeader';
 import Sidebar from '../../Component/Sidebar';
 import axios from 'axios';
+import Footer from "../../Component/Footer"
 
 
 function AddVaccin() {
@@ -187,6 +188,7 @@ function AddVaccin() {
           </div>
         </main>
       </div>
+      <Footer/>
     </>
   );
 }

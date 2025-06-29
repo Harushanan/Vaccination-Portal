@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import loginbackground from '../../assets/images/forgotpasswod.png';
 import axios from 'axios';
+import Footer from "../Footer"
 
 function Forgotpassword() {
     const [email, setEmail] = useState("");
@@ -102,7 +103,7 @@ function Forgotpassword() {
             });
     };
 
-    return (
+    return (<>
         <div style={{ minHeight: '90vh', display: 'flex', flexDirection: 'column', backgroundColor: '#e6f7ff' }}>
             {/* Header */}
             <div style={{
@@ -233,6 +234,8 @@ function Forgotpassword() {
                 </div>
             </div>
         </div>
+        <Footer/>
+        </>
     );
 }
 

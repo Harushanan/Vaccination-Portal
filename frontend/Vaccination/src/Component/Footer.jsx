@@ -6,46 +6,35 @@ function Footer() {
           background: linear-gradient(90deg, #004d40, #00acc1);
           color: white;
           text-align: center;
-          padding: 10px 18px;
+          padding: 20px 10px;
           margin-top: auto;
-        }
-
-        .footer-icons {
-          margin-bottom: 20px;
-        }
-
-        .footer-icons a {
-          margin: 0 15px;
-          font-size: 24px;
-          color: white;
-          text-decoration: none;
+          box-shadow: 0px -2px 10px rgba(0, 0, 0, 0.2);
         }
 
         .footer-text {
-          font-size: 20px;
+          font-size: 18px;
           opacity: 0.9;
+          font-weight: 500;
+          margin: 0;
         }
 
-        @media (max-width: 600px) {
-          .footer-icons a {
-            margin: 0 8px;
-            font-size: 20px;
-          }
-
+        @media (max-width: 768px) {
           .footer-text {
             font-size: 16px;
+          }
+        }
+
+        @media (max-width: 480px) {
+          .footer-text {
+            font-size: 14px;
           }
         }
       `}</style>
 
       <div className="footer">
-        <div className="footer-icons">
-          <a href="#"><i className="fas fa-globe"></i></a>
-          <a href="#"><i className="fab fa-facebook-f"></i></a>
-          <a href="#"><i className="fab fa-twitter"></i></a>
-          <a href="#"><i className="fab fa-instagram"></i></a>
-        </div>
-        <p className="footer-text"><b>&copy; 2025 VaxCare+ All rights reserved</b></p>
+        <p className="footer-text">
+          &copy; 2025 <strong>VaxCareHP+</strong> — All rights reserved
+        </p>
       </div>
     </>
   );

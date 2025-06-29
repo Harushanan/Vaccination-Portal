@@ -2,6 +2,7 @@ import React from 'react';
 import { useNavigate } from "react-router-dom";
 import Cookies from 'js-cookie';
 import NormalHeader from '../NormalHeader';
+import Footer from "../Footer"
 
 import patientImg from '../../assets/images/patient.png';
 import nurseImg from '../../assets/images/nurse.png';
@@ -106,6 +107,7 @@ const CheckUser = () => {
                     ))}
                 </div>
             </div>
+            <Footer/>
         </>
     );
 };

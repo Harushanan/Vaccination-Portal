@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Cookies from 'js-cookie';
 import axios from 'axios';
-
+import Footer from "../../Component/Footer"
 import loginbackground from '../../assets/images/nurselogin.png';
 
 function NurseLogin() {
@@ -100,7 +100,7 @@ function NurseLogin() {
         }
     };
 
-    return (
+    return (<>
         <div style={{ minHeight: '90vh', display: 'flex', flexDirection: 'column', backgroundColor: '#e6f7ff' }}>
             
             {/* Header */}
@@ -226,6 +226,8 @@ function NurseLogin() {
                 </div>
             </div>
         </div>
+        <Footer/>
+        </>
     );
 }
 

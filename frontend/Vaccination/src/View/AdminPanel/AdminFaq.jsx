@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import AdminHeader from '../../Component/AdminHeader';
 import Sidebar from '../../Component/Sidebar';
 import axios from 'axios';
+import Footer from "../../Component/Footer"
 
 function AdminFaq() {
   const [faqs, setFaqs] = useState([]);
@@ -149,6 +150,7 @@ function AdminFaq() {
           </div>
         </main>
       </div>
+      <Footer/>
     </>
   );
 }

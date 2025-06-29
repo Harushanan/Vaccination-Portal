@@ -4,6 +4,7 @@ import Cookies from 'js-cookie';
 import axios from 'axios';
 
 import loginbackground from '../../assets/images/adminlogin.png';
+import Footer from "../../Component/Footer"
 
 function AdminLogin() {
     const [email, setEmail] = useState("");
@@ -103,6 +104,7 @@ function AdminLogin() {
     };
 
     return (
+        <>
         <div style={{ minHeight: '90vh', display: 'flex', flexDirection: 'column', backgroundColor: '#e6f7ff' }}>
             
             {/* Header */}
@@ -228,6 +230,8 @@ function AdminLogin() {
                 </div>
             </div>
         </div>
+        <Footer/>
+        </>
     );
 }
 

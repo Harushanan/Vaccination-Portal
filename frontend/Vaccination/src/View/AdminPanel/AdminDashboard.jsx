@@ -4,6 +4,7 @@ import axios from 'axios';
 import Cookies from 'js-cookie'; 
 import AdminHeader from '../../Component/AdminHeader';
 import Sidebar from '../../Component/Sidebar';
+import Footer from "../../Component/Footer"
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -210,6 +211,7 @@ function AdminDashboard() {
       </div>
 
       <ToastContainer position="top-right" autoClose={3000} />
+      <Footer/>
     </>
   );
 }

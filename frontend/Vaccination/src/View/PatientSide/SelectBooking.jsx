@@ -4,6 +4,7 @@ import PatientHeader from '../../Component/PatientHeader';
 import axios from 'axios';
 import Cookies from 'js-cookie';
 import NormalHeader from '../../Component/NormalHeader';
+import Footer from '../../Component/Footer';
 
 const userSession = Cookies.get('user') ? JSON.parse(Cookies.get('user')) : null;
 
@@ -103,6 +104,7 @@ function SelectBooking() {
   };
 
   return (
+    <>
     <div style={{ ...pageStyle, paddingBottom: isMobile ? '100px' : '50px' }}>
       <NormalHeader />
       <nav style={{ ...navStyle, padding: isMobile ? '10px 20px' : '10px 60px', maxWidth: isMobile ? '95%' : '60%' }}>
@@ -279,6 +281,8 @@ function SelectBooking() {
         </form>
       </div>
     </div>
+    <Footer/>
+    </>
   );
 }
 

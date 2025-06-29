@@ -4,6 +4,7 @@ import axios from 'axios';
 import Cookies from 'js-cookie'; 
 import AdminHeader from '../../Component/AdminHeader';
 import Sidebar from '../../Component/Sidebar';
+import Footer from "../../Component/Footer"
 
 function DeleteStaff() {
   const [user, setUser] = useState([]);
@@ -186,6 +187,7 @@ function DeleteStaff() {
           </table>
         </main>
       </div>
+      <Footer/>
     </>
   );
 }

@@ -3,6 +3,8 @@ import NurseHeader from '../../Component/NurseHeader';
 import Cookies from 'js-cookie';
 import vaccineImage from '../../assets/images/vaccineheader.png';
 
+import Footer from "../../Component/Footer"
+
 function NurseDashboard() {
   const userSession = Cookies.get('user') ? JSON.parse(Cookies.get('user')) : null;
   const customername = userSession ? userSession.user.username : "Guest";
@@ -157,6 +159,7 @@ function NurseDashboard() {
           </div>
         </div>
       </div>
+      <Footer/>
     </>
   );
 }
