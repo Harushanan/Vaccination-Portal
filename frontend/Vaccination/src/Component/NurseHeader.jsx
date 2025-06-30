@@ -126,6 +126,8 @@ function NurseHeader() {
 
         {dropdownVisible && (
           <div style={styles.dropdown}>
+            
+                        <Link to='/nurse/NurseProfile' style={{ display: "block", padding: "10px", textDecoration: "none", color: "black" }}>View Profile</Link>
             <a onClick={logout} style={{ display: "block", padding: "10px", textDecoration: "none", color: "black", cursor: "pointer" }}>Logout</a>
           </div>
         )}

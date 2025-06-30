@@ -3,7 +3,7 @@ const { loginuser, signupuser, updateuserpw, displayuser , deleteuser , displayd
 const {addvaccine , vaccinelist , updatecount , vaccineid} = require('../controllers/vaccineController')
 const {displayfaq , submitfaq , deletefaq , updatefaq} = require('../controllers/faqcontoller');
 const {bookingvaccine , vaccinepersonlist , updatestatus} = require('../controllers/bookingController');
-const {nursesignupuser , nuserloginuser , nursedeatiles , deletenurse , deletenursedeatiles , bookingData} = require('../controllers/NurseController')
+const {nursesignupuser , nuserloginuser , nursedeatiles , deletenurse , deletenursedeatiles , bookingData , nurseupdateprofile , nursevaccinepersonlist} = require('../controllers/NurseController')
 const {addcenter , displaycenter , displayonecenter , updatecenter} = require('../controllers/centerContoller')
 
 const router = express.Router();
@@ -50,6 +50,12 @@ router.post('/nurselogin', nuserloginuser);
 router.get('/nursedeatiles', nursedeatiles);
 router.post('/deletenurse', deletenurse);
 router.get('/deletenursedeatiles', deletenursedeatiles);
+router.put('/nurseupdateprofile', nurseupdateprofile);
+router.get('/nursevaccinepersonlist/:id', nursevaccinepersonlist);
+
+
+
+
 
 
 //-------------------Add Center -------------------//

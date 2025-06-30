@@ -34,6 +34,7 @@ import BookingVaccine from "./View/PatientSide/BookingVaccine";
 import SelectBooking from "./View/PatientSide/SelectBooking"
 import ProfilePage from "./View/PatientSide/ProfilePage";
 import ReportPage from "./View/PatientSide/ReportPage";
+import ProfileUpdate from "./View/PatientSide/ProfileUpdate"
 
 
 //----------Nurse side ------------//
@@ -45,11 +46,13 @@ import ViewSchedul from "./View/NursePanel/viewSchedul";
 import ViewBooking from "./View/NursePanel/ViewBooking";
 import ApprovedBooking from "./View/NursePanel/ApprovedBooking";
 import RejectedBooking from "./View/NursePanel/RejectedBooking";
+import NurseProfile from "./View/NursePanel/NurseProfile";
+import NurseProfileUpdate from "./View/NursePanel/NurseProfileUpdate";
+import NurseView from "./View/NursePanel/NurseView";
+
+
 import WelcomePage from "./Component/Welcome";
-import ProfileUpdate from "./Component/layouts/Updateprofile";
 import RouteGuard from "./auth-view/RouteGuard";
-
-
 import UnauthPage from "./auth-view/UnauthPage";
 import NotFound from "./auth-view/NotFound";
 
@@ -64,6 +67,7 @@ function App() {
             <Route path="/patient/login" element={<Login />} />
             <Route path="/patient/sign-up" element={<Signup />} />
             <Route path="/patient/userDashboard" element={<UserDashboard />} />
+            <Route path="/patient/ProfileUpdate" element={<ProfileUpdate />} />
             <Route path="/patient/BookingVaccine" element={<BookingVaccine />} />
             <Route path="/patient/BookingVaccine/:id" element={<SelectBooking />} />
             <Route path="/patient/faq" element={<Faq />} />
@@ -75,11 +79,14 @@ function App() {
              {/* Nurse Routes */}
             <Route path="/nurse/login" element={<NurseLogin />} />
             <Route path="/nurse/sign-up" element={<NurseSignup />} />
+            <Route path="/nurse/NurseProfile" element={<NurseProfile/>} />
             <Route path="/nurse/nurseDashboard" element={<NurseDashboard />} />
              <Route path="/nurse/viewSchedul" element={<ViewSchedul/>} />
              <Route path="/nurse/ViewBooking" element={<ViewBooking/>} />
              <Route path="/nurse/ApprovedBooking" element={<ApprovedBooking/>} />
              <Route path="/nurse/RejectedBooking" element={<RejectedBooking/>} />
+             <Route path="/nurse/NurseProfileUpdate" element={<NurseProfileUpdate/>} />
+             <Route path="/nurse/NurseView/:id" element={<NurseView/>} />
             
 
             {/*Admin Routes*/}
@@ -108,18 +115,7 @@ function App() {
             <Route path="/" element={<WelcomePage />} />
             <Route path="/CheckUser" element={<CheckUser />} />
             
-            <Route path="/updateprofile" element={<ProfileUpdate/>}/>
-
-
-            {/*------------Admin--------------------*/}
-
-            
-            
-          
-           
-
-
-          
+        
             
           <Route path="*" element={<NotFound />} />
           <Route path="/unauth-page" element={<UnauthPage />} />  

@@ -5,7 +5,7 @@ import Cookies from 'js-cookie';
 import NormalHeader from '../../Component/NormalHeader';
 import Footer from "../../Component/Footer";
 
-const ProfilePage = () => {
+const NurseProfile = () => {
   const navigate = useNavigate();
   const userSession = Cookies.get('user') ? JSON.parse(Cookies.get('user')) : {};
 
@@ -146,7 +146,7 @@ const ProfilePage = () => {
       <NormalHeader />
       <div className="profile-container">
         <Link
-          to={userSession.user?.role === "admin" ? "/adminDashboard" : "/patient/userDashboard"}
+          to={userSession.user?.role === "nurse" ? "/nurse/nurseDashboard" : "/patient/userDashboard"}
           className="back-button"
         >
           ← Back to Dashboard
@@ -158,21 +158,19 @@ const ProfilePage = () => {
 
           <table className="profile-table">
             <tbody>
+              <tr><td><strong>Nurse ID:</strong></td><td>{userSession.user?.nursingId}</td></tr>
               <tr><td><strong>Email:</strong></td><td>{userSession.user?.email}</td></tr>
               <tr><td><strong>Phone:</strong></td><td>{userSession.user?.phone}</td></tr>
-              <tr><td><strong>Address:</strong></td><td>{userSession.user?.address}</td></tr>
+              <tr><td><strong>Current Working:</strong></td><td>{userSession.user?.address}</td></tr>
             </tbody>
           </table>
 
           <div className="button-group">
-            <button onClick={() => navigate('/patient/ProfileUpdate')} className="btn blue">✏️ Edit Profile</button>
+            <button onClick={() => navigate('/nurse/NurseProfileUpdate')} className="btn blue">✏️ Edit Profile</button>
             <button onClick={deleteaccount} className="btn red">🗑️ Delete Account</button>
             <button onClick={() => navigate('/changepassword')} className="btn green">🔒 Change Password</button>
           </div>
 
-          <Link to="/patient/ReportPage" className="report-button">
-            📄 View Vaccination Report
-          </Link>
         </div>
       </div>
       <Footer />
@@ -180,4 +178,4 @@ const ProfilePage = () => {
   );
 };
 
-export default ProfilePage;
+export default NurseProfile;

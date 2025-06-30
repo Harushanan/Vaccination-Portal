@@ -1,6 +1,9 @@
 const {NurseModel , NurseDeleteModel} = require('../model/nurse')
 const {CenterModel} = require('../model/center')
 const BookingModel = require('../model/booking')
+const {UserModel} = require('../model/usertable')
+const {VaccineModel} = require('../model/vaccine')
+
 const bcrypt = require('bcryptjs');
 
 //--------------- Login details ------------------- //
@@ -133,5 +136,57 @@ const bookingData = async (req, res) => {
 };
 
 
+const nurseupdateprofile = async (req, res) => {
+    try {
+        const { username, phone, nursingId, email } = req.body;
 
-module.exports = { nursesignupuser , nuserloginuser , nursedeatiles , deletenurse , deletenursedeatiles , bookingData}
+        const updatedUser = await NurseModel.findOneAndUpdate(
+            { email, nursingId },
+            { $set: { username, phone } },
+            { new: true }
+        );
+
+        if (!updatedUser) {
+            return res.status(404).json({ error: "User not found" });
+        }
+
+        res.json({ message: "Updated successfully", newprofile: updatedUser });
+
+    } catch (err) {
+        console.error("Update profile error:", err);
+        res.status(500).json({ error: "Internal server error" });
+    }
+};
+
+
+const nursevaccinepersonlist = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const getbooking = await BookingModel.findById(id);
+    if (!getbooking) {
+      return res.status(404).json({ message: "Booking not found" });
+    }
+
+    const user = await UserModel.findOne({ email: getbooking.email });
+    const vaccine = await VaccineModel.findOne({ Name: getbooking.vaccine });
+    const book = await BookingModel.find({email:user.email})
+
+    res.json({
+      message: "Fetch successful",
+      getuser: user,
+      getvaccine: vaccine,
+      mybook:book
+    });
+
+  } catch (err) {
+    console.error("Database error:", err);
+    res.status(500).json({ message: "Database connection failed" });
+  }
+};
+
+
+
+
+
+module.exports = { nursesignupuser , nuserloginuser , nursedeatiles , deletenurse , deletenursedeatiles , bookingData ,nurseupdateprofile , nursevaccinepersonlist}

@@ -300,7 +300,8 @@ function ViewBooking() {
                           )}
                         </>
                       )}
-                      <button className="btn view-btn">View</button>
+                      <button className="btn view-btn" onClick={() => navigate(`/nurse/NurseView/${booking._id}`)}> View</button>
+
                     </td>
                   </tr>
                 ))}
