@@ -32,6 +32,8 @@ import Signup from "./View/PatientSide/Signup";
 import UserDashboard from "./View/PatientSide/UserDashboard";
 import BookingVaccine from "./View/PatientSide/BookingVaccine";
 import SelectBooking from "./View/PatientSide/SelectBooking"
+import ProfilePage from "./View/PatientSide/ProfilePage";
+import ReportPage from "./View/PatientSide/ReportPage";
 
 
 //----------Nurse side ------------//
@@ -44,7 +46,6 @@ import ViewBooking from "./View/NursePanel/ViewBooking";
 import ApprovedBooking from "./View/NursePanel/ApprovedBooking";
 import RejectedBooking from "./View/NursePanel/RejectedBooking";
 import WelcomePage from "./Component/Welcome";
-import Profile from "./Component/layouts/ViewProfile";
 import ProfileUpdate from "./Component/layouts/Updateprofile";
 import RouteGuard from "./auth-view/RouteGuard";
 
@@ -66,6 +67,9 @@ function App() {
             <Route path="/patient/BookingVaccine" element={<BookingVaccine />} />
             <Route path="/patient/BookingVaccine/:id" element={<SelectBooking />} />
             <Route path="/patient/faq" element={<Faq />} />
+            <Route path="/patient/ProfilePage" element={<ProfilePage />} />
+            <Route path="/patient/ReportPage" element={<ReportPage />} />
+
 
 
              {/* Nurse Routes */}
@@ -103,7 +107,7 @@ function App() {
         
             <Route path="/" element={<WelcomePage />} />
             <Route path="/CheckUser" element={<CheckUser />} />
-            <Route path="/profile" element={<Profile/>}/>
+            
             <Route path="/updateprofile" element={<ProfileUpdate/>}/>
 
 

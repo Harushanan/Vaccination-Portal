@@ -113,7 +113,7 @@ function PatientHeader() {
             textAlign: "left",
             zIndex: 999
           }}>
-            <Link to='/profile' style={{ display: "block", padding: "10px", textDecoration: "none", color: "black" }}>View Profile</Link>
+            <Link to='/patient/ProfilePage' style={{ display: "block", padding: "10px", textDecoration: "none", color: "black" }}>View Profile</Link>
             <a onClick={logout} style={{ display: "block", padding: "10px", textDecoration: "none", color: "black", cursor: "pointer" }}>Logout</a>
           </div>
         )}
