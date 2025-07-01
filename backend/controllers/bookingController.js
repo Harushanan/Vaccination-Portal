@@ -3,7 +3,7 @@ const {VaccineModel} = require("../model/vaccine")
 
 const bookingvaccine = async (req, res) => {
   try {
-    const {fullname,email,contact,address,age,date,vaccine,dose,healthConditions,allergies ,center,} = req.body;
+    const {fullname,email,contact,address,age,date,vaccine,dose,healthConditions,allergies ,center} = req.body;
 
     const newBooking = await BookingModel.create({fullname,email,contact,address,age,date,vaccine,dose,healthConditions,allergies ,center});
 

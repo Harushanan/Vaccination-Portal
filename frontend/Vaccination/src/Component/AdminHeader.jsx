@@ -19,6 +19,7 @@ function AdminHeader() {
   useEffect(() => {
     const handleResize = () => {
       setIsMobile(window.innerWidth < 768);
+      setDropdownVisible(false); // Hide dropdown on resize
     };
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
@@ -27,11 +28,11 @@ function AdminHeader() {
   return (
     <header style={{
       background: 'linear-gradient(90deg, #004d40, #00acc1)',
-      padding: isMobile ? '10px 20px' : '20px 40px',
+      padding: '15px 20px',
       display: 'flex',
       flexDirection: isMobile ? 'column' : 'row',
       justifyContent: 'space-between',
-      alignItems: 'center',
+      alignItems: isMobile ? 'flex-start' : 'center',
       position: 'sticky',
       top: 0,
       zIndex: 1000,
@@ -40,16 +41,14 @@ function AdminHeader() {
     }}>
       {/* Brand */}
       <a href="#" style={{
-        fontSize: isMobile ? '20px' : '32px',
+        fontSize: isMobile ? '22px' : '30px',
         fontWeight: 'bold',
         color: 'white',
         textDecoration: 'none',
         display: 'flex',
         alignItems: 'center',
-        justifyContent: isMobile ? 'center' : 'flex-start',
-        transition: 'transform 0.3s ease',
         userSelect: 'none',
-        marginBottom: isMobile ? '10px' : '0'
+        marginBottom: isMobile ? '10px' : '0',
       }}
         onMouseEnter={e => (e.currentTarget.style.transform = 'scale(1.05)')}
         onMouseLeave={e => (e.currentTarget.style.transform = 'scale(1)')}>
@@ -57,37 +56,47 @@ function AdminHeader() {
       </a>
 
       {/* Profile and Dropdown */}
-      <div
-        style={{
-          display: "flex",
-          alignItems: "center",
-          cursor: "pointer",
-          position: "relative"
-        }}
-        onClick={() => setDropdownVisible(!dropdownVisible)}
-      >
-        <img
-          src={userprofile}
-          alt="User"
-          style={{
-            width: isMobile ? "40px" : "60px",
-            height: isMobile ? "40px" : "60px",
-            borderRadius: "50%",
-            border: "2px solid aqua",
-            marginRight: "10px"
-          }}
-        />
-        {!isMobile && (
-          <>
+      <div style={{
+        display: "flex",
+        alignItems: "center",
+        position: "relative",
+        width: isMobile ? "100%" : "auto",
+        justifyContent: isMobile ? "space-between" : "flex-end",
+        cursor: "default"
+      }}>
+        <div style={{ display: 'flex', alignItems: 'center' }}>
+          <img
+            src={userprofile}
+            alt="User"
+            style={{
+              width: isMobile ? "40px" : "60px",
+              height: isMobile ? "40px" : "60px",
+              borderRadius: "50%",
+              border: "2px solid aqua",
+              marginRight: "10px"
+            }}
+          />
+          {!isMobile && (
             <h2 style={{ color: 'white', margin: 0 }}><b>Admin</b></h2>
-            <span style={{ fontSize: "24px", marginLeft: "10px", color: "white" }}>☰</span>
-          </>
-        )}
+          )}
+        </div>
+
+        <span
+          style={{
+            fontSize: "28px",
+            marginLeft: isMobile ? '0' : '10px',
+            color: "white",
+            cursor: "pointer"
+          }}
+          onClick={() => setDropdownVisible(!dropdownVisible)}
+        >
+          ☰
+        </span>
 
         {dropdownVisible && (
           <div style={{
             position: "absolute",
-            top: isMobile ? "50px" : "70px",
+            top: isMobile ? "60px" : "70px",
             right: 0,
             backgroundColor: "white",
             boxShadow: "0px 0px 10px rgba(0, 0, 0, 0.2)",

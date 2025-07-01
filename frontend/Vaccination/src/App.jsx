@@ -21,6 +21,8 @@ import DeleteStaff from "./View/AdminPanel/DeleteStaff";
 import AddCenter from "./View/AdminPanel/AddCenter";
 import ViewCenter from "./View/AdminPanel/ViewCenter";
 import Updatecenter from "./View/AdminPanel/Updatecenter";
+import News from "./View/AdminPanel/News";
+import ViewNews from "./View/AdminPanel/ViewNews";
 
 
 
@@ -101,6 +103,8 @@ function App() {
             <Route path="/admin/AddCenter" element={<AddCenter/>}/>
             <Route path="/admin/ViewCenter" element={<ViewCenter/>}/>
              <Route path="/admin/ViewCenter/:id" element={<Updatecenter />} />
+             <Route path="/admin/News" element={<News />} />
+             <Route path="/admin/ViewNews" element={<ViewNews />} />
 
 
 

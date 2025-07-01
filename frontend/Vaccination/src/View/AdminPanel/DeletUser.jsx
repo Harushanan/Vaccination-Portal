@@ -131,8 +131,6 @@ function DeleteUser() {
               <tr>
                 <th style={tableHeaderStyle}>Name</th>
                 <th style={tableHeaderStyle}>Email</th>
-                <th style={tableHeaderStyle}>Address</th>
-                <th style={tableHeaderStyle}>Phone Number</th>
                 <th style={{ ...tableHeaderStyle, textAlign: 'center' }}>View Details</th>
                 <th style={tableHeaderStyle}>Remove Reason</th>
                 <th style={tableHeaderStyle}>Remove date</th>
@@ -145,8 +143,6 @@ function DeleteUser() {
                 <tr key={ob.email} style={{ backgroundColor: index % 2 === 0 ? '#fafafa' : '#fff' }}>
                   <td style={tableCellStyle}>{ob.username}</td>
                   <td style={tableCellStyle}>{ob.email}</td>
-                  <td style={tableCellStyle}>{ob.address}</td>
-                  <td style={tableCellStyle}>{ob.phone}</td>
                   <td style={{ ...tableCellStyle, textAlign: 'center' }}>
                     <button
                       style={{
@@ -163,7 +159,7 @@ function DeleteUser() {
                       View
                     </button>
                   </td>
-                   <td style={tableCellStyle}>{ob.reason}</td>
+                   <td style={{...tableCellStyle , color:"red"}}>{ob.reason}</td>
                     <td style={tableCellStyle}>{ob.date}</td>
                      <td style={tableCellStyle}>{ob.removeby}</td>
 

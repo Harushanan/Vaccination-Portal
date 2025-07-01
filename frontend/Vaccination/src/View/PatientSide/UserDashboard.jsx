@@ -1,18 +1,40 @@
-import React from 'react';
-import PatientHeader from '../../Component/PatientHeader';
+import React, { useEffect, useState } from 'react';
+import NurseHeader from '../../Component/PatientHeader';
 import Cookies from 'js-cookie';
 import vaccineImage from '../../assets/images/vaccineheader.png';
-import Footer from '../../Component/Footer'
+import Footer from "../../Component/Footer";
+import axios from 'axios';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function UserDashboard() {
   const userSession = Cookies.get('user') ? JSON.parse(Cookies.get('user')) : null;
   const customername = userSession ? userSession.user.username : "Guest";
 
+  const [newsList, setNewsList] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-  console.log("Login User : " ,userSession.user)
+  useEffect(() => {
+    axios.get("http://localhost:3000/allnews")
+      .then((result) => {
+        setNewsList(result.data.allnews || []);
+        setLoading(false);
+      })
+      .catch((error) => {
+        console.error("Error fetching data:", error);
+        toast.error("Failed to fetch news");
+        setLoading(false);
+      });
+  }, []);
+
+  const formatDate = (dateStr) => {
+    const date = new Date(dateStr);
+    return date.toLocaleString(); // example: "7/1/2025, 4:30:00 PM"
+  };
 
   return (
     <>
+      <ToastContainer />
       <style>{`
         .dashboard-container {
           background: linear-gradient(to right, #e3f2fd, #ffffff);
@@ -57,17 +79,6 @@ function UserDashboard() {
           line-height: 1.5;
         }
 
-        .reference-links a {
-          display: block;
-          margin-top: 10px;
-          color: #0d47a1;
-          text-decoration: none;
-        }
-
-        .reference-links a:hover {
-          text-decoration: underline;
-        }
-
         .vaccine-img {
           width: 100%;
           max-height: 240px;
@@ -86,13 +97,19 @@ function UserDashboard() {
 
         .news-card h4 {
           color: #2e7d32;
-          margin-bottom: 5px;
+          margin-bottom: 8px;
         }
 
         .news-card p {
           margin: 0;
           font-size: 15px;
           color: #444;
+        }
+
+        .news-date {
+          margin-top: 8px;
+          font-size: 13px;
+          color: #888;
         }
 
         @media (max-width: 768px) {
@@ -108,62 +125,49 @@ function UserDashboard() {
       `}</style>
 
       <div className="dashboard-container">
-        <PatientHeader />
+        <NurseHeader />
 
         <div className="dashboard-content">
-
           {/* Left Section */}
           <div className="left-box">
+            <h2>💉 Welcome, {customername}!</h2>
+<p>
+  As a patient, staying informed about vaccinations is essential for your health and well-being. Here’s what you need to know about your immunization journey:
+</p>
+<ul>
+  <li>View and track your vaccination records easily.</li>
+  <li>Stay informed about upcoming vaccine schedules.</li>
+  <li>Access helpful resources and reminders digitally.</li>
+</ul>
+
             <img src={vaccineImage} alt="Vaccine awareness" className="vaccine-img" />
-            <h2>Why Vaccination Matters</h2>
-            <p>
-              Vaccines are essential tools in preventing life-threatening diseases. They work by preparing the immune system to fight infections efficiently. The success of global immunization efforts has saved millions of lives and nearly eradicated diseases like polio and smallpox.
-            </p>
-
-            <ul>
-              <li>✅ Protects individuals from deadly infections</li>
-              <li>✅ Builds herd immunity to protect communities</li>
-              <li>✅ Reduces hospital visits and medical expenses</li>
-              <li>✅ Prevents the resurgence of controlled diseases</li>
-              <li>✅ Required for school, travel, and employment in many cases</li>
-            </ul>
-
-            <div className="reference-links">
-              <h4>Trusted Sources:</h4>
-              <a href="https://www.who.int" target="_blank">🌐 WHO – Vaccination Info</a>
-              <a href="https://www.cdc.gov" target="_blank">🌐 CDC – Immunization Hub</a>
-              <a href="https://www.unicef.org" target="_blank">🌐 UNICEF – Global Vaccination</a>
-              <a href="https://www.mohfw.gov.in" target="_blank">🌐 Indian Health Ministry</a>
-            </div>
-
-      
           </div>
 
           {/* Right Section */}
           <div className="right-box">
             <h2>📢 Vaccination News & Updates</h2>
 
-            <div className="news-card">
-              <h4>🗓️ National Vaccine Drive (July 2025)</h4>
-              <p>Special outreach camps announced for rural areas with door-to-door services available.</p>
-            </div>
-
-            <div className="news-card">
-              <h4>🧪 Dengue Vaccine Approved</h4>
-              <p>Indian Council approves emergency use for new dengue vaccine. Trials showed 94% effectiveness.</p>
-            </div>
-
-            <div className="news-card">
-              <h4>📲 New Vaccine Tracking App</h4>
-              <p>Now track your doses, get reminders, and access your digital vaccine certificate.</p>
-            </div>
-
+            {loading ? (
+              <p>Loading news...</p>
+            ) : newsList.length === 0 ? (
+              <p>No news available.</p>
+            ) : (
+              newsList.map((item, index) => (
+                <div className="news-card" key={index}>
+                  <h4>📰 {item.title}</h4>
+                  <p>{item.news}</p>
+                  <div className="news-date">🕒 Updated: {formatDate(item.updatedAt)}</div>
+                </div>
+              ))
+            )}
           </div>
         </div>
       </div>
-      <Footer/>
+
+      <Footer />
     </>
   );
 }
 
 export default UserDashboard;
+

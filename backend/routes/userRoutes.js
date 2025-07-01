@@ -5,6 +5,7 @@ const {displayfaq , submitfaq , deletefaq , updatefaq} = require('../controllers
 const {bookingvaccine , vaccinepersonlist , updatestatus} = require('../controllers/bookingController');
 const {nursesignupuser , nuserloginuser , nursedeatiles , deletenurse , deletenursedeatiles , bookingData , nurseupdateprofile , nursevaccinepersonlist} = require('../controllers/NurseController')
 const {addcenter , displaycenter , displayonecenter , updatecenter} = require('../controllers/centerContoller')
+const {addnewscenter , allnews , updateNews , deleteNews} = require('../controllers/newsController')
 
 const router = express.Router();
 
@@ -64,6 +65,17 @@ router.get('/displaycenter' , displaycenter)
 router.get('/displaycenter/:id' , displayonecenter)
 router.put('/updatecenter/:id' , updatecenter)
 router.get('/bookingData/:nurseid' , bookingData)
+
+
+
+
+//-------------------News---------------------//
+router.post('/addnewscenter' , addnewscenter)
+router.get('/allnews' , allnews)
+router.put('/updateNews/:id' , updateNews)
+router.delete('/deleteNews/:id' , deleteNews)
+
+
 
 
 

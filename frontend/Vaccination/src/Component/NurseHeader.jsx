@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import Cookies from 'js-cookie'; 
 import nurseprofile from '../assets/images/userimge.png';
@@ -8,9 +8,17 @@ function NurseHeader() {
   const location = useLocation();
   const [dropdownVisible, setDropdownVisible] = useState(false);
   const [mobileMenu, setMobileMenu] = useState(false);
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
 
   const nurseSession = Cookies.get('user') ? JSON.parse(Cookies.get('user')) : null;
   const nurseName = nurseSession ? nurseSession.user.username : "Nurse";
+  const nursingId = nurseSession ? nurseSession.user.nursingId : "";
+
+  useEffect(() => {
+    const handleResize = () => setIsMobile(window.innerWidth <= 768);
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   function logout() {
     if (window.confirm("Are you sure you want to logout?")) {
@@ -51,13 +59,13 @@ function NurseHeader() {
       transition: 'transform 0.3s ease',
     },
     navLinks: {
-      display: mobileMenu ? 'flex' : 'none',
+      display: 'flex',
       flexDirection: 'column',
       gap: '10px',
       backgroundColor: '#00796b',
       padding: '10px',
       borderRadius: '8px',
-      marginTop: '10px',
+      marginTop: '10px'
     },
     desktopNavLinks: {
       display: 'flex',
@@ -81,15 +89,13 @@ function NurseHeader() {
       zIndex: 1001
     },
     hamburger: {
-      display: 'none',
+      display: 'block',
       fontSize: '24px',
       color: 'white',
       cursor: 'pointer',
+      marginLeft: '20px'
     }
   };
-
-  // Responsive tweak using window width
-  const isMobile = window.innerWidth <= 768;
 
   return (
     <div style={styles.container}>
@@ -111,24 +117,40 @@ function NurseHeader() {
       )}
 
       {/* Navigation Links */}
-      <div style={isMobile ? styles.navLinks : styles.desktopNavLinks}>
+      <div style={isMobile && !mobileMenu ? { display: 'none' } : (isMobile ? styles.navLinks : styles.desktopNavLinks)}>
         <Link to="/nurse/nurseDashboard" style={linkStyle(["/nurse/nurseDashboard"])}>Home</Link>
         <Link to="/nurse/viewSchedul" style={linkStyle(['/nurse/viewSchedul', '/nurse/ViewBooking'])}>Schedule</Link>
-        <Link to="" style={linkStyle([""])}>Patients</Link>
-        <Link to="" style={linkStyle([""])}>FAQ</Link>
+        <Link to="#" style={linkStyle([""])}>Patients</Link>
+        <Link to="#" style={linkStyle([""])}>FAQ</Link>
       </div>
 
       {/* Profile & Dropdown */}
       <div style={styles.profile} onClick={() => setDropdownVisible(!dropdownVisible)}>
-        <img src={nurseprofile} alt="Nurse" style={{ width: "50px", height: "50px", borderRadius: "50%", border: "2px solid aqua", marginRight: "10px" }} />
-        <h4 style={{ color: 'white', margin: 0 }}>{nurseName}</h4>
+        <img
+          src={nurseprofile}
+          alt="Nurse"
+          style={{
+            width: "50px",
+            height: "50px",
+            borderRadius: "50%",
+            border: "2px solid aqua",
+            marginRight: "10px"
+          }}
+        />
+        <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-start" }}>
+          <h4 style={{ color: 'white', margin: 0 }}>{nurseName}</h4>
+          <span style={{ color: '#B2DFDB', fontSize: '14px' }}>{nursingId}</span>
+        </div>
         <span style={{ fontSize: "20px", marginLeft: "10px", color: "white" }}>▼</span>
 
         {dropdownVisible && (
           <div style={styles.dropdown}>
-            
-                        <Link to='/nurse/NurseProfile' style={{ display: "block", padding: "10px", textDecoration: "none", color: "black" }}>View Profile</Link>
-            <a onClick={logout} style={{ display: "block", padding: "10px", textDecoration: "none", color: "black", cursor: "pointer" }}>Logout</a>
+            <Link to='/nurse/NurseProfile' style={{ display: "block", padding: "10px", textDecoration: "none", color: "black" }}>
+              View Profile
+            </Link>
+            <a onClick={logout} style={{ display: "block", padding: "10px", textDecoration: "none", color: "black", cursor: "pointer" }}>
+              Logout
+            </a>
           </div>
         )}
       </div>
