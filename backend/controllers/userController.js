@@ -1,5 +1,5 @@
 const bcrypt = require('bcryptjs');
-const { UserModel, DeletedUserModel} = require('../model/usertable')
+const { UserModel, DeletedUserModel , AdminModel} = require('../model/usertable')
 
 
 //--------------- Login details ------------------- //
@@ -7,6 +7,30 @@ const loginuser = async (req, res) => {
     try {
         const { email, password } = req.body;
         const user = await UserModel.findOne({ email }); //02
+
+        if (!user) {
+            return res.json({ message: "Invalid user" });
+        }
+
+        const isMatch = await bcrypt.compare(password, user.password);
+
+        if (isMatch) {
+            res.json({ message: "Successfullogin" , role: user.role , getuser: user});
+        }
+        
+        else {
+            res.json({ message: "Invalidcredentials" });
+        }
+    } catch (error) {
+        console.error("Login error:", error);
+        res.status(500).json({ error: "Server error. Please try again." });
+    }
+};
+
+const loginadmin = async (req, res) => {
+    try {
+        const { email, password } = req.body;
+        const user = await AdminModel.findOne({ email }); //02
 
         if (!user) {
             return res.json({ message: "Invalid user" });
@@ -239,4 +263,4 @@ const displayadmin = async (req, res) => {
 
 
  
-module.exports = { loginuser, signupuser, updateuserpw, displayuser , deleteuser , displaydeletuser ,addAdmin, displayadmin , deleteaccount , updateprofile};
+module.exports = { loginuser, signupuser, updateuserpw, displayuser , deleteuser , displaydeletuser ,addAdmin, displayadmin , deleteaccount , updateprofile ,loginadmin};

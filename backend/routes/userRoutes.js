@@ -1,5 +1,5 @@
 const express = require('express');
-const { loginuser, signupuser, updateuserpw, displayuser , deleteuser , displaydeletuser , addAdmin ,displayadmin , deleteaccount , updateprofile } = require('../controllers/userController');
+const { loginuser,loginadmin, signupuser, updateuserpw, displayuser , deleteuser , displaydeletuser , addAdmin ,displayadmin , deleteaccount , updateprofile } = require('../controllers/userController');
 const {addvaccine , vaccinelist , updatecount , vaccineid} = require('../controllers/vaccineController')
 const {displayfaq , submitfaq , deletefaq , updatefaq} = require('../controllers/faqcontoller');
 const {bookingvaccine , vaccinepersonlist , updatestatus} = require('../controllers/bookingController');
@@ -11,6 +11,7 @@ const router = express.Router();
 
 //-------- UserMangement Routes ------------------//
 router.post('/login', loginuser);
+router.post('/loginadmin', loginadmin);
 router.post('/register', signupuser);
 router.post('/forgotpassword', updateuserpw);
 router.get('/studentdeatiles', displayuser);

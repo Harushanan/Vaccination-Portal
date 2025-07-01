@@ -22,20 +22,23 @@ const deletuser = new mongoose.Schema({
     date:String
 });
 
+const admin = new mongoose.Schema({
+    email: String,
+    password: String,
+    role:{type:String ,default:"admin"}
+});
+
 
 async function createPermanentAdmin() {
     const adminEmail = "admin@my2025gmail.com"; 
-    const existingAdmin = await UserModel.findOne({ email: adminEmail });
+    const existingAdmin = await AdminModel.findOne({ email: adminEmail });
 
     const hashedPassword = await bcrypt.hash("admin123", 10)
 
     if (!existingAdmin) {
-        const adminUser = new UserModel({
-            username: "KajaAdmin",
+        const adminUser = new AdminModel({
             email: adminEmail,
-            phone: "07712*****",
             password:hashedPassword,
-            address: "Admin Office",
             role: "admin"
         });
 
@@ -48,9 +51,10 @@ async function createPermanentAdmin() {
 
 
 
-const UserModel = mongoose.model("loginRegister", loginRegister);
-const DeletedUserModel = mongoose.model("deletuser", deletuser);
+const UserModel = mongoose.model("PatientList", loginRegister);
+const AdminModel = mongoose.model("AdminList", loginRegister);
+const DeletedUserModel = mongoose.model("RemovePatientList", deletuser);
 
-module.exports = { UserModel, DeletedUserModel  , createPermanentAdmin};
+module.exports = { UserModel, DeletedUserModel  , createPermanentAdmin , AdminModel};
 
 
