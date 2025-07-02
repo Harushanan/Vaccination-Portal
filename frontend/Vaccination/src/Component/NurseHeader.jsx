@@ -119,8 +119,7 @@ function NurseHeader() {
       {/* Navigation Links */}
       <div style={isMobile && !mobileMenu ? { display: 'none' } : (isMobile ? styles.navLinks : styles.desktopNavLinks)}>
         <Link to="/nurse/nurseDashboard" style={linkStyle(["/nurse/nurseDashboard"])}>Home</Link>
-        <Link to="/nurse/viewSchedul" style={linkStyle(['/nurse/viewSchedul', '/nurse/ViewBooking'])}>Schedule</Link>
-        <Link to="#" style={linkStyle([""])}>Patients</Link>
+        <Link to="/nurse/viewSchedul" style={linkStyle(['/nurse/viewSchedul', '/nurse/ViewBooking' , '/nurse/ApprovedBooking' , '/nurse/RejectedBooking'])}>Schedule</Link>
         <Link to="#" style={linkStyle([""])}>FAQ</Link>
       </div>
 

@@ -78,7 +78,7 @@ function Forgotpassword() {
         }}
       >
         <span>
-          💉 VaxCare <span style={{ color: "#f44336" }}>+</span> ❤️
+          💉 VaxCareHP <span style={{ color: "#f44336" }}>+</span> ❤️
         </span>
         <button
           onClick={() => navigate(-1)}
@@ -146,7 +146,7 @@ function Forgotpassword() {
               required
               onChange={(e) => setEmail(e.target.value)}
               style={{
-                width: "100%",
+                width: "90%",
                 padding: "10px 10px 10px 35px",
                 margin: "10px 0 20px 0",
                 border: "1px solid #ccc",
@@ -177,7 +177,7 @@ function Forgotpassword() {
               required
               onChange={(e) => setPassword(e.target.value)}
               style={{
-                width: "100%",
+                width: "90%",
                 padding: "10px 10px 10px 35px",
                 margin: "10px 0 20px 0",
                 border: "1px solid #ccc",
@@ -208,7 +208,7 @@ function Forgotpassword() {
               required
               onChange={(e) => setConformPassword(e.target.value)}
               style={{
-                width: "100%",
+                width: "90%",
                 padding: "10px 10px 10px 35px",
                 margin: "10px 0 20px 0",
                 border: "1px solid #ccc",

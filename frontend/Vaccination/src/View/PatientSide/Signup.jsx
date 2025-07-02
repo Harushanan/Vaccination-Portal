@@ -35,23 +35,20 @@ function Signup() {
       return;
     }
 
-    const strongPassword =
-      /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
-    if (!password || !strongPassword.test(password)) {
-      toast.error("Password must be strong (Uppercase, Number, Symbol, 8+)");
-      return;
-    }
+    // Password: exactly 8 characters, with required complexity
+const strongPassword = /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8}$/;
+if (!password || !strongPassword.test(password)) {
+  toast.error("Password must be exactly 8 characters");
+  return;
+}
 
-    const realPhone = /^(?:\+94|0)(7[01245678]\d{7})$/;
-    if (phone.startsWith("+94")) {
-      if (phone.length !== 12 || !realPhone.test(phone)) {
-        toast.error("Invalid phone number");
-        return;
-      }
-    } else if (phone.length !== 10 || !realPhone.test(phone)) {
-      toast.error("Invalid phone number");
-      return;
-    }
+// Phone: only allow format like 07XXXXXXXX (10 digits, starts with 07)
+const realPhone = /^(0)(7[01245678]\d{7})$/;
+if (!realPhone.test(phone)) {
+  toast.error("Invalid phone number (Format: 07XXXXXXXX)");
+  return;
+}
+
 
     if (conformPassword !== password) {
       toast.error("Passwords do not match");
@@ -89,7 +86,7 @@ function Signup() {
 
   // Common input styles
   const inputStyle = {
-    width: "100%",
+    width: "90%",
     padding: "10px 10px 10px 35px",
     margin: "10px 0 20px 0",
     border: "1px solid #ccc",

@@ -34,24 +34,42 @@ const nuserloginuser = async (req, res) => {
 //--------------- Signup details ------------------- //
 const nursesignupuser = async (req, res) => {
     try {
-        const { email, password , nurseid } = req.body;
-        console.log("Nurse Deatiles : " ,req.body )
-        const userExists = await NurseModel.findOne({ email }); //02
+        const { email, password, nurseid } = req.body;
+        console.log("Nurse Details:", req.body);
 
-        if (!userExists) {
-            const salt = await bcrypt.genSalt(10);
-            const hashedPassword = await bcrypt.hash(password, salt);
+        // Check if email already exists
+        const userExists = await NurseModel.findOne({ email });
 
-            const newUser = await NurseModel.create({ ...req.body, password: hashedPassword ,nursingId:nurseid}); 
-            res.json({ message: "UserCreated" });
-        } else {
-            res.json({ message: "EmailAlreadyExists" });
+        // Check if nurse ID already exists (should be checking the correct field name)
+        const nurseIdExists = await NurseModel.findOne({ nursingId: nurseid });
+
+        if (nurseIdExists) {
+            return res.json({ message: "NurseIdAlreadyExists" });
         }
+
+        if (userExists) {
+            return res.json({ message: "EmailAlreadyExists" });
+        }
+
+        // Hash the password
+        const salt = await bcrypt.genSalt(10);
+        const hashedPassword = await bcrypt.hash(password, salt);
+
+        // Create the new user
+        await NurseModel.create({ 
+            ...req.body, 
+            password: hashedPassword, 
+            nursingId: nurseid // ensure this matches your schema
+        });
+
+        res.json({ message: "UserCreated" });
+
     } catch (err) {
         console.error("Signup error:", err);
         res.status(400).json({ error: "Error creating user. Please try again." });
     }
 };
+
 
 const nursedeatiles = async (req, res) => {
     try {

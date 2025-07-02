@@ -28,7 +28,7 @@ function NurseSignup() {
   const isMobile = windowWidth <= 768;
 
   const inputStyle = {
-    width: "100%",
+    width: "90%",
     padding: "10px 10px 10px 35px",
     margin: "10px 0 20px 0",
     border: "1px solid #ccc",
@@ -54,21 +54,22 @@ function NurseSignup() {
       return;
     }
 
-    const strongPassword =
-      /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
-    if (!password || !strongPassword.test(password)) {
-      toast.error("Password must be strong (Uppercase, Number, Symbol, 8+ chars)");
+    const realnurseId = /^NUR\d{4}$/;
+    if(!nurseid || !realnurseId.test(nurseid)){
+      toast.error("Invalid Nurse Id");
       return;
     }
 
-    const realPhone = /^(?:\+94|0)(7[01245678]\d{7})$/;
-    if (phone.startsWith("+94")) {
-      if (phone.length !== 12 || !realPhone.test(phone)) {
-        toast.error("Invalid phone number");
-        return;
-      }
-    } else if (phone.length !== 10 || !realPhone.test(phone)) {
-      toast.error("Invalid phone number");
+    const strongPassword = /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8}$/;
+    if (!password || !strongPassword.test(password)) {
+      toast.error("Password must be exactly 8 characters");
+      return;
+    }
+    
+    // Phone: only allow format like 07XXXXXXXX (10 digits, starts with 07)
+    const realPhone = /^(0)(7[01245678]\d{7})$/;
+    if (!realPhone.test(phone)) {
+      toast.error("Invalid phone number (Format: 07XXXXXXXX)");
       return;
     }
 
@@ -92,6 +93,8 @@ function NurseSignup() {
 
       if (result.data.message === "EmailAlreadyExists") {
         toast.error("Email already exists. Try another email");
+      }else if (result.data.message === "NurseIdAlreadyExists") {
+        toast.error("Nurse Id already exists");
       } else if (result.data.message === "UserCreated") {
         toast.success("Account created! Redirecting...");
         setTimeout(() => navigate('/nurse/login'), 3000);

@@ -49,9 +49,7 @@ function Login() {
                     toast.success("Login successful!");
 
                     setTimeout(() => {
-                        role === "customer"
-                            ? navigate("/patient/userDashboard")
-                            : navigate("/adminDashboard");
+                        navigate("/patient/userDashboard")
                     }, 1000);
                 } else {
                     toast.error("Unexpected response from server.");
@@ -86,7 +84,7 @@ function Login() {
                     display: 'flex',
                     alignItems: 'center',
                 }}>
-                    💉 VaxCare <span style={{ color: '#f44336', marginLeft: 8 }}>+</span>
+                    💉 VaxCareHP <span style={{ color: '#f44336', marginLeft: 8 }}>+</span>
                 </a>
 
                 <button onClick={() => navigate(-1)} style={{
@@ -142,7 +140,7 @@ function Login() {
                             onChange={(e) => setEmail(e.target.value)}
                             required
                             style={{
-                                width: '100%',
+                                width: '90%',
                                 padding: '10px 10px 10px 35px',
                                 margin: '10px 0 20px 0',
                                 border: '1px solid #ccc',
@@ -172,7 +170,7 @@ function Login() {
                             onChange={(e) => setPassword(e.target.value)}
                             required
                             style={{
-                                width: '100%',
+                                width: '90%',
                                 padding: '10px 10px 10px 35px',
                                 marginBottom: '15px',
                                 border: '1px solid #ccc',
