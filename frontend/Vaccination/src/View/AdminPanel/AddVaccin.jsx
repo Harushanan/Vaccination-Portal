@@ -1,10 +1,11 @@
-import React, { useState} from 'react';
-import { Link , useNavigate  } from "react-router-dom";
+import React, { useState } from 'react';
+import { Link, useNavigate } from "react-router-dom";
 import AdminHeader from '../../Component/AdminHeader';
 import Sidebar from '../../Component/Sidebar';
+import Footer from "../../Component/Footer";
 import axios from 'axios';
-import Footer from "../../Component/Footer"
-
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function AddVaccin() {
   const [Name, setName] = useState('');
@@ -15,237 +16,217 @@ function AddVaccin() {
   const [Manufacturer, setManufacturer] = useState('');
   const [Instructions, setInstructions] = useState('');
 
-  const [Error , setError] = useState('');
-  const [Success , setSuccess] = useState('');
+  const navigate = useNavigate();
 
-  const navigate = useNavigate()
-
-  
-  
-  
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-   axios.post("http://localhost:3000/addvaccine", { Name, Type,Slots, Age, Doses, Manufacturer, Instructions})
-    .then((result) => {
-            if (result.data.message === "Vaccine added successfully") {  
-                setSuccess("Vaccine added successfully");
-                setTimeout(() => { navigate('/admin/ViewVaccin') }, 3000);
-            } 
-        })
-        .catch((err) => {
-            console.error("Vaccine added Error: ", err);
-            setError("Vaccine added failed. Please try again.");
-        });
+    const payload = {
+      Name, Type, Slots, Age, Doses, Manufacturer, Instructions
+    };
 
-    
-    
+    try {
+      const result = await axios.post("http://localhost:3000/addvaccine", payload);
 
-   
+      if (result.data.message === "Vaccine added successfully") {
+        toast.success("✅ Vaccine added successfully!");
+        setTimeout(() => navigate('/admin/ViewVaccin'), 2500);
+      } else {
+        toast.error("❌ Failed to add vaccine.");
+      }
+    } catch (err) {
+      console.error("Add vaccine error:", err);
+      toast.error("🚨 Error while adding vaccine. Please try again.");
+    }
   };
 
   return (
     <>
-      {/* Header */}
+      <style>{`
+        .admin-container {
+          display: flex;
+          min-height: 100vh;
+          background: #f5f5f5;
+        }
+
+        .admin-main {
+          flex: 1;
+          padding: 20px;
+        }
+
+        .nav-links {
+          background-color: #f44336;
+          padding: 10px 20px;
+          border-radius: 5px;
+          margin-bottom: 20px;
+        }
+
+        .nav-links ul {
+          list-style: none;
+          display: flex;
+          gap: 20px;
+          margin: 0;
+          padding: 0;
+        }
+
+        .nav-links li a {
+          color: white;
+          text-decoration: none;
+          font-weight: bold;
+        }
+
+        form {
+          background: #fff;
+          padding: 20px;
+          border-radius: 10px;
+          box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+          max-width: 700px;
+          margin: auto;
+        }
+
+        label {
+          display: block;
+          margin-bottom: 15px;
+          font-weight: 600;
+        }
+
+        input, select, textarea {
+          width: 100%;
+          padding: 10px;
+          margin-top: 5px;
+          border-radius: 5px;
+          border: 1px solid #ccc;
+          box-sizing: border-box;
+        }
+
+        button[type="submit"] {
+          background-color: #4CAF50;
+          color: white;
+          border: none;
+          padding: 12px 24px;
+          border-radius: 5px;
+          cursor: pointer;
+          font-weight: bold;
+          margin-top: 10px;
+        }
+
+        button:hover {
+          background-color: #45a049;
+        }
+
+        @media (max-width: 768px) {
+          .nav-links ul {
+            flex-direction: column;
+          }
+
+          form {
+            padding: 15px;
+          }
+        }
+      `}</style>
+
       <AdminHeader />
 
-      {/* Main container */}
-      <div style={{
-        display: 'flex',
-        minHeight: '90vh',
-        backgroundColor: '#e6f7ff',
-      }}>
-        {/* Sidebar */}
+      <div className="admin-container">
         <Sidebar />
 
-        {/* Main content */}
-        <main
-          style={{
-            flex: 1,
-            overflowX: 'auto',
-            padding: '20px 40px',
-            fontFamily: 'Segoe UI, sans-serif',
-          }}
-        >
-          {/* Inner Nav */}
-          <nav style={{
-            background: 'linear-gradient(90deg,rgb(0, 77, 64),rgba(0, 68, 193, 0.95))',
-            padding: '10px 60px',
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            borderRadius: '12px',
-            margin: '20px auto',
-            maxWidth: '90%',
-            boxShadow: '0 6px 16px rgba(0, 0, 0, 0.4)',
-            fontFamily: 'Segoe UI, sans-serif'
-          }}>
-            <ul style={{
-              display: 'flex',
-              listStyle: 'none',
-              gap: '40px',
-              padding: 0,
-              margin: 0
-            }}>
-              <li><Link to="/admin/AddVaccin" style={navLinkStyle}>Add Vaccin</Link></li>
-              <li><Link to="/admin/ViewVaccin" style={navLinkStyle}>View Vaccin</Link></li>
+        <main className="admin-main">
+          <div className="nav-links">
+            <ul>
+              <li><Link to="/admin/AddVaccin">Add Vaccine</Link></li>
+              <li><Link to="/admin/ViewVaccin">View Vaccine</Link></li>
             </ul>
-          </nav>
-
-          <h1 style={{ marginBottom: '10px' }}>Add New Vaccine</h1>
-          <div style={styles.container}>
-            <h2 style={styles.heading}>Add New Vaccine</h2>
-
-          <form onSubmit={handleSubmit} style={styles.form}>
-            <label style={styles.label}>Vaccine Name:
-    <input
-      type="text"
-      name="name"
-      onChange={(e) => setName(e.target.value.trim())}
-      required
-      style={styles.input}
-    />
-  </label>
-
-  <label style={styles.label}>
-    Type:
-    <input
-      type="text"
-      name="type"
-      onChange={(e) => setType(e.target.value.trim())}
-      placeholder="e.g., mRNA, Viral Vector"
-      required
-      style={styles.input}
-    />
-  </label>
-
-  <label style={styles.label}>
-    Slots Available:
-    <input
-      type="number"
-      name="slots"
-      onChange={(e) => setSlots(e.target.value.trim())}
-      min="1"
-      required
-      style={styles.input}
-    />
-  </label>
-
-  <label style={styles.label}>
-  Age Group:
-  <select
-    name="ageGroup"
-    onChange={(e) => setAge(e.target.value.trim())}
-    required
-    style={styles.input}
-  >
-    <option value="">Select age group</option>
-    <option value="12-17">12-17</option>
-    <option value="18-44">18-44</option>
-    <option value="45+">45+</option>
-  </select>
-</label>
-
-  <label style={styles.label}>
-    Number of Doses:
-    <input
-      type="number"
-      name="doses"
-      onChange={(e) => setDoses(e.target.value.trim())}
-      min="1"
-      required
-      style={styles.input}
-    />
-  </label>
-
-  <label style={styles.label}>
-    Manufacturer:
-    <input
-      type="text"
-      name="manufacturer"
-      onChange={(e) => setManufacturer(e.target.value.trim())}
-      required
-      style={styles.input}
-    />
-  </label>
-
-  <label style={styles.label}>
-    Description / Instructions:
-    <textarea
-      name="description"
-      onChange={(e) => setInstructions(e.target.value)}
-      placeholder="Any instructions for patients..."
-      rows="4"
-      style={{ ...styles.input, resize: 'vertical' }}
-    />
-  </label>
-
-  <button type="submit" style={styles.button}>Add Vaccine</button>
-  {Error && <p style={{ textAlign: "center", color: "red" }}>{Error}</p>}
-  {Success && <p style={{ textAlign: "center", color: "green" }}>{Success}</p>}
-</form>
-
           </div>
+
+          <h1 style={{ textAlign: 'center', marginBottom: '20px' }}>Add New Vaccine</h1>
+
+          <form onSubmit={handleSubmit}>
+            <label>
+              Vaccine Name:
+              <input
+                type="text"
+                value={Name}
+                onChange={(e) => setName(e.target.value)}
+                required
+              />
+            </label>
+
+            <label>
+              Type:
+              <input
+                type="text"
+                value={Type}
+                onChange={(e) => setType(e.target.value)}
+                placeholder="e.g., mRNA, Viral Vector"
+                required
+              />
+            </label>
+
+            <label>
+              Slots Available:
+              <input
+                type="number"
+                value={Slots}
+                onChange={(e) => setSlots(e.target.value)}
+                min="1"
+                required
+              />
+            </label>
+
+            <label>
+              Age Group:
+              <select
+                value={Age}
+                onChange={(e) => setAge(e.target.value)}
+                required
+              >
+                <option value="">Select age group</option>
+                <option value="12-17">12-17</option>
+                <option value="18-44">18-44</option>
+                <option value="45+">45+</option>
+              </select>
+            </label>
+
+            <label>
+              Number of Doses:
+              <input
+                type="number"
+                value={Doses}
+                onChange={(e) => setDoses(e.target.value)}
+                min="1"
+                required
+              />
+            </label>
+
+            <label>
+              Manufacturer:
+              <input
+                type="text"
+                value={Manufacturer}
+                onChange={(e) => setManufacturer(e.target.value)}
+                required
+              />
+            </label>
+
+            <label>
+              Description / Instructions:
+              <textarea
+                value={Instructions}
+                onChange={(e) => setInstructions(e.target.value)}
+                placeholder="Any important info or usage instructions..."
+                rows="4"
+              />
+            </label>
+
+            <button type="submit">Add Vaccine</button>
+          </form>
         </main>
       </div>
-      <Footer/>
+
+      <ToastContainer position="top-right" autoClose={3000} />
+      <Footer />
     </>
   );
 }
-
-const navLinkStyle = {
-  color: 'white',
-  textDecoration: 'none',
-  fontWeight: '600',
-  fontSize: '17px',
-  padding: '10px 15px',
-  borderRadius: '5px',
-  userSelect: 'none',
-};
-
-const styles = {
-  container: {
-    maxWidth: '500px',
-    margin: '40px auto',
-    padding: '20px',
-    backgroundColor: '#f4f4f4',
-    borderRadius: '10px',
-    boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)',
-    fontFamily: 'Arial, sans-serif'
-  },
-  heading: {
-    textAlign: 'center',
-    color: '#00796b',
-    marginBottom: '20px'
-  },
-  form: {
-    display: 'flex',
-    flexDirection: 'column',
-  },
-  label: {
-    marginBottom: '15px',
-    fontWeight: '600',
-    fontSize: '15px'
-  },
-  input: {
-    marginTop: '5px',
-    padding: '10px',
-    borderRadius: '6px',
-    border: '1px solid #ccc',
-    width: '100%',
-    fontSize: '14px'
-  },
-  button: {
-    marginTop: '20px',
-    padding: '12px',
-    backgroundColor: '#00796b',
-    color: 'white',
-    fontSize: '16px',
-    border: 'none',
-    borderRadius: '6px',
-    cursor: 'pointer',
-    transition: 'background-color 0.3s ease'
-  }
-};
 
 export default AddVaccin;

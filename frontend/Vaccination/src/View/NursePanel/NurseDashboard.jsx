@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import NurseHeader from '../../Component/NurseHeader';
-import Cookies from 'js-cookie';
-import vaccineImage from '../../assets/images/vaccineheader.png';
 import Footer from "../../Component/Footer";
 import axios from 'axios';
+import Cookies from 'js-cookie';
+import vaccineImage from '../../assets/images/nursehomepage.png';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 function NurseDashboard() {
   const userSession = Cookies.get('user') ? JSON.parse(Cookies.get('user')) : null;
-  const customername = userSession ? userSession.user.username : "Guest";
+  const nurseName = userSession ? userSession.user.username : "Guest";
 
   const [newsList, setNewsList] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -29,139 +29,202 @@ function NurseDashboard() {
 
   const formatDate = (dateStr) => {
     const date = new Date(dateStr);
-    return date.toLocaleString(); // example: "7/1/2025, 4:30:00 PM"
+    return date.toLocaleString();
   };
 
   return (
     <>
       <ToastContainer />
       <style>{`
-        .dashboard-container {
-          background: linear-gradient(to right, #e3f2fd, #ffffff);
-          font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-          min-height: 100vh;
+        body {
+          font-family: 'Poppins', sans-serif;
+          margin: 0;
+          padding: 0;
+          background: #f5f9ff;
+          color: #022c43;
         }
 
-        .dashboard-content {
+        .hero {
           display: flex;
           flex-wrap: wrap;
-          padding: 40px 5%;
-          gap: 30px;
-          justify-content: space-between;
+          align-items: center;
+          justify-content: center;
+          padding: 4rem 2rem;
+          background: linear-gradient(to right, #e0f7fa, #e3f2fd);
         }
 
-        .left-box, .right-box {
-          flex: 1 1 48%;
-          background-color: #ffffff;
-          border-radius: 15px;
-          padding: 30px;
-          box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+        .hero-text {
+          flex: 1 1 400px;
+          padding: 1rem;
         }
 
-        .left-box h2, .right-box h2 {
-          color: #1565c0;
-          margin-bottom: 20px;
+        .hero-text h1 {
+          font-size: 2.8rem;
+          color: #0077b6;
+          margin-bottom: 1rem;
         }
 
-        .left-box p {
-          font-size: 16px;
+        .hero-text p {
+          font-size: 1.2rem;
           color: #333;
           line-height: 1.6;
         }
 
-        .left-box ul {
-          padding-left: 20px;
-          margin-top: 10px;
+        .hero-image {
+          flex: 1 1 350px;
+          display: flex;
+          justify-content: center;
+          padding: 1rem;
         }
 
-        .left-box li {
-          margin-bottom: 10px;
-          line-height: 1.5;
-        }
-
-        .vaccine-img {
+        .hero-image img {
           width: 100%;
-          max-height: 240px;
-          object-fit: cover;
-          margin-top: 20px;
-          border-radius: 10px;
+          max-width: 380px;
+          border-radius: 20px;
+          box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+        }
+
+        .nurse-role {
+          padding: 3rem 2rem;
+          text-align: center;
+          background: #ffffff;
+        }
+
+        .nurse-role h2 {
+          font-size: 2.2rem;
+          color: #1976d2;
+          margin-bottom: 1rem;
+        }
+
+        .nurse-role p {
+          max-width: 800px;
+          margin: auto;
+          font-size: 1.1rem;
+          color: #555;
+          line-height: 1.6;
+        }
+
+        .news-section {
+          padding: 3rem 2rem;
+          background-color: #e8f5e9;
+        }
+
+        .news-icon-title {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          gap: 10px;
+          margin-bottom: 2rem;
+        }
+
+        .news-section h2 {
+          text-align: center;
+          font-size: 2rem;
+          color: #2e7d32;
+        }
+
+        .news-list {
+          display: flex;
+          flex-direction: column;
+          gap: 1.5rem;
+          max-width: 900px;
+          margin: auto;
         }
 
         .news-card {
-          background: #f1f8e9;
-          border-left: 5px solid #43a047;
-          padding: 15px 20px;
-          border-radius: 10px;
-          margin-bottom: 20px;
+          background: #ffffff;
+          padding: 20px;
+          border-radius: 12px;
+          box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+          transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .news-card:hover {
+          transform: translateY(-4px);
+          box-shadow: 0 6px 24px rgba(0,0,0,0.12);
         }
 
         .news-card h4 {
-          color: #2e7d32;
-          margin-bottom: 8px;
+          color: #43a047;
+          margin-bottom: 10px;
         }
 
         .news-card p {
-          margin: 0;
           font-size: 15px;
           color: #444;
         }
 
         .news-date {
-          margin-top: 8px;
+          margin-top: 10px;
           font-size: 13px;
           color: #888;
         }
 
         @media (max-width: 768px) {
-          .dashboard-content {
+          .hero {
             flex-direction: column;
-            padding: 20px;
+            text-align: center;
+            padding: 2rem 1rem;
           }
 
-          .left-box, .right-box {
-            flex: 1 1 100%;
+          .hero-text h1 {
+            font-size: 2rem;
+          }
+
+          .hero-text p {
+            font-size: 1rem;
+          }
+
+          .news-section {
+            padding: 2rem 1rem;
           }
         }
       `}</style>
 
-      <div className="dashboard-container">
-        <NurseHeader />
+      <NurseHeader />
 
-        <div className="dashboard-content">
-          {/* Left Section */}
-          <div className="left-box">
-            <h2>👩‍⚕️ Welcome, {customername}!</h2>
-            <p>
-              As a nurse, your role in vaccination awareness and care is vital. Here’s a quick overview of what’s happening in the immunization space.
-            </p>
-            <ul>
-              <li>Track patient vaccinations efficiently.</li>
-              <li>Stay updated with latest vaccine guidelines.</li>
-              <li>Use digital tools to manage schedules.</li>
-            </ul>
-            <img src={vaccineImage} alt="Vaccine awareness" className="vaccine-img" />
-          </div>
-
-          {/* Right Section */}
-          <div className="right-box">
-            <h2>📢 Vaccination News & Updates</h2>
-
-            {loading ? (
-              <p>Loading news...</p>
-            ) : newsList.length === 0 ? (
-              <p>No news available.</p>
-            ) : (
-              newsList.map((item, index) => (
-                <div className="news-card" key={index}>
-                  <h4>📰 {item.title}</h4>
-                  <p>{item.news}</p>
-                  <div className="news-date">🕒 Updated: {formatDate(item.updatedAt)}</div>
-                </div>
-              ))
-            )}
-          </div>
+      {/* Hero Section */}
+      <section className="hero">
+        <div className="hero-text">
+          <h1>Welcome Nurse <b>{nurseName}</b> 👩‍⚕️</h1>
+          <p>Your commitment to health makes a difference. Stay informed and help protect lives through vaccination management.</p>
         </div>
-      </div>
+        <div className="hero-image">
+          <img src={vaccineImage} alt="Nurse dashboard vaccine" />
+        </div>
+      </section>
+
+      {/* Nurse Info Section */}
+      <section className="nurse-role">
+        <h2>Why Your Role Matters?</h2>
+        <p>
+          As a healthcare professional, you ensure timely vaccinations, provide reliable health info, and play a crucial role in building a healthier tomorrow.
+          Stay connected and updated through this portal.
+        </p>
+      </section>
+
+      {/* News Section */}
+      <section className="news-section">
+        <div className="news-icon-title">
+          <h2>📢 Vaccination News & Updates</h2>
+        </div>
+
+        {loading ? (
+          <p style={{ textAlign: 'center' }}>Loading news...</p>
+        ) : newsList.length === 0 ? (
+          <p style={{ textAlign: 'center' }}>No news available.</p>
+        ) : (
+          <div className="news-list">
+            {newsList.map((item, index) => (
+              <div className="news-card" key={index}>
+                <h4>📰 {item.title}</h4>
+                <p>{item.news}</p>
+                <div className="news-date">🕒 Updated: {formatDate(item.updatedAt)}</div>
+              </div>
+            ))}
+          </div>
+        )}
+      </section>
 
       <Footer />
     </>

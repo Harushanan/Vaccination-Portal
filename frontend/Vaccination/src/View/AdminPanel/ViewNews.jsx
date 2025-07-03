@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import axios from 'axios';
 import AdminHeader from '../../Component/AdminHeader';
 import Sidebar from '../../Component/Sidebar';
@@ -13,7 +13,6 @@ function ViewNews() {
   const [editedTitle, setEditedTitle] = useState('');
   const [editedContent, setEditedContent] = useState('');
   const [loading, setLoading] = useState(true);
-  const navigate = useNavigate();
 
   useEffect(() => {
     axios.get("http://localhost:3000/allnews")
@@ -21,8 +20,7 @@ function ViewNews() {
         setNewsList(result.data.allnews || []);
         setLoading(false);
       })
-      .catch((error) => {
-        console.error("Error fetching data:", error);
+      .catch(() => {
         toast.error("Failed to fetch news");
         setLoading(false);
       });
@@ -61,8 +59,7 @@ function ViewNews() {
           toast.error("Update failed");
         }
       })
-      .catch((err) => {
-        console.error("Update error:", err);
+      .catch(() => {
         toast.error("Something went wrong while updating");
       });
   };
@@ -78,8 +75,7 @@ function ViewNews() {
             toast.error("Delete failed");
           }
         })
-        .catch((err) => {
-          console.error("Delete error:", err);
+        .catch(() => {
           toast.error("Something went wrong while deleting");
         });
     }
@@ -100,65 +96,197 @@ function ViewNews() {
 
   return (
     <>
+      <style>{`
+        .admin-dashboard-container {
+          display: flex;
+          background: #f4f4f4;
+          min-height: 100vh;
+        }
+
+        .admin-dashboard-main {
+          flex: 1;
+          padding: 20px;
+        }
+
+        nav {
+          background: #333;
+          padding: 10px 20px;
+          border-radius: 6px;
+          margin-bottom: 20px;
+        }
+
+        nav ul {
+          display: flex;
+          list-style: none;
+          gap: 15px;
+          margin: 0;
+          padding: 0;
+        }
+
+        nav ul li a {
+          color: white;
+          text-decoration: none;
+          font-weight: 600;
+        }
+
+        h1 {
+          margin-top: 0;
+          margin-bottom: 15px;
+          color: #222;
+        }
+
+        .news-item {
+          background: white;
+          padding: 15px 20px;
+          border-radius: 8px;
+          box-shadow: 0 2px 8px rgb(0 0 0 / 0.1);
+          margin-bottom: 15px;
+        }
+
+        .news-item p {
+          margin: 6px 0;
+          color: #444;
+          white-space: pre-wrap;
+        }
+
+        .news-item p strong {
+          color: #111;
+        }
+
+        input[type="text"], textarea {
+          width: 100%;
+          max-width: 600px;
+          padding: 10px;
+          margin: 8px 0;
+          border-radius: 5px;
+          border: 1px solid #ccc;
+          font-size: 1rem;
+          font-family: inherit;
+          box-sizing: border-box;
+          resize: vertical;
+        }
+
+        textarea {
+          min-height: 80px;
+        }
+
+        .btn-group {
+          margin-top: 10px;
+          display: flex;
+          gap: 10px;
+        }
+
+        button {
+          padding: 8px 16px;
+          border-radius: 6px;
+          border: none;
+          cursor: pointer;
+          font-weight: 600;
+          font-size: 1rem;
+          color: white;
+          transition: background-color 0.3s ease;
+        }
+
+        button.save-btn {
+          background-color: #28a745;
+        }
+        button.save-btn:hover {
+          background-color: #218838;
+        }
+
+        button.cancel-btn {
+          background-color: #6c757d;
+        }
+        button.cancel-btn:hover {
+          background-color: #5a6268;
+        }
+
+        button.edit-btn {
+          background-color: #007bff;
+        }
+        button.edit-btn:hover {
+          background-color: #0069d9;
+        }
+
+        button.delete-btn {
+          background-color: #dc3545;
+        }
+        button.delete-btn:hover {
+          background-color: #c82333;
+        }
+
+        @media (max-width: 768px) {
+          nav ul {
+            flex-direction: column;
+            gap: 10px;
+          }
+          .news-item {
+            padding: 15px;
+          }
+          input[type="text"], textarea {
+            max-width: 100%;
+          }
+          button {
+            width: 100%;
+          }
+          .btn-group {
+            flex-direction: column;
+          }
+        }
+      `}</style>
+
       <AdminHeader />
-      <div style={{ display: 'flex', minHeight: '90vh', backgroundColor: '#e6f7ff' }}>
+      <div className="admin-dashboard-container">
         <Sidebar />
-        <main style={{ flex: 1, padding: '20px 40px', fontFamily: 'Segoe UI, sans-serif' }}>
-          <nav style={navStyle}>
-            <ul style={navListStyle}>
-              <li><Link to="/admin/News" style={navLinkStyle}>Add News</Link></li>
-              <li><Link to="/admin/ViewNews" style={navLinkStyle}>View News</Link></li>
+        <main className="admin-dashboard-main">
+          <nav>
+            <ul>
+              <li><Link to="/admin/News">Add News</Link></li>
+              <li><Link to="/admin/ViewNews">View News</Link></li>
             </ul>
           </nav>
 
-          <h1 style={{ marginBottom: '20px' }}>View News</h1>
+          <h1>View News</h1>
 
-          <div style={{ maxWidth: '800px', margin: '0 auto' }}>
-            {loading ? (
-              <p style={{ textAlign: "center", fontSize: "18px", color: "#666" }}>Loading...</p>
-            ) : newsList.length > 0 ? (
-              newsList.map((news) => (
-                <div key={news._id} style={newsCard}>
-                  {editingId === news._id ? (
-                    <>
-                      <input
-                        type="text"
-                        value={editedTitle}
-                        onChange={(e) => setEditedTitle(e.target.value)}
-                        placeholder="Edit title"
-                        style={inputStyle}
-                      />
-                      <textarea
-                        value={editedContent}
-                        onChange={(e) => setEditedContent(e.target.value)}
-                        placeholder="Edit content"
-                        rows={4}
-                        style={textareaStyle}
-                      />
-                      <div style={{ marginTop: "10px" }}>
-                        <button onClick={handleUpdate} style={saveBtn}>Save</button>
-                        <button onClick={() => setEditingId(null)} style={cancelBtn}>Cancel</button>
-                      </div>
-                    </>
-                  ) : (
-                    <>
-                      <p style={{ fontWeight: "600", fontSize: '18px', color: "#00695c" }}>Title: {news.title}</p>
-                      <p style={{ color: "#34495e" }}>Content: {news.news}</p>
-                      <p style={{ fontSize: '14px', color: '#888' }}>
-                        Last updated: {formatDateTime(news.updatedAt)}
-                      </p>
-                      <div style={{ marginTop: "10px" }}>
-                        <button onClick={() => handleEdit(news)} style={editBtn}>Edit</button>
-                        <button onClick={() => handleDelete(news._id)} style={deleteBtn}>Delete</button>
-                      </div>
-                    </>
-                  )}
-                </div>
-              ))
-            ) : (
-              <p style={{ textAlign: "center", fontSize: "18px", color: "#999" }}>No News available.</p>
-            )}
-          </div>
+          {loading ? (
+            <p>Loading...</p>
+          ) : newsList.length > 0 ? (
+            newsList.map((news) => (
+              <div key={news._id} className="news-item">
+                {editingId === news._id ? (
+                  <>
+                    <input
+                      type="text"
+                      value={editedTitle}
+                      onChange={(e) => setEditedTitle(e.target.value)}
+                      placeholder="Edit title"
+                    />
+                    <textarea
+                      value={editedContent}
+                      onChange={(e) => setEditedContent(e.target.value)}
+                      placeholder="Edit content"
+                    />
+                    <div className="btn-group">
+                      <button className="save-btn" onClick={handleUpdate}>Save</button>
+                      <button className="cancel-btn" onClick={() => setEditingId(null)}>Cancel</button>
+                    </div>
+                  </>
+                ) : (
+                  <>
+                    <p><strong>Title:</strong> {news.title}</p>
+                    <p><strong>Content:</strong> {news.news}</p>
+                    <p><strong>Last updated:</strong> {formatDateTime(news.updatedAt)}</p>
+                    <div className="btn-group">
+                      <button className="edit-btn" onClick={() => handleEdit(news)}>Edit</button>
+                      <button className="delete-btn" onClick={() => handleDelete(news._id)}>Delete</button>
+                    </div>
+                  </>
+                )}
+              </div>
+            ))
+          ) : (
+            <p>No News available.</p>
+          )}
         </main>
       </div>
       <ToastContainer position="top-right" autoClose={3000} />
@@ -166,98 +294,5 @@ function ViewNews() {
     </>
   );
 }
-
-// Styles
-const navStyle = {
-  background: 'linear-gradient(90deg,rgb(0, 77, 64),rgba(0, 68, 193, 0.95))',
-  padding: '10px 60px',
-  display: 'flex',
-  justifyContent: 'center',
-  alignItems: 'center',
-  borderRadius: '12px',
-  marginBottom: '20px',
-  boxShadow: '0 6px 16px rgba(0, 0, 0, 0.4)'
-};
-
-const navListStyle = {
-  display: 'flex',
-  listStyle: 'none',
-  gap: '40px',
-  padding: 0,
-  margin: 0
-};
-
-const navLinkStyle = {
-  color: 'white',
-  textDecoration: 'none',
-  fontWeight: '600',
-  fontSize: '17px',
-  padding: '10px 15px',
-  borderRadius: '5px',
-  userSelect: 'none'
-};
-
-const newsCard = {
-  backgroundColor: '#f9f9f9',
-  padding: '20px',
-  borderRadius: '10px',
-  marginBottom: '20px',
-  boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)'
-};
-
-const inputStyle = {
-  width: '100%',
-  padding: '10px',
-  fontSize: '16px',
-  borderRadius: '6px',
-  border: '1px solid #ccc',
-  marginBottom: '10px'
-};
-
-const textareaStyle = {
-  width: '100%',
-  padding: '10px',
-  fontSize: '16px',
-  borderRadius: '6px',
-  border: '1px solid #ccc'
-};
-
-const saveBtn = {
-  backgroundColor: '#2e7d32',
-  color: 'white',
-  padding: '8px 14px',
-  border: 'none',
-  borderRadius: '5px',
-  marginRight: '10px',
-  cursor: 'pointer'
-};
-
-const cancelBtn = {
-  backgroundColor: '#b71c1c',
-  color: 'white',
-  padding: '8px 14px',
-  border: 'none',
-  borderRadius: '5px',
-  cursor: 'pointer'
-};
-
-const editBtn = {
-  backgroundColor: '#0277bd',
-  color: 'white',
-  padding: '8px 14px',
-  border: 'none',
-  borderRadius: '5px',
-  marginRight: '10px',
-  cursor: 'pointer'
-};
-
-const deleteBtn = {
-  backgroundColor: '#d32f2f',
-  color: 'white',
-  padding: '8px 14px',
-  border: 'none',
-  borderRadius: '5px',
-  cursor: 'pointer'
-};
 
 export default ViewNews;

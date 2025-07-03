@@ -153,7 +153,8 @@ const ProfilePage = () => {
         </Link>
 
         <div className="profile-card">
-          <img src={userprofile} alt="Profile" className="profile-image" />
+         <img src={userSession?.user?.Image ? userSession.user.Image : userprofile} alt="Profile" className="profile-image"/>
+
           <h2 className="username">{userSession.user?.username}</h2>
 
           <table className="profile-table">
@@ -170,8 +171,8 @@ const ProfilePage = () => {
             <button onClick={() => navigate('/changepassword')} className="btn green">🔒 Change Password</button>
           </div>
 
-          <Link to="/patient/ReportPage" className="report-button">
-            📄 View Vaccination Report
+          <Link to="/patient/MyBooking" className="report-button">
+            📄 View My Vaccination booking
           </Link>
         </div>
       </div>

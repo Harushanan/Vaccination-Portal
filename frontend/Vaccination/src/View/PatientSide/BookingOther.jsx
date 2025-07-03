@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { useNavigate, useParams ,useLocation } from "react-router-dom";
+import React, { useState, useEffect} from 'react';
+import { useNavigate, useParams , useLocation } from "react-router-dom";
 import axios from 'axios';
 import Cookies from 'js-cookie';
 import NormalHeader from '../../Component/NormalHeader';
@@ -9,18 +9,24 @@ import 'react-toastify/dist/ReactToastify.css';
 
 const userSession = Cookies.get('user') ? JSON.parse(Cookies.get('user')) : null;
 
-function SelectBooking() {
+function BookingOther() {
+  const location = useLocation();
+  const receivedData = location.state;
+  console.log("ReceivedData : " , receivedData)
+
+
   const { id } = useParams();
   const [data, Setdata] = useState([]);
   const navigate = useNavigate();
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
 
-  const [fullname, setFullname] = useState(userSession?.user?.username || '');
-  const [contact, setContact] = useState(userSession?.user?.phone || '');
-  const [email, setEmail] = useState(userSession?.user?.email || '');
-  const [address, setAddress] = useState(userSession?.user?.address || '');
+  const [fullname, setFullname] = useState();
+  const [contact, setContact] = useState();
+  const [byemail, setbyEmail] = useState(userSession?.user?.email || '');
+  const [address, setAddress] = useState();
 
   const [age, setAge] = useState('');
+  const [nic, setNic] = useState('');
   const [idphoto, setIdphoto] = useState(null);
   const [date, setDate] = useState('');
   const [vaccine, setVaccine] = useState('');
@@ -46,26 +52,13 @@ function SelectBooking() {
       .catch((error) => console.error("Error fetching center data:", error));
   }, []);
 
-  useEffect(() => {
-    axios.get(`http://localhost:3000/vaccinelist/${id}`)
-      .then((result) => {
-        if (result.data.message === "Vaccine fetched successfully") {
-          Setdata(result.data.getvaccine);
-        }
-      })
-      .catch((error) => {
-        console.error("Error fetching vaccine data:", error);
-      });
-  }, [id]);
 
   useEffect(() => {
     if (data) {
-      setVaccine(data.Name);
-      setAge(data.Age);
+      setVaccine(receivedData.sentvaccine);
+      setAge(receivedData.sentage);
     }
   }, [data]);
-
-  const dataToSend = { sentvaccine: vaccine, sentage: age };
 
   const handleFileChange = (e) => {
     setIdphoto(e.target.files[0]);
@@ -77,6 +70,14 @@ function SelectBooking() {
     const realPhone = /^(0)(7[01245678]\d{7})$/;
     if (!realPhone.test(contact)) {
       toast.error("Invalid phone number (Format: 07XXXXXXXX)");
+      return;
+    }
+
+    const oldNIC = /^\d{9}[vVxX]$/;
+    const newNIC = /^\d{12}$/;
+
+    if((oldNIC.test(nic) || newNIC.test(nic))){
+      toast.error("Invalid NIC Id");
       return;
     }
 
@@ -98,7 +99,7 @@ function SelectBooking() {
       // Prepare form data for backend
       const formData = {
         fullname,
-        email,
+        nic,
         contact,
         address,
         age,
@@ -108,14 +109,15 @@ function SelectBooking() {
         center,
         healthConditions,
         allergies,
+        byemail
       };
 
-      const response = await axios.post('http://localhost:3000/bookingvaccine', formData);
+      const response = await axios.post('http://localhost:3000/bookingvaccineothers', formData);
 
       if (response.data.message === "Vaccine inserted successfully") {
         toast.success("Booking is successful");
         setTimeout(() => {
-          navigate('/patient/MyBooking');
+          navigate('/patient/OthersBooking');
         }, 3000);
       } else {
         toast.error("Booking failed. Try again.");
@@ -132,14 +134,8 @@ function SelectBooking() {
         <NormalHeader />
 
         <div style={{ ...containerStyle, padding: isMobile ? '20px' : '40px', maxWidth: isMobile ? '95%' : '900px' }}>
-          <button
-            type="button"
-            style={{ ...buttonStyle, width: isMobile ? '100%' : 'auto', marginBottom: isMobile ? '20px' : '0' }}
-            onClick={() => { navigate('/patient/BookingOther',{state:dataToSend}); }}
-          >
-            Booking For Others
-          </button>
-          <h1 style={{ ...headingStyle, fontSize: isMobile ? '28px' : '34px' }}>Book Your Vaccination</h1>
+         
+          <h1 style={{ ...headingStyle, fontSize: isMobile ? '28px' : '34px' }}>Vaccination Booking for Others</h1>
           <form onSubmit={handleSubmit} encType="multipart/form-data" style={{
             ...formStyle,
             gap: isMobile ? '15px' : '20px',
@@ -148,7 +144,13 @@ function SelectBooking() {
             {/* Full Name */}
             <div style={{ ...formGroup, minWidth: '100%' }}>
               <label>Full Name *</label>
-              <p style={disabledField}>{fullname}</p>
+              <input
+                type="text"
+                placeholder="Enter the patient Name"
+                onChange={(e) => setFullname(e.target.value)}
+                required
+                style={inputStyle}
+              />
             </div>
 
             {/* Age */}
@@ -159,8 +161,14 @@ function SelectBooking() {
 
             {/* Email */}
             <div style={{ ...formGroup, minWidth: '100%' }}>
-              <label>Email Address *</label>
-              <p style={disabledField}>{email}</p>
+              <label>NIC Number(SriLanka) *</label>
+              <input
+                type="text"
+                placeholder="Enter Your NIC "
+                onChange={(e) => setNic(e.target.value)}
+                required
+                style={inputStyle}
+              />
             </div>
 
             {/* Contact */}
@@ -305,7 +313,7 @@ function SelectBooking() {
   );
 }
 
-export default SelectBooking;
+export default BookingOther;
 
 // ------------------------ STYLES ------------------------ //
 const pageStyle = {

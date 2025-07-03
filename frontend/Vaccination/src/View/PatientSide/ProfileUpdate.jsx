@@ -10,6 +10,8 @@ import Footer from "../../Component/Footer";
 const ProfileUpdate = () => {
   const userSession = Cookies.get('user') ? JSON.parse(Cookies.get('user')) : null;
 
+  console.log("Current User : " , userSession.user)
+
   const originalData = {
     username: userSession?.user?.username || "",
     address: userSession?.user?.address || "",
@@ -20,8 +22,30 @@ const ProfileUpdate = () => {
   const [email] = useState(userSession?.user?.email || "");
   const [address, setAddress] = useState(originalData.address);
   const [phone, setPhone] = useState(originalData.phone);
+  const [imageUrl, setImageUrl] = useState(userSession?.user?.Image || ""); // existing image
 
   const navigate = useNavigate();
+
+  const handleUpload = async (file) => {
+
+    const formData = new FormData();
+    formData.append("file", file);
+    formData.append("upload_preset", "project_image_upload");
+    formData.append("cloud_name","duz9iteev") 
+    try {
+      const res = await fetch("https://api.cloudinary.com/v1_1/duz9iteev/image/upload", {
+        method: "POST",
+        body: formData
+      });
+      const data = await res.json();
+      console.log(data)
+      setImageUrl(data.url);
+      toast.success("Image uploaded");
+    } catch (error) {
+      console.error("Cloudinary upload error", error);
+      toast.error("Image upload failed");
+    }
+  };
 
   const handleUpdate = (e) => {
     e.preventDefault();
@@ -37,7 +61,18 @@ const ProfileUpdate = () => {
       return;
     }
 
-    axios.post("http://localhost:3000/updateprofile", { username, phone, address, email })
+    if(!imageUrl){
+      toast.error("Plese Uploade Profile");
+      return;
+    }
+
+    axios.post("http://localhost:3000/updateprofile", {
+      username,
+      phone,
+      address,
+      email,
+      Image: imageUrl // Send uploaded Cloudinary image URL
+    })
       .then((result) => {
         const { message, newprofile } = result.data;
         if (message === "Updated successfully") {
@@ -100,11 +135,6 @@ const ProfileUpdate = () => {
           border-radius: 8px;
         }
 
-        .alert-text {
-          color: #e65100;
-          font-size: 13px;
-        }
-
         .update-button {
           background-color: #2196f3;
           color: white;
@@ -127,29 +157,12 @@ const ProfileUpdate = () => {
           cursor: not-allowed;
           opacity: 0.8;
         }
-
-        @media (max-width: 600px) {
-          .update-card {
-            padding: 20px;
-          }
-
-          input, .readonly-field {
-            font-size: 15px;
-          }
-
-          label {
-            font-size: 15px;
-          }
-
-          .update-button {
-            font-size: 15px;
-          }
-        }
       `}</style>
 
       <div className="update-container">
         <div className="update-card">
           <h2 style={{ textAlign: 'center', marginBottom: '25px' }}>Update Profile</h2>
+          
           <form onSubmit={handleUpdate}>
             <div className="form-group">
               <label>Name:</label>
@@ -172,8 +185,8 @@ const ProfileUpdate = () => {
             </div>
 
             <div className="form-group">
-              <label>Add Your Profile Image:</label>
-              <input type="file" name="file" />
+              <label>Upload Profile Image:</label>
+              <input type="file" accept="image/*" onChange={(e) => handleUpload(e.target.files[0])} />
             </div>
 
             <button
@@ -182,7 +195,8 @@ const ProfileUpdate = () => {
               disabled={
                 username === originalData.username &&
                 address === originalData.address &&
-                phone === originalData.phone
+                phone === originalData.phone &&
+                imageUrl === userSession?.user?.Image
               }
             >
               Update Profile

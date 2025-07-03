@@ -1,16 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from "react-router-dom";
 import axios from 'axios';
-import Cookies from 'js-cookie';
 import AdminHeader from '../../Component/AdminHeader';
 import Sidebar from '../../Component/Sidebar';
-import Footer from "../../Component/Footer"
-
-let count = 0;
+import Footer from "../../Component/Footer";
 
 function ViewVaccine() {
   const [vaccine, setvaccine] = useState([]);
-  const [count , setCount] = useState([]);
+  const [count, setCount] = useState([]);
 
   useEffect(() => {
     axios.get("http://localhost:3000/vaccinelist")
@@ -36,7 +33,6 @@ function ViewVaccine() {
 
   const increaseCount = (e, ob) => {
     e.preventDefault();
-
     const newcount = Number(ob.Slots) + Number(count);
     const id = ob._id;
 
@@ -44,7 +40,7 @@ function ViewVaccine() {
       .then((result) => {
         if (result.data.message === "Count updated successfully") {
           setTimeout(() => {
-            window.location.reload(); // Soft refresh the current route
+            window.location.reload();
           }, 1000);
         }
       })
@@ -53,191 +49,189 @@ function ViewVaccine() {
       });
   };
 
-
   return (
     <>
+      <style>{`
+        .admin-container {
+          display: flex;
+          min-height: 100vh;
+          background: #f5f5f5;
+        }
+
+        .admin-main {
+          flex: 1;
+          padding: 20px;
+          overflow-x: auto;
+        }
+
+        .nav-links {
+          background-color: #1976d2;
+          padding: 10px 20px;
+          border-radius: 8px;
+          margin-bottom: 20px;
+        }
+
+        .nav-links ul {
+          list-style: none;
+          display: flex;
+          gap: 20px;
+          margin: 0;
+          padding: 0;
+        }
+
+        .nav-links a {
+          color: #fff;
+          text-decoration: none;
+          font-weight: 500;
+        }
+
+        h1 {
+          text-align: center;
+          margin-bottom: 25px;
+        }
+
+        table {
+          width: 100%;
+          border-collapse: collapse;
+          background: #fff;
+          box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+          border-radius: 10px;
+          overflow: hidden;
+        }
+
+        th, td {
+          padding: 14px;
+          text-align: left;
+          border-bottom: 1px solid #ddd;
+        }
+
+        th {
+          background-color: #0d47a1;
+          color: white;
+          position: sticky;
+          top: 0;
+        }
+
+        tr:hover {
+          background-color: #f1f1f1;
+        }
+
+        input[type="number"] {
+          padding: 5px;
+          border-radius: 4px;
+          border: 1px solid #ccc;
+          width: 80px;
+        }
+
+        form button, .action-btn {
+          padding: 6px 12px;
+          border: none;
+          border-radius: 5px;
+          cursor: pointer;
+          font-weight: bold;
+        }
+
+        form button {
+          background-color: #4caf50;
+          color: white;
+          margin-left: 5px;
+        }
+
+        .edit-btn {
+          background-color: #1976d2;
+          color: white;
+          margin-right: 8px;
+        }
+
+        .delete-btn {
+          background-color: #e53935;
+          color: white;
+        }
+
+        @media (max-width: 768px) {
+          .nav-links ul {
+            flex-direction: column;
+          }
+
+          table {
+            font-size: 14px;
+          }
+
+          input[type="number"] {
+            width: 100%;
+          }
+        }
+      `}</style>
+
       <AdminHeader />
-      <div style={{ display: 'flex', minHeight: '90vh', backgroundColor: '#e6f7ff' }}>
+
+      <div className="admin-container">
         <Sidebar />
-        <main style={{ flex: 1, overflowX: 'auto', padding: '20px 40px', fontFamily: 'Segoe UI, sans-serif' }}>
-          <nav style={{
-            background: 'linear-gradient(90deg,rgb(0, 77, 64),rgba(0, 68, 193, 0.95))',
-            padding: '10px 60px',
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            borderRadius: '12px',
-            margin: '20px auto',
-            maxWidth: '90%',
-            boxShadow: '0 6px 16px rgba(0, 0, 0, 0.4)'
-          }}>
-            <ul style={{
-              display: 'flex',
-              listStyle: 'none',
-              gap: '40px',
-              padding: 0,
-              margin: 0
-            }}>
-              <li><Link to="/admin/AddVaccin" style={navLinkStyle}>Add Vaccin</Link></li>
-              <li><Link to="/admin/ViewVaccin" style={navLinkStyle}>View Vaccin</Link></li>
+
+        <main className="admin-main">
+          <div className="nav-links">
+            <ul>
+              <li><Link to="/admin/AddVaccin">Add Vaccine</Link></li>
+              <li><Link to="/admin/ViewVaccin">View Vaccine</Link></li>
             </ul>
-          </nav>
-
-          <h1 style={{ marginBottom: '20px' }}>View Vaccine</h1>
-
-          <table style={{ 
-  width: '100%',
-  borderCollapse: 'collapse',
-  fontFamily: 'Segoe UI, sans-serif',
-  fontSize: '15px',
-  backgroundColor: '#fff',
-  borderRadius: '10px',
-  overflow: 'hidden',
-  boxShadow: '0 4px 20px rgba(0,0,0,0.05)'
-}}>
-  <thead>
-    <tr style={{ backgroundColor: '#004d40', color: '#fff' }}>
-      <th style={thStyle}>Vaccine Name</th>
-      <th style={thStyle}>Type</th>
-      <th style={thStyle}>Age</th>
-      <th style={thStyle}>Doses</th>
-      <th style={thStyle}>Manufacturer</th>
-      <th style={thStyle}>Instructions</th>
-      <th style={thStyle}>Stock Level</th>
-      <th style={thStyle}>Add Stock</th>
-      <th style={thStyle}>Status</th>
-      <th style={thStyle}>Action</th>
-    </tr>
-  </thead>
-  <tbody>
-    {vaccine.map((ob) => (
-      <tr key={ob._id} style={rowStyle}>
-        <td style={tdStyle}>{ob.Name}</td>
-        <td style={tdStyle}>{ob.Type}</td>
-        <td style={tdStyle}>{ob.Age}</td>
-        <td style={tdStyle}>{ob.Doses}</td>
-        <td style={tdStyle}>{ob.Manufacturer}</td>
-        <td style={{ ...tdStyle, maxWidth: '180px', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{ob.Instructions}</td>
-        <td style={tdStyle}>{ob.Slots}</td>
-        <td style={tdStyle}>
-         <form 
-  style={{ display: 'flex', alignItems: 'center' }} 
-  onSubmit={(e) => increaseCount(e, ob)}
->
-  <input
-    type="number"
-    name="addcount"
-    placeholder="Add Count"
-    onChange={(e) => setCount(e.target.value)}
-
-    required
-    style={{
-      padding: '6px',
-      width: '64px',
-      borderRadius: '6px',
-      border: '1px solid #ccc',
-      marginRight: '6px',
-      fontSize: '13px'
-    }}
-  />
-  <button
-    type="submit"
-    style={{
-      padding: '6px 10px',
-      backgroundColor: '#00796b',
-      color: '#fff',
-      border: 'none',
-      borderRadius: '5px',
-      cursor: 'pointer',
-      fontSize: '13px'
-    }}
-  >
-    Add +
-  </button>
-</form>
-
-        </td>
-        <td style={tdStyle}>
-          <span style={{
-            padding: '6px 10px',
-            borderRadius: '20px',
-            fontWeight: '600',
-            fontSize: '12px',
-            color: ob.Slots < 20 ? '#c62828' : '#2e7d32',
-            backgroundColor: ob.Slots < 20 ? '#fdecea' : '#e6f4ea',
-          }}>
-            {ob.Slots < 20 ? 'Stock Low' : 'Stock Sufficient'}
-          </span>
-        </td>
-        <td style={tdStyle}>
-          <div style={{ display: 'flex', gap: '6px' }}>
-            <button
-              onClick={() => handleEdit(ob._id)}
-              style={actionBtnStyle('#2e7d32')}
-            >
-              Edit
-            </button>
-            <button
-              onClick={() => handleDelete(ob._id)}
-              style={actionBtnStyle('#c62828')}
-            >
-              Delete
-            </button>
           </div>
-        </td>
-      </tr>
-    ))}
-  </tbody>
-</table>
 
+          <h1>All Vaccines</h1>
+
+          <table>
+            <thead>
+              <tr>
+                <th>Vaccine Name</th>
+                <th>Type</th>
+                <th>Age</th>
+                <th>Doses</th>
+                <th>Manufacturer</th>
+                <th>Instructions</th>
+                <th>Stock Level</th>
+                <th>Add Stock</th>
+                <th>Status</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              {vaccine.map((ob) => (
+                <tr key={ob._id}>
+                  <td>{ob.Name}</td>
+                  <td>{ob.Type}</td>
+                  <td>{ob.Age}</td>
+                  <td>{ob.Doses}</td>
+                  <td>{ob.Manufacturer}</td>
+                  <td>{ob.Instructions}</td>
+                  <td>{ob.Slots}</td>
+                  <td>
+                    <form onSubmit={(e) => increaseCount(e, ob)}>
+                      <input
+                        type="number"
+                        name="addcount"
+                        placeholder="Add"
+                        onChange={(e) => setCount(e.target.value)}
+                        required
+                      />
+                      <button type="submit">+</button>
+                    </form>
+                  </td>
+                  <td style={{ color: ob.Slots < 20 ? 'red' : 'green' }}>
+                    {ob.Slots < 20 ? 'Low' : 'Sufficient'}
+                  </td>
+                  <td>
+                    <button className="action-btn edit-btn" onClick={() => handleEdit(ob._id)}>Edit</button>
+                    <button className="action-btn delete-btn" onClick={() => handleDelete(ob._id)}>Delete</button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
         </main>
       </div>
-      <Footer/>
+
+      <Footer />
     </>
   );
 }
-
-const thStyle = {
-  padding: '12px',
-  textAlign: 'center',
-};
-
-const tdStyle = {
-  padding: '12px',
-  textAlign: 'center',
-  verticalAlign: 'middle',
-  borderBottom: '1px solid #eee',
-};
-
-const rowStyle = {
-  backgroundColor: '#fff',
-  transition: 'background-color 0.2s',
-  cursor: 'default',
-  ':hover': {
-    backgroundColor: '#f5f5f5',
-  },
-};
-
-const actionBtnStyle = (bgColor) => ({
-  padding: '6px 10px',
-  backgroundColor: bgColor,
-  color: '#fff',
-  border: 'none',
-  borderRadius: '5px',
-  fontWeight: '600',
-  fontSize: '13px',
-  cursor: 'pointer',
-});
-
-
-const navLinkStyle = {
-  color: 'white',
-  textDecoration: 'none',
-  fontWeight: '600',
-  fontSize: '17px',
-  padding: '10px 15px',
-  borderRadius: '5px',
-  userSelect: 'none',
-};
 
 export default ViewVaccine;

@@ -212,7 +212,7 @@ const ReportPage = () => {
                 <p><strong>Report Date:</strong> {todayDate}</p>
                 <p><strong>Patient ID:</strong> {userSession.user?.id}</p>
               </div>
-              <img src={userprofile} alt="Profile" />
+              <img src={userSession?.user?.Image ? userSession.user.Image : userprofile}  alt="Profile" />
             </div>
           </div>
 

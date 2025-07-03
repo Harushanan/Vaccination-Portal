@@ -1,4 +1,4 @@
-const BookingModel = require('../model/booking')
+const {BookingOthersModel , BookingModel}= require('../model/booking')
 const {VaccineModel} = require("../model/vaccine")
 
 const bookingvaccine = async (req, res) => {
@@ -87,8 +87,46 @@ const updatestatus = async (req, res) => {
 };
 
 
+const bookingvaccineothers = async (req, res) => {
+  try {
+    const {fullname,nic,contact,address,age,date,vaccine,dose,center ,healthConditions,allergies ,byemail} = req.body;
+
+    const newBooking = await BookingOthersModel.create({fullname,nic,contact,address,age,date,vaccine,dose,center ,healthConditions,allergies ,byemail});
+
+    res.status(201).json({
+      message: "Vaccine inserted successfully",
+      booking: newBooking
+    });
+
+  } catch (error) {
+    console.error("Error saving booking:", error);
+    res.status(500).json({
+      message: "Failed to insert vaccine booking",
+      error: error.message
+    });
+  }
+};
+
+const vaccinelistothers = async (req, res) => { 
+  try {
+    const { myemail } = req.params; 
+
+   const getbooking = await BookingOthersModel.find({ byemail: myemail });
+
+    
+    if (!getbooking) {
+      return res.status(404).json({ message: "Vaccine booking  not found" });
+    }
+
+    res.status(200).json({ message: "Booking fetched successfully", getbooking });
+  } catch (error) {
+    console.error("Error fetching Booking:", error.message);
+    res.status(500).json({ message: "Server error while fetching Booking." });
+  }
+};
 
 
 
 
-module.exports ={bookingvaccine , vaccinepersonlist , updatestatus}
+
+module.exports ={bookingvaccine , vaccinepersonlist , updatestatus , bookingvaccineothers , vaccinelistothers}

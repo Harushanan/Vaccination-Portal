@@ -25,7 +25,7 @@ function AdminLogin() {
   const isMobile = windowWidth <= 768;
 
   const inputStyle = {
-    width: "100%",
+    width: "90%",
     padding: "10px 10px 10px 35px",
     margin: "10px 0 20px 0",
     border: "1px solid #ccc",

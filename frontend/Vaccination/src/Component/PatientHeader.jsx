@@ -84,7 +84,6 @@ function PatientHeader() {
         padding: isMobile ? '10px 0' : '0'
       }}>
         <Link to="/patient/userDashboard" style={getLinkStyle("/patient/userDashboard")}>Home</Link>
-        <Link to="" style={getLinkStyle("")}>About Us</Link>
         <Link to="/patient/BookingVaccine" style={getLinkStyle("/patient/BookingVaccine")}>Booking</Link>
         <Link to="/patient/faq" style={getLinkStyle("/patient/faq")}>FAQ</Link>
       </div>
@@ -97,7 +96,7 @@ function PatientHeader() {
         position: 'relative',
         marginTop: isMobile && menuOpen ? '10px' : 0
       }} onClick={() => setDropdownVisible(!dropdownVisible)}>
-        <img src={userprofile} alt="User" style={{ width: "50px", height: "50px", borderRadius: "50%", border: "2px solid aqua", marginRight: "10px" }} />
+        <img src={userSession?.user?.Image ? userSession.user.Image : userprofile}  alt="User" style={{ width: "50px", height: "50px", borderRadius: "50%", border: "2px solid aqua", marginRight: "10px" }} />
         <h3 style={{ color: 'white', fontSize: '18px' }}><b>{customername}</b></h3>
         <span style={{ fontSize: "20px", marginLeft: "8px", color: "black" }}>▼</span>
 

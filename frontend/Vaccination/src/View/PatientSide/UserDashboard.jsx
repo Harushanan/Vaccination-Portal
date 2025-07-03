@@ -1,168 +1,323 @@
 import React, { useEffect, useState } from 'react';
 import NurseHeader from '../../Component/PatientHeader';
-import Cookies from 'js-cookie';
-import vaccineImage from '../../assets/images/vaccineheader.png';
-import Footer from "../../Component/Footer";
+import Footer from '../../Component/Footer';
 import axios from 'axios';
+import vaccineImage from '../../assets/images/homepage.png';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { useNavigate } from 'react-router-dom';
 
 function UserDashboard() {
-  const userSession = Cookies.get('user') ? JSON.parse(Cookies.get('user')) : null;
-  const customername = userSession ? userSession.user.username : "Guest";
-
   const [newsList, setNewsList] = useState([]);
   const [loading, setLoading] = useState(true);
 
+  const navigate = useNavigate();
+
   useEffect(() => {
-    axios.get("http://localhost:3000/allnews")
+    axios
+      .get('http://localhost:3000/allnews')
       .then((result) => {
         setNewsList(result.data.allnews || []);
         setLoading(false);
       })
       .catch((error) => {
-        console.error("Error fetching data:", error);
-        toast.error("Failed to fetch news");
+        console.error('Error fetching news:', error);
+        toast.error('Failed to fetch news');
         setLoading(false);
       });
   }, []);
 
   const formatDate = (dateStr) => {
     const date = new Date(dateStr);
-    return date.toLocaleString(); // example: "7/1/2025, 4:30:00 PM"
+    return date.toLocaleString();
   };
 
   return (
     <>
       <ToastContainer />
       <style>{`
-        .dashboard-container {
-          background: linear-gradient(to right, #e3f2fd, #ffffff);
-          font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-          min-height: 100vh;
+        body {
+          font-family: 'Poppins', sans-serif;
+          background: #f0f9ff;
+          color: #023047;
         }
-
-        .dashboard-content {
+        .hero {
           display: flex;
           flex-wrap: wrap;
-          padding: 40px 5%;
-          gap: 30px;
-          justify-content: space-between;
+          padding: 4rem 2rem;
+          align-items: center;
+          gap: 3rem;
+          background: linear-gradient(135deg, #ade8f4, #caf0f8);
+        }
+        .hero-text {
+          flex: 1 1 350px;
+        }
+        .hero-text h1 {
+          font-size: 2.5rem;
+          color: #023e8a;
+          margin-bottom: 1rem;
+        }
+        .hero-text p {
+          font-size: 1.2rem;
+          margin-bottom: 2rem;
         }
 
-        .left-box, .right-box {
-          flex: 1 1 48%;
-          background-color: #ffffff;
+        .hero-buttons {
+          display: flex;
+          gap: 1rem;
+          flex-wrap: wrap;
+        }
+        .hero-buttons button {
+          background: #0077b6;
+          color: white;
+          padding: 0.9rem 2rem;
+          font-size: 1rem;
+          border: none;
+          border-radius: 25px;
+          cursor: pointer;
+          transition: background 0.3s ease;
+          min-width: 140px;
+          text-align: center;
+        }
+        .hero-buttons button:hover {
+          background: #023e8a;
+        }
+        .certificate-btn {
+          background: #43a047; /* green */
+        }
+        .certificate-btn:hover {
+          background: #2e7d32;
+        }
+
+        .hero-image {
+          flex: 1 1 350px;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+        }
+        .hero-image img {
+          max-width: 100%;
+          height: auto;
+          max-height: 320px; /* limit height so image doesn't get too tall */
           border-radius: 15px;
-          padding: 30px;
-          box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+          box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+          object-fit: contain;
         }
-
-        .left-box h2, .right-box h2 {
-          color: #1565c0;
-          margin-bottom: 20px;
+        .why-vaccinate {
+          text-align: center;
+          padding: 3rem 2rem;
+          max-width: 900px;
+          margin: 0 auto;
         }
-
-        .left-box p {
-          font-size: 16px;
-          color: #333;
+        .why-vaccinate h2 {
+          font-size: 2.2rem;
+          margin-bottom: 1.5rem;
+          color: #0077b6;
+        }
+        .why-vaccinate p {
+          font-size: 1.1rem;
+          max-width: 800px;
+          margin: auto;
+          color: #555;
           line-height: 1.6;
         }
-
-        .left-box ul {
-          padding-left: 20px;
-          margin-top: 10px;
+        .vaccine-types {
+          padding: 3rem 2rem;
+          background-color: #e0f7fa;
+          text-align: center;
         }
-
-        .left-box li {
-          margin-bottom: 10px;
-          line-height: 1.5;
+        .vaccine-types h2 {
+          font-size: 2rem;
+          color: #0077b6;
+          margin-bottom: 2rem;
         }
-
-        .vaccine-img {
-          width: 100%;
-          max-height: 240px;
-          object-fit: cover;
-          margin-top: 20px;
+        .cards {
+          display: flex;
+          gap: 2rem;
+          flex-wrap: wrap;
+          justify-content: center;
+        }
+        .card {
+          background: white;
+          border-radius: 20px;
+          box-shadow: 0 6px 12px rgba(0,0,0,0.1);
+          padding: 1.5rem;
+          width: 250px;
+          transition: transform 0.3s ease;
+          cursor: pointer;
+        }
+        .card:hover {
+          transform: translateY(-8px);
+          box-shadow: 0 12px 24px rgba(0,0,0,0.15);
+        }
+        .card img {
           border-radius: 10px;
+          margin-bottom: 1rem;
+          width: 100%;
+          height: 140px;
+          object-fit: cover;
         }
-
+        .card h3 {
+          color: #023e8a;
+          margin: 0;
+        }
+        .news-section {
+          padding: 2rem 1rem 4rem;
+          max-width: 900px;
+          margin: 0 auto;
+        }
+        .news-section h2 {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          color: #0077b6;
+          margin-bottom: 1.5rem;
+          font-size: 2rem;
+          gap: 10px;
+        }
+        .news-icon {
+          font-size: 1.8rem;
+          color: #43a047;
+        }
         .news-card {
           background: #f1f8e9;
           border-left: 5px solid #43a047;
           padding: 15px 20px;
           border-radius: 10px;
           margin-bottom: 20px;
+          box-shadow: 0 3px 8px rgba(67, 160, 71, 0.15);
+          transition: background 0.3s ease;
         }
-
+        .news-card:hover {
+          background: #dcedc8;
+        }
         .news-card h4 {
           color: #2e7d32;
           margin-bottom: 8px;
+          font-weight: 600;
         }
-
         .news-card p {
           margin: 0;
           font-size: 15px;
           color: #444;
+          line-height: 1.5;
         }
-
         .news-date {
           margin-top: 8px;
           font-size: 13px;
           color: #888;
+          font-style: italic;
         }
-
         @media (max-width: 768px) {
-          .dashboard-content {
+          .hero {
             flex-direction: column;
-            padding: 20px;
+            text-align: center;
           }
-
-          .left-box, .right-box {
-            flex: 1 1 100%;
+          .cards {
+            flex-direction: column;
+            align-items: center;
+          }
+          .news-section h2 {
+            font-size: 1.6rem;
+          }
+          .hero-image img {
+            max-height: 220px;
+          }
+          .card {
+            width: 90%;
+            max-width: 350px;
+          }
+        }
+        @media (max-width: 480px) {
+          .hero-buttons {
+            flex-direction: column;
+            align-items: center;
+          }
+          .hero-buttons button {
+            width: 100%;
+            max-width: 300px;
           }
         }
       `}</style>
 
-      <div className="dashboard-container">
-        <NurseHeader />
+      <NurseHeader />
 
-        <div className="dashboard-content">
-          {/* Left Section */}
-          <div className="left-box">
-            <h2>💉 Welcome, {customername}!</h2>
-<p>
-  As a patient, staying informed about vaccinations is essential for your health and well-being. Here’s what you need to know about your immunization journey:
-</p>
-<ul>
-  <li>View and track your vaccination records easily.</li>
-  <li>Stay informed about upcoming vaccine schedules.</li>
-  <li>Access helpful resources and reminders digitally.</li>
-</ul>
-
-            <img src={vaccineImage} alt="Vaccine awareness" className="vaccine-img" />
-          </div>
-
-          {/* Right Section */}
-          <div className="right-box">
-            <h2>📢 Vaccination News & Updates</h2>
-
-            {loading ? (
-              <p>Loading news...</p>
-            ) : newsList.length === 0 ? (
-              <p>No news available.</p>
-            ) : (
-              newsList.map((item, index) => (
-                <div className="news-card" key={index}>
-                  <h4>📰 {item.title}</h4>
-                  <p>{item.news}</p>
-                  <div className="news-date">🕒 Updated: {formatDate(item.updatedAt)}</div>
-                </div>
-              ))
-            )}
+      {/* Hero */}
+      <section className="hero">
+        <div className="hero-text">
+          <h1>Protect Your Future, One Shot at a Time</h1>
+          <p>Book your vaccination appointment today with our trusted online portal. Safe, fast & reliable.</p>
+          <div className="hero-buttons">
+            <button onClick={() => navigate('/patient/BookingVaccine')}>Book Now</button>
+            <button onClick={() => navigate('/patient/ReportPage')} className="certificate-btn">
+              Get Certificate 📄
+            </button>
           </div>
         </div>
-      </div>
+        <div className="hero-image">
+          <img src={vaccineImage} alt="Vaccination" />
+        </div>
+      </section>
+
+      {/* Why Vaccinate */}
+      <section className="why-vaccinate">
+        <h2>Why Vaccinate?</h2>
+        <p>
+          Vaccines protect you and your loved ones from harmful diseases. They help reduce the spread of infections,
+          boost immunity, and keep our communities safe. Get vaccinated for a healthier tomorrow.
+        </p>
+      </section>
+
+      {/* Vaccine Types */}
+      <section className="vaccine-types">
+        <h2>Popular Vaccines</h2>
+        <div className="cards">
+          <div className="card" tabIndex={0}>
+            <img
+              src="https://images.unsplash.com/photo-1629904853893-c2cf7a5b2b4a?auto=format&fit=crop&w=400&q=80"
+              alt="COVID-19"
+            />
+            <h3>COVID-19</h3>
+          </div>
+          <div className="card" tabIndex={0}>
+            <img
+              src="https://images.unsplash.com/photo-1580281657527-47e0ef42f3f2?auto=format&fit=crop&w=400&q=80"
+              alt="Hepatitis"
+            />
+            <h3>Hepatitis B</h3>
+          </div>
+          <div className="card" tabIndex={0}>
+            <img
+              src="https://images.unsplash.com/photo-1609943248689-10821b750d43?auto=format&fit=crop&w=400&q=80"
+              alt="Influenza"
+            />
+            <h3>Influenza</h3>
+          </div>
+        </div>
+      </section>
+
+      {/* News Section */}
+      <section className="news-section">
+        <h2>
+          <span className="news-icon" role="img" aria-label="news">
+            📢
+          </span>
+          Vaccination News & Updates
+        </h2>
+        {loading ? (
+          <p style={{ textAlign: 'center' }}>Loading news...</p>
+        ) : newsList.length === 0 ? (
+          <p style={{ textAlign: 'center' }}>No news available.</p>
+        ) : (
+          newsList.map((item, index) => (
+            <div className="news-card" key={index}>
+              <h4>{item.title}</h4>
+              <p>{item.news}</p>
+              <div className="news-date">🕒 Updated: {formatDate(item.updatedAt)}</div>
+            </div>
+          ))
+        )}
+      </section>
 
       <Footer />
     </>
@@ -170,4 +325,3 @@ function UserDashboard() {
 }
 
 export default UserDashboard;
-

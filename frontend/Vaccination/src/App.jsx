@@ -8,6 +8,7 @@ import React from "react";
 
 import Forgotpassword from "./Component/layouts/Forgotpassword"
 import CheckUser from "./Component/layouts/CheckUser"
+import ViewAllFaq from "./Component/layouts/ViewAllFaq"
 
 //------- Admin Panel ----------//
 import AdminLogin from "./View/AdminPanel/AdminLogin";
@@ -37,6 +38,9 @@ import SelectBooking from "./View/PatientSide/SelectBooking"
 import ProfilePage from "./View/PatientSide/ProfilePage";
 import ReportPage from "./View/PatientSide/ReportPage";
 import ProfileUpdate from "./View/PatientSide/ProfileUpdate"
+import MyBooking from "./View/PatientSide/MyBooking";
+import BookingOther from "./View/PatientSide/BookingOther";
+import OthersBooking from "./View/PatientSide/OthersBooking";
 
 
 //----------Nurse side ------------//
@@ -75,6 +79,9 @@ function App() {
             <Route path="/patient/faq" element={<Faq />} />
             <Route path="/patient/ProfilePage" element={<ProfilePage />} />
             <Route path="/patient/ReportPage" element={<ReportPage />} />
+            <Route path="/patient/MyBooking" element={<MyBooking />} />
+            <Route path="/patient/BookingOther" element={<BookingOther />} />
+            <Route path="/patient/OthersBooking" element={<OthersBooking />} />
 
 
 
@@ -118,6 +125,7 @@ function App() {
         
             <Route path="/" element={<WelcomePage />} />
             <Route path="/CheckUser" element={<CheckUser />} />
+            <Route path="/viewfaq" element={<ViewAllFaq />} />
             
         
             

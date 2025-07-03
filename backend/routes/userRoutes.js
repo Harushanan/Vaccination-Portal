@@ -2,7 +2,7 @@ const express = require('express');
 const { loginuser,loginadmin, signupuser, updateuserpw, displayuser , deleteuser , displaydeletuser , addAdmin ,displayadmin , deleteaccount , updateprofile } = require('../controllers/userController');
 const {addvaccine , vaccinelist , updatecount , vaccineid} = require('../controllers/vaccineController')
 const {displayfaq , submitfaq , deletefaq , updatefaq} = require('../controllers/faqcontoller');
-const {bookingvaccine , vaccinepersonlist , updatestatus} = require('../controllers/bookingController');
+const {bookingvaccine , vaccinepersonlist , updatestatus , bookingvaccineothers , vaccinelistothers} = require('../controllers/bookingController');
 const {nursesignupuser , nuserloginuser , nursedeatiles , deletenurse , deletenursedeatiles , bookingData , nurseupdateprofile , nursevaccinepersonlist} = require('../controllers/NurseController')
 const {addcenter , displaycenter , displayonecenter , updatecenter} = require('../controllers/centerContoller')
 const {addnewscenter , allnews , updateNews , deleteNews} = require('../controllers/newsController')
@@ -41,8 +41,9 @@ router.put('/updatefaq/:id', updatefaq);
 router.get('/vaccinelist/:id', vaccineid);
 router.put('/updatebooking/:id', updatestatus);
 router.post('/bookingvaccine', bookingvaccine);
+router.post('/bookingvaccineothers', bookingvaccineothers);
 router.get('/vaccinepersonlist/:myemail', vaccinepersonlist);
-
+router.get('/vaccinelistothers/:myemail', vaccinelistothers);
 
 
 

@@ -9,7 +9,6 @@ import Footer from '../../Component/Footer';
 function BookingVaccine() {
   const [vaccine, setVaccine] = useState([]);
   const [search, setSearch] = useState('');
-
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -24,61 +23,66 @@ function BookingVaccine() {
     v.Name.toLowerCase().includes(search.toLowerCase())
   );
 
-  const getVaccine = (id)=>{
-     navigate(`/patient/BookingVaccine/${id}`)
-  }
+  const getVaccine = (id) => {
+    navigate(`/patient/BookingVaccine/${id}`);
+  };
+
+  // Handlers for card hover effect
+  const handleMouseEnter = (e) => {
+    e.currentTarget.style.transform = 'translateY(-5px)';
+    e.currentTarget.style.boxShadow = '0 12px 30px rgba(0,0,0,0.15)';
+  };
+  const handleMouseLeave = (e) => {
+    e.currentTarget.style.transform = 'none';
+    e.currentTarget.style.boxShadow = '0 8px 20px rgba(0,0,0,0.1)';
+  };
 
   return (
-   <>
-    <div style={pageStyle}>
-      <PatientHeader />
-      <div style={containerStyle}>
-        <h1 style={headingStyle}>Available Vaccines</h1>
+    <>
+      <div style={pageStyle}>
+        <PatientHeader />
+        <div style={containerStyle}>
+          <h1 style={headingStyle}>Available Vaccines</h1>
 
-        <input
-          type="text"
-          placeholder="Search Vaccine..."
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-          style={searchStyle}
-        />
+          <input
+            type="text"
+            placeholder="Search Vaccine..."
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            style={searchStyle}
+          />
 
-        <div style={gridContainer}>
-          {filteredVaccines.map((ob) => (
-            <div key={ob._id} style={cardStyle}>
-              <img
-                src={vaccineimage}
-                alt="Vaccine"
-                style={imageStyle}
-              />
-              <h2 style={titleStyle}>{ob.Name}</h2>
-              <div style={buttonContainer}>
-                {ob.Slots < 20 ? (
-                  <span style={{
-                    padding: '10px',
-                    borderRadius: '20px',
-                    fontWeight: '600',
-                    fontSize: '13px',
-                    color: '#c62828',
-                    backgroundColor: '#fdecea',
-                    flex: 1,
-                    textAlign: 'center'
-                  }}>
-                    Stock Low
-                  </span>
-                ) : (
-                  <button style={bookBtn} onClick={()=>{getVaccine(ob._id)}}>Book</button>
-                )}
-                <button style={viewBtn}>View</button>
+          <div style={gridContainer(filteredVaccines.length)}>
+            {filteredVaccines.map((ob) => (
+              <div
+                key={ob._id}
+                style={cardStyle}
+                onMouseEnter={handleMouseEnter}
+                onMouseLeave={handleMouseLeave}
+              >
+                <img
+                  src={vaccineimage}
+                  alt="Vaccine"
+                  style={imageStyle}
+                />
+                <h2 style={titleStyle}>{ob.Name}</h2>
+                <div style={buttonContainer}>
+                  {ob.Slots < 20 ? (
+                    <span style={stockLowStyle}>
+                      Stock Low
+                    </span>
+                  ) : (
+                    <button style={bookBtn} onClick={() => getVaccine(ob._id)}>Book</button>
+                  )}
+                  <button style={viewBtn}>View</button>
+                </div>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       </div>
-    </div>
-    <Footer/>
-   
-   </>
+      <Footer />
+    </>
   );
 }
 
@@ -87,20 +91,20 @@ const pageStyle = {
   minHeight: '100vh',
   fontFamily: 'Segoe UI, sans-serif',
   background: 'linear-gradient(to right, #e6f7ff, #ffffff)',
-  paddingBottom: '50px'
+  paddingBottom: '50px',
 };
 
 const containerStyle = {
   maxWidth: '1200px',
   margin: '0 auto',
-  padding: '30px 20px'
+  padding: '30px 20px',
 };
 
 const headingStyle = {
   textAlign: 'center',
   color: '#007bff',
   fontWeight: '700',
-  marginBottom: '30px'
+  marginBottom: '30px',
 };
 
 const searchStyle = {
@@ -112,11 +116,14 @@ const searchStyle = {
   fontSize: '16px',
 };
 
-const gridContainer = {
-  display: 'grid',
-  gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
+// gridContainer now a function to handle single card center alignment
+const gridContainer = (cardCount) => ({
+  display: 'flex',
+  justifyContent: cardCount === 1 ? 'center' : 'space-between',
+  flexWrap: 'wrap',
   gap: '20px',
-};
+  padding: '0 10px',
+});
 
 const cardStyle = {
   backgroundColor: '#ffffff',
@@ -124,7 +131,11 @@ const cardStyle = {
   boxShadow: '0 8px 20px rgba(0,0,0,0.1)',
   padding: '20px',
   textAlign: 'center',
-  transition: 'transform 0.2s ease-in-out',
+  transition: 'transform 0.3s ease, box-shadow 0.3s ease',
+  cursor: 'pointer',
+  flex: '1 1 280px',  // responsive: grow, shrink, basis
+  maxWidth: '320px',
+  minWidth: '280px',
 };
 
 const imageStyle = {
@@ -146,6 +157,17 @@ const buttonContainer = {
   display: 'flex',
   justifyContent: 'space-between',
   gap: '10px',
+};
+
+const stockLowStyle = {
+  padding: '10px',
+  borderRadius: '20px',
+  fontWeight: '600',
+  fontSize: '13px',
+  color: '#c62828',
+  backgroundColor: '#fdecea',
+  flex: 1,
+  textAlign: 'center',
 };
 
 const bookBtn = {

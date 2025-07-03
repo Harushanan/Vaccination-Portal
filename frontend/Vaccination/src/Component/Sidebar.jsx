@@ -1,7 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import Cookies from 'js-cookie';
-import { FaBars, FaTimes, FaUser, FaHospital, FaSyringe, FaMapMarkerAlt, FaQuestionCircle, FaNewspaper, FaSignOutAlt } from 'react-icons/fa';
+import {
+  FaBars, FaTimes, FaUser, FaHospital,
+  FaSyringe, FaMapMarkerAlt, FaQuestionCircle,
+  FaNewspaper, FaSignOutAlt
+} from 'react-icons/fa';
 
 function Sidebar() {
   const [hoveredLink, setHoveredLink] = useState(null);
@@ -30,12 +34,38 @@ function Sidebar() {
   };
 
   const links = [
-    { to: "/admin/adminDashboard", label: "Patient Management", icon: <FaUser /> },
-    { to: "/admin/StaffDahboard", label: "Medical Staff Management", icon: <FaHospital /> },
-    { to: "/admin/AddVaccin", label: "Vaccination Management", icon: <FaSyringe /> },
-    { to: "/admin/AddCenter", label: "Add Vaccination Centers", icon: <FaMapMarkerAlt /> },
-    { to: "/admin/AdminFaq", label: "FAQ Management", icon: <FaQuestionCircle /> },
-    { to: "/admin/News", label: "News Management", icon: <FaNewspaper /> }
+    {
+      to: "/admin/adminDashboard",
+      label: "Patient Management",
+      icon: <FaUser />,
+      matchPaths: ["/admin/adminDashboard", "/admin/delete-user"]
+    },
+    {
+      to: "/admin/StaffDahboard",
+      label: "Medical Staff Management",
+      icon: <FaHospital />,
+       matchPaths: ["/admin/StaffDahboard", "/admin/DeleteStaff"]
+    },
+    {
+      to: "/admin/AddVaccin",
+      label: "Vaccination Management",
+      icon: <FaSyringe />
+    },
+    {
+      to: "/admin/AddCenter",
+      label: "Add Vaccination Centers",
+      icon: <FaMapMarkerAlt />
+    },
+    {
+      to: "/admin/AdminFaq",
+      label: "FAQ Management",
+      icon: <FaQuestionCircle />
+    },
+    {
+      to: "/admin/News",
+      label: "News Management",
+      icon: <FaNewspaper />
+    }
   ];
 
   const getLinkStyle = (isHovered, isActive) => ({
@@ -63,6 +93,7 @@ function Sidebar() {
       {/* Toggle Button */}
       {isMobile && (
         <button
+          aria-label="Toggle Sidebar"
           onClick={() => setIsSidebarOpen(!isSidebarOpen)}
           style={{
             position: 'fixed',
@@ -114,7 +145,10 @@ function Sidebar() {
           </h2>
 
           {links.map((link) => {
-            const isActive = currentPath === link.to;
+            const isActive = link.matchPaths
+              ? link.matchPaths.includes(currentPath)
+              : currentPath === link.to;
+
             return (
               <Link
                 key={link.to}
@@ -131,6 +165,7 @@ function Sidebar() {
           })}
 
           <button
+            aria-label="Logout"
             onClick={logout}
             onMouseEnter={() => setHoveredLink('logout')}
             onMouseLeave={() => setHoveredLink(null)}

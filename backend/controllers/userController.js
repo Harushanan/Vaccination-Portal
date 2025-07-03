@@ -98,10 +98,10 @@ const updateuserpw = async (req, res) => {
 //---------- Update user profile ------------------//
 const updateprofile = async (req, res) => {
     try {
-        const { username, address, phone, email } = req.body;
+        const { username, address, phone, email , Image } = req.body;
 
         const updatedUser = await UserModel.findOneAndUpdate({ email },
-            { $set: { username, address, phone } },
+            { $set: { username, address, phone  ,Image:Image} },
             { new: true } 
         );
 

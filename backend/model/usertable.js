@@ -3,13 +3,15 @@ const mongoose = require('mongoose');
 
 
 const loginRegister = new mongoose.Schema({
-    username: String,
-    email: String,
-    phone: String,
-    password: String,
-    address: String,
-    role:{type:String ,default:"customer"}
+  username: String,
+  email: String,
+  phone: String,
+  password: String,
+  address: String,
+  Image: String, // <-- Add type for image (e.g., file path or URL)
+  role: { type: String, default: "customer" }
 });
+
 
 
 const deletuser = new mongoose.Schema({
