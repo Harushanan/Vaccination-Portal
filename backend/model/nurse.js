@@ -6,6 +6,7 @@ const nurseSchema = new mongoose.Schema({
     password: String,
     phone: String,
     nursingId: String,
+    Image: String,
     role:{type:String ,default:"nurse"}
 });
 

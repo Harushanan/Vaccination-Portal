@@ -44,6 +44,11 @@ function NurseDashboard() {
           color: #022c43;
         }
 
+        @keyframes fadeInSlide {
+          0% { opacity: 0; transform: translateY(20px); }
+          100% { opacity: 1; transform: translateY(0); }
+        }
+
         .hero {
           display: flex;
           flex-wrap: wrap;
@@ -56,6 +61,7 @@ function NurseDashboard() {
         .hero-text {
           flex: 1 1 400px;
           padding: 1rem;
+          animation: fadeInSlide 1s ease forwards;
         }
 
         .hero-text h1 {
@@ -71,7 +77,7 @@ function NurseDashboard() {
         }
 
         .hero-image {
-          flex: 1 1 350px;
+          flex: 1 1 400px;
           display: flex;
           justify-content: center;
           padding: 1rem;
@@ -79,9 +85,15 @@ function NurseDashboard() {
 
         .hero-image img {
           width: 100%;
-          max-width: 380px;
+          max-width: 480px;
+          height: auto;
           border-radius: 20px;
-          box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+          box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+          transition: transform 0.3s ease;
+        }
+
+        .hero-image img:hover {
+          transform: scale(1.05);
         }
 
         .nurse-role {
@@ -162,9 +174,13 @@ function NurseDashboard() {
 
         @media (max-width: 768px) {
           .hero {
-            flex-direction: column;
+            flex-direction: column-reverse;
             text-align: center;
             padding: 2rem 1rem;
+          }
+
+          .hero-image img {
+            max-width: 320px;
           }
 
           .hero-text h1 {
@@ -173,6 +189,14 @@ function NurseDashboard() {
 
           .hero-text p {
             font-size: 1rem;
+          }
+
+          .nurse-role h2 {
+            font-size: 1.8rem;
+          }
+
+          .news-card {
+            padding: 16px;
           }
 
           .news-section {

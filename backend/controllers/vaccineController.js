@@ -4,7 +4,7 @@ const { VaccineModel } = require('../model/vaccine');
 
 const addvaccine = async (req, res) => {
   try {
-    const { Name, Type, Slots, Age, Doses, Manufacturer, Instructions } = req.body;
+    const { Name, Type, Slots, Age, Doses, Manufacturer, Instructions , imageUrl } = req.body;
 
     const newVaccine = await VaccineModel.create({
       Name,
@@ -13,7 +13,8 @@ const addvaccine = async (req, res) => {
       Age,
       Doses,
       Manufacturer,
-      Instructions
+      Instructions,
+      Image:imageUrl
     });
 
     res.status(201).json({ message: "Vaccine added successfully"});

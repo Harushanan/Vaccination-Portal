@@ -65,9 +65,9 @@ function ViewVaccine() {
         }
 
         .nav-links {
-          background-color: #1976d2;
+          background-color: #f44336;
           padding: 10px 20px;
-          border-radius: 8px;
+          border-radius: 5px;
           margin-bottom: 20px;
         }
 
@@ -82,7 +82,7 @@ function ViewVaccine() {
         .nav-links a {
           color: #fff;
           text-decoration: none;
-          font-weight: 500;
+          font-weight: bold;
         }
 
         h1 {
@@ -106,7 +106,7 @@ function ViewVaccine() {
         }
 
         th {
-          background-color: #0d47a1;
+          background: #333;
           color: white;
           position: sticky;
           top: 0;

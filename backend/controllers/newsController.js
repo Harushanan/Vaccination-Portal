@@ -61,9 +61,6 @@ const deleteNews = async (req, res) => {
     const { id } = req.params;
 
     const deletedNews = await NewsModel.findByIdAndDelete(id);
-
-    console.log(deletedNews)
-
     if (!deletedNews) {
       return res.status(404).json({ message: "News not found" });
     }

@@ -8,7 +8,8 @@ const vaccineSchema = new mongoose.Schema({
   Age: { type: String, required: true },
   Doses: { type: Number, required: true },
   Manufacturer: { type: String, required: true },
-  Instructions: { type: String, default: '' }
+  Instructions: { type: String, default: '' },
+  Image: String
 });
 
 const VaccineModel = mongoose.model('Vaccine', vaccineSchema);

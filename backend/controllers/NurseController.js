@@ -156,11 +156,11 @@ const bookingData = async (req, res) => {
 
 const nurseupdateprofile = async (req, res) => {
     try {
-        const { username, phone, nursingId, email } = req.body;
+        const { nursingId, phone, Image} = req.body;
 
         const updatedUser = await NurseModel.findOneAndUpdate(
-            { email, nursingId },
-            { $set: { username, phone } },
+            { nursingId },
+            { $set: { phone, Image } },
             { new: true }
         );
 

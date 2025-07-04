@@ -40,7 +40,8 @@ const centerSchema = new mongoose.Schema({
   nursingId:  {
     type: String,
     default: "Not Assign"
-  }
+  },
+  Image: String
 });
 
 const CenterModel = mongoose.model("VaccinationCenter", centerSchema);

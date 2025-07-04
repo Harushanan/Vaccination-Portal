@@ -15,8 +15,32 @@ function AddCenter() {
   const [phone, setPhone] = useState('');
   const [startTime, setStartTime] = useState('');
   const [closeTime, setCloseTime] = useState('');
+  const [imageUrl, setImageUrl] = useState()
 
   const navigate = useNavigate();
+  
+  const handleUpload = async (file) => {
+
+    const formData = new FormData();
+    formData.append("file", file);
+    formData.append("upload_preset", "project_image_upload");
+    formData.append("cloud_name","duz9iteev") 
+    try {
+      const res = await fetch("https://api.cloudinary.com/v1_1/duz9iteev/image/upload", {
+        method: "POST",
+        body: formData
+      });
+      const data = await res.json();
+      console.log(data)
+      setImageUrl(data.url);
+      toast.success("Image uploaded");
+    } catch (error) {
+      console.error("Cloudinary upload error", error);
+      toast.error("Image upload failed");
+    }
+  };
+
+
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -28,7 +52,8 @@ function AddCenter() {
       email,
       phone,
       startTime,
-      closeTime
+      closeTime,
+      Image: imageUrl
     })
       .then((result) => {
         if (result.data.message === "centerCreated") {
@@ -238,6 +263,11 @@ function AddCenter() {
                 onChange={(e) => setCloseTime(e.target.value)}
                 required
               />
+            </label>
+
+            <label>
+              Upload Hospital Image:
+              <input type="file" accept="image/*" onChange={(e) => handleUpload(e.target.files[0])} />
             </label>
 
             <button type="submit">Add Center</button>

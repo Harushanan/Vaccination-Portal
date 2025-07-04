@@ -27,10 +27,9 @@ const submitfaq = async (req, res) => {
 //------------Admin delte FAQ --------//
 const deletefaq =  async (req, res) => {
     try {
-        console.log("I am")
       const { faqId } = req.params;
       const result = await faqModel.findByIdAndDelete(faqId);
-      console.log("Find Result : ", result);
+
 
       res.status(200).json({ message: "FAQ deleted successfully" });
     } catch (error) {

@@ -3,6 +3,8 @@ import { Link, useNavigate, useLocation } from "react-router-dom";
 import Cookies from 'js-cookie'; 
 import nurseprofile from '../assets/images/userimge.png';
 
+const nurseSession = Cookies.get('user') ? JSON.parse(Cookies.get('user')) : null;
+
 function NurseHeader() {
   const navigate = useNavigate();
   const location = useLocation();
@@ -10,7 +12,7 @@ function NurseHeader() {
   const [mobileMenu, setMobileMenu] = useState(false);
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
 
-  const nurseSession = Cookies.get('user') ? JSON.parse(Cookies.get('user')) : null;
+  
   const nurseName = nurseSession ? nurseSession.user.username : "Nurse";
   const nursingId = nurseSession ? nurseSession.user.nursingId : "";
 
@@ -125,8 +127,7 @@ function NurseHeader() {
 
       {/* Profile & Dropdown */}
       <div style={styles.profile} onClick={() => setDropdownVisible(!dropdownVisible)}>
-        <img
-          src={nurseprofile}
+        <img src={nurseSession?.user?.Image ? nurseSession.user.Image : nurseprofile}
           alt="Nurse"
           style={{
             width: "50px",

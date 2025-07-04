@@ -81,4 +81,18 @@ const updatecenter = async (req, res) => {
   }
 };
 
-module.exports = { addcenter , displaycenter , displayonecenter , updatecenter}
+
+const removecenter = async (req, res) => {
+
+    try {
+      const { Id } = req.params;
+      const result = await CenterModel.findByIdAndDelete(Id);
+
+
+      res.status(200).json({ message: "Center deleted successfully" });
+    } catch (error) {
+      res.status(500).json({ error: "Error deleting Center" });
+    }
+  };
+
+module.exports = { addcenter , displaycenter , displayonecenter , updatecenter , removecenter}

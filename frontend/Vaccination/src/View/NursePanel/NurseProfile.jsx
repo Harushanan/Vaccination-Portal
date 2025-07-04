@@ -5,6 +5,7 @@ import Cookies from 'js-cookie';
 import NormalHeader from '../../Component/NormalHeader';
 import Footer from "../../Component/Footer";
 
+
 const NurseProfile = () => {
   const navigate = useNavigate();
   const userSession = Cookies.get('user') ? JSON.parse(Cookies.get('user')) : {};
@@ -153,7 +154,7 @@ const NurseProfile = () => {
         </Link>
 
         <div className="profile-card">
-          <img src={userprofile} alt="Profile" className="profile-image" />
+          <img src={userSession?.user?.Image ? userSession.user.Image : userprofile} alt="Profile" className="profile-image" />
           <h2 className="username">{userSession.user?.username}</h2>
 
           <table className="profile-table">

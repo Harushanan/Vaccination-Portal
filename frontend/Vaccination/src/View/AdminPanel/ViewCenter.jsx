@@ -21,30 +21,23 @@ function ViewCenter() {
       .catch((error) => console.error("Error fetching data:", error));
   }, []);
 
-  const deleteUser = async (email, e) => {
-    e.preventDefault();
-    const reason = reasonByEmail[email];
-    if (!reason || reason.trim() === "") {
-      toast.error("Please provide a reason to delete the center.");
-      return;
-    }
+  const handleDelete = async (e, center) => {
+  e.preventDefault();
+  if (!window.confirm("Are you sure you want to delete this center?")) return;
 
-    if (!window.confirm("Are you sure you want to delete this center?")) return;
+  try {
+    const result = await axios.delete(`http://localhost:3000/removecenter/${center._id}`);
 
-    try {
-      await axios.post("http://localhost:3000/deletecenter", { email, reason });
+    if (result.data.message === "Center deleted successfully") {
       toast.success("Center deleted successfully");
-      setCenters(prev => prev.filter(center => center.email !== email));
-      setReasonByEmail(prev => {
-        const copy = {...prev};
-        delete copy[email];
-        return copy;
-      });
-    } catch (err) {
-      console.error("Delete failed:", err);
-      toast.error("Error deleting center");
+      setTimeout(() => navigate('/admin/ViewCenter'), 3000)
     }
-  };
+  } catch (err) {
+    console.error("Delete failed:", err);
+    toast.error("Error deleting center");
+  }
+};
+
 
   const handleEdit = (center) => {
     const id = center._id;
@@ -216,7 +209,7 @@ function ViewCenter() {
 
           {centers.map(center => (
             <div className="center-card" key={center._id}>
-              <img src={hospital} alt={center.center} />
+              <img src={center.Image} alt={center.center} />
 
               <div className="center-details">
                 <h2>{center.center}</h2>
@@ -232,17 +225,9 @@ function ViewCenter() {
 
               <div className="actions">
                 <button onClick={() => handleEdit(center)}>Edit</button>
-                <form onSubmit={(e) => deleteUser(center.email, e)}>
-                  <input
-                    type="text"
-                    placeholder="Reason"
-                    value={reasonByEmail[center.email] || ''}
-                    onChange={(e) =>
-                      setReasonByEmail(prev => ({ ...prev, [center.email]: e.target.value }))
-                    }
-                  />
-                  <button type="submit">Delete</button>
-                </form>
+                <button onClick={(e) => handleDelete(e, center)}>Delete</button>
+
+                
               </div>
             </div>
           ))}
@@ -250,7 +235,7 @@ function ViewCenter() {
       </div>
 
       <Footer />
-      <ToastContainer position="top-right" autoClose={3000} />
+      <ToastContainer position="top-right" autoClose={2500} />
     </>
   );
 }

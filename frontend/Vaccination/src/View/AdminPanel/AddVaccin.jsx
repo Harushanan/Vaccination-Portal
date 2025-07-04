@@ -15,28 +15,52 @@ function AddVaccin() {
   const [Doses, setDoses] = useState('');
   const [Manufacturer, setManufacturer] = useState('');
   const [Instructions, setInstructions] = useState('');
+  const [imageUrl, setImageUrl] = useState()
+
 
   const navigate = useNavigate();
+
+  const handleUpload = async (file) => {
+
+    const formData = new FormData();
+    formData.append("file", file);
+    formData.append("upload_preset", "project_image_upload");
+    formData.append("cloud_name","duz9iteev") 
+    try {
+      const res = await fetch("https://api.cloudinary.com/v1_1/duz9iteev/image/upload", {
+        method: "POST",
+        body: formData
+      });
+      const data = await res.json();
+      console.log(data)
+      setImageUrl(data.url);
+      toast.success("Image uploaded");
+    } catch (error) {
+      console.error("Cloudinary upload error", error);
+      toast.error("Image upload failed");
+    }
+  };
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     const payload = {
-      Name, Type, Slots, Age, Doses, Manufacturer, Instructions
+      Name, Type, Slots, Age, Doses, Manufacturer, Instructions ,imageUrl
     };
 
     try {
       const result = await axios.post("http://localhost:3000/addvaccine", payload);
 
       if (result.data.message === "Vaccine added successfully") {
-        toast.success("✅ Vaccine added successfully!");
-        setTimeout(() => navigate('/admin/ViewVaccin'), 2500);
+        toast.success("Vaccine added successfully!");
+        setTimeout(() => navigate('/admin/ViewVaccin'), 3000);
       } else {
-        toast.error("❌ Failed to add vaccine.");
+        toast.error("Failed to add vaccine.");
       }
     } catch (err) {
       console.error("Add vaccine error:", err);
-      toast.error("🚨 Error while adding vaccine. Please try again.");
+      toast.error("Error while adding vaccine. Please try again.");
     }
   };
 
@@ -152,6 +176,11 @@ function AddVaccin() {
             </label>
 
             <label>
+              Add Vaccine Image:
+              <input type="file" accept="image/*" onChange={(e) => handleUpload(e.target.files[0])} />
+            </label>
+
+            <label>
               Type:
               <input
                 type="text"
@@ -223,7 +252,7 @@ function AddVaccin() {
         </main>
       </div>
 
-      <ToastContainer position="top-right" autoClose={3000} />
+      <ToastContainer position="top-right" autoClose={2500} />
       <Footer />
     </>
   );

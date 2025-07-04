@@ -61,7 +61,7 @@ function BookingVaccine() {
                 onMouseLeave={handleMouseLeave}
               >
                 <img
-                  src={vaccineimage}
+                  src={ob.Image}
                   alt="Vaccine"
                   style={imageStyle}
                 />
