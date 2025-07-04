@@ -47,7 +47,7 @@ A full-featured vaccination booking and management system for **Patients**, **Nu
 | Database   | MongoDB                               |
 | Auth       | Session & Cookies (`js-cookie`)       |
 | PDF Export | jsPDF & html2canvas                   |
-| Styling    | Plain CSS / Bootstrap (as needed)     |
+| Styling    | CSS                                   |
 
 ---
 
