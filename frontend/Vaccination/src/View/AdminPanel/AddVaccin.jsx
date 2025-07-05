@@ -8,6 +8,13 @@ import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 function AddVaccin() {
+  const CLOUDINARY_URL = import.meta.env.VITE_CLOUDINARY_UPLOAD_URL;
+const CLOUDINARY_PRESET = import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET;
+
+
+
+
+
   const [Name, setName] = useState('');
   const [Type, setType] = useState('');
   const [Slots, setSlots] = useState('');
@@ -24,10 +31,10 @@ function AddVaccin() {
 
     const formData = new FormData();
     formData.append("file", file);
-    formData.append("upload_preset", "project_image_upload");
-    formData.append("cloud_name","duz9iteev") 
+    formData.append("upload_preset",CLOUDINARY_PRESET);
+    
     try {
-      const res = await fetch("https://api.cloudinary.com/v1_1/duz9iteev/image/upload", {
+      const res = await fetch(CLOUDINARY_URL, {
         method: "POST",
         body: formData
       });

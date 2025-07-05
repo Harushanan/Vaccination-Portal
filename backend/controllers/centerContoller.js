@@ -4,7 +4,6 @@ const {CenterModel} = require('../model/center')
 const addcenter =  async (req, res) => {
     try {
         const { email} = req.body;
-        console.log("CenterModel : " ,CenterModel)
     
         const center = await CenterModel.findOne({ email }); //02
 
@@ -33,7 +32,7 @@ const displaycenter = async (req, res) => {
 
 const displayonecenter = async (req, res) => { 
   try {
-    const { id } = req.params; // ✅ use req.params
+    const { id } = req.params; 
 
    const getCenter= await CenterModel.findById(id);
    console.log("getbooking:", getCenter); // Returns an array

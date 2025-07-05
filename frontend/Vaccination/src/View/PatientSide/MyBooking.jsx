@@ -1,12 +1,17 @@
 import React, { useRef, useEffect, useState } from 'react';
 import Cookies from 'js-cookie';
 import axios from 'axios';
+import { Link, useNavigate } from "react-router-dom";
 import NormalHeader from '../../Component/NormalHeader';
 import Footer from "../../Component/Footer";
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const MyBooking = () => {
   const userSession = Cookies.get('user') ? JSON.parse(Cookies.get('user')) : {};
   const [vaccines, setVaccines] = useState([]);
+
+  const navigate = useNavigate()
 
   useEffect(() => {
     if (userSession.user?.email) {
@@ -36,18 +41,24 @@ const MyBooking = () => {
 
   const handleDelete = (id) => {
     if (window.confirm("Are you sure you want to delete this record?")) {
-      axios.delete(`http://localhost:3000/deletebooking/${id}`)
+      axios.delete(`http://localhost:3000/deletemybooking/${id}`)
         .then(res => {
-          if (res.data.success) {
-            setVaccines(prev => prev.filter(v => v._id !== id));
+          if (res.data.message=="booking deleted successfully") {
+             toast.success("Booking deleted successfully");
+             setTimeout(() => {
+              window.location.reload();
+              navigate("/patient/MyBooking")}, 3000);
           }
         })
-        .catch(console.error);
+        .catch(err => {
+        console.error(err);
+        toast.error("Something went wrong while deleting");
+      });
     }
   };
 
-  const handleEdit = (vaccine) => {
-    alert(`Edit clicked for ID: ${vaccine._id}`);
+  const handleEdit = (id) => {
+      navigate(`/patient/UpdateMyBooking/${id}`)
   };
 
   return (
@@ -59,7 +70,7 @@ const MyBooking = () => {
         flexDirection: 'column'
       }}>
         <div style={{ flex: '1', padding: '20px', boxSizing: 'border-box' }}>
-          <h2 style={{ textAlign: 'center', marginBottom: '20px' }}>Vaccination Report</h2>
+          <h2 style={{ textAlign: 'center', marginBottom: '20px' }}>View My Vaccination</h2>
           <div style={{ overflowX: 'auto' }}>
             <table style={{
               width: '100%',
@@ -97,7 +108,7 @@ const MyBooking = () => {
                     </td>
                     <td style={tdStyle}>
                       <button
-                        onClick={() => handleEdit(vaccine)}
+                        onClick={() => handleEdit(vaccine._id)}
                         style={editBtnStyle}
                       >
                         Edit
@@ -123,6 +134,7 @@ const MyBooking = () => {
         </div>
         <Footer />
       </div>
+      <ToastContainer position="top-right" autoClose={2500} />
     </>
   );
 };

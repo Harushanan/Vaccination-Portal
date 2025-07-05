@@ -7,7 +7,16 @@ import axios from 'axios';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
+const CLOUDINARY_URL = import.meta.env.VITE_CLOUDINARY_UPLOAD_URL;
+const CLOUDINARY_PRESET = import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET;
+
+
+console.log("URL is : " ,CLOUDINARY_URL)
+
+
+
 function AddCenter() {
+
   const [center, setCenter] = useState('');
   const [address, setAddress] = useState('');
   const [venue, setVenue] = useState('');
@@ -15,32 +24,34 @@ function AddCenter() {
   const [phone, setPhone] = useState('');
   const [startTime, setStartTime] = useState('');
   const [closeTime, setCloseTime] = useState('');
-  const [imageUrl, setImageUrl] = useState()
+  const [imageUrl, setImageUrl] = useState('');
+  const [uploading, setUploading] = useState(false);
 
   const navigate = useNavigate();
   
   const handleUpload = async (file) => {
-
+    setUploading(true);
     const formData = new FormData();
     formData.append("file", file);
-    formData.append("upload_preset", "project_image_upload");
-    formData.append("cloud_name","duz9iteev") 
+    formData.append("upload_preset", CLOUDINARY_PRESET);
+
     try {
-      const res = await fetch("https://api.cloudinary.com/v1_1/duz9iteev/image/upload", {
+      const res = await fetch(CLOUDINARY_URL, {
         method: "POST",
         body: formData
       });
       const data = await res.json();
-      console.log(data)
+      console.log(data);
       setImageUrl(data.url);
       toast.success("Image uploaded");
     } catch (error) {
       console.error("Cloudinary upload error", error);
       toast.error("Image upload failed");
+      setImageUrl('');
+    } finally {
+      setUploading(false);
     }
   };
-
-
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -57,34 +68,36 @@ function AddCenter() {
     })
       .then((result) => {
         if (result.data.message === "centerCreated") {
-          toast.success("✅ Center added successfully!");
+          toast.success("Center added successfully!");
           setTimeout(() => navigate('/admin/ViewCenter'), 2500);
         } else if (result.data.message === "centerAlreadyExists") {
-          toast.error("⚠️ Center already exists");
+          toast.error("Center already exists");
         }
       })
       .catch((err) => {
         console.error("Error adding center:", err);
-        toast.error("🚨 Failed to add center. Please try again.");
+        toast.error("Failed to add center. Please try again.");
       });
   };
+
+  // Button enabled only if imageUrl exists and not uploading
+  const isSubmitDisabled = !imageUrl || uploading;
 
   return (
     <>
       <style>{`
+        /* ... your existing styles unchanged ... */
         .admin-container {
           display: flex;
           min-height: 100vh;
           background: #f9f9f9;
         }
-
         .admin-main {
           flex: 1;
           padding: 20px;
           max-width: 900px;
           margin: auto;
         }
-
         nav ul {
           list-style: none;
           padding: 0;
@@ -95,33 +108,28 @@ function AddCenter() {
           border-radius: 8px;
           padding: 10px 20px;
         }
-
         nav ul li a {
           color: white;
           text-decoration: none;
           font-weight: 600;
         }
-
         h1 {
           text-align: center;
           margin-bottom: 30px;
           color: #333;
         }
-
         form {
           background: white;
           padding: 25px 30px;
           border-radius: 12px;
           box-shadow: 0 4px 15px rgba(0,0,0,0.1);
         }
-
         label {
           display: block;
           margin-bottom: 15px;
           font-weight: 600;
           color: #444;
         }
-
         input[type="text"],
         input[type="email"],
         input[type="tel"],
@@ -135,7 +143,6 @@ function AddCenter() {
           transition: border-color 0.3s ease;
           box-sizing: border-box;
         }
-
         input[type="text"]:focus,
         input[type="email"]:focus,
         input[type="tel"]:focus,
@@ -144,11 +151,9 @@ function AddCenter() {
           border-color: #f44336;
           outline: none;
         }
-
         textarea {
           resize: vertical;
         }
-
         button[type="submit"] {
           background-color: #f44336;
           color: white;
@@ -162,17 +167,18 @@ function AddCenter() {
           font-size: 1.1rem;
           transition: background-color 0.3s ease;
         }
-
-        button[type="submit"]:hover {
+        button[type="submit"]:hover:not(:disabled) {
           background-color: #d32f2f;
         }
-
+        button[type="submit"]:disabled {
+          background-color: #ccc;
+          cursor: not-allowed;
+        }
         @media (max-width: 600px) {
           nav ul {
             flex-direction: column;
             gap: 10px;
           }
-
           form {
             padding: 20px;
           }
@@ -267,10 +273,16 @@ function AddCenter() {
 
             <label>
               Upload Hospital Image:
-              <input type="file" accept="image/*" onChange={(e) => handleUpload(e.target.files[0])} />
+              <input
+                type="file"
+                accept="image/*"
+                onChange={(e) => handleUpload(e.target.files[0])}
+              />
             </label>
 
-            <button type="submit">Add Center</button>
+            <button type="submit" disabled={isSubmitDisabled}>
+              {uploading ? "Uploading Image..." : "Add Center"}
+            </button>
           </form>
         </main>
       </div>

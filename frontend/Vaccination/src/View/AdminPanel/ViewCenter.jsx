@@ -224,7 +224,7 @@ function ViewCenter() {
               </div>
 
               <div className="actions">
-                <button onClick={() => handleEdit(center)}>Edit</button>
+                <button style={{backgroundColor:"#1a8cff"}}onClick={() => handleEdit(center)}>Edit</button>
                 <button onClick={(e) => handleDelete(e, center)}>Delete</button>
 
                 

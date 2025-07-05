@@ -41,6 +41,7 @@ import ProfileUpdate from "./View/PatientSide/ProfileUpdate"
 import MyBooking from "./View/PatientSide/MyBooking";
 import BookingOther from "./View/PatientSide/BookingOther";
 import OthersBooking from "./View/PatientSide/OthersBooking";
+import UpdateMyBooking from "./View/PatientSide/UpdateMyBooking";
 
 
 //----------Nurse side ------------//
@@ -82,7 +83,7 @@ function App() {
             <Route path="/patient/MyBooking" element={<MyBooking />} />
             <Route path="/patient/BookingOther" element={<BookingOther />} />
             <Route path="/patient/OthersBooking" element={<OthersBooking />} />
-
+            <Route path="/patient/UpdateMyBooking/:id" element={<UpdateMyBooking/>} />
 
 
              {/* Nurse Routes */}

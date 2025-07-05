@@ -10,8 +10,16 @@ import { useNavigate } from 'react-router-dom';
 function UserDashboard() {
   const [newsList, setNewsList] = useState([]);
   const [loading, setLoading] = useState(true);
-
+  const [centers, setCenters] = useState([]);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    axios.get("http://localhost:3000/displaycenter")
+      .then((result) => {
+        setCenters(result.data);
+      })
+      .catch((error) => console.error("Error fetching data:", error));
+  }, []);
 
   useEffect(() => {
     axios
@@ -61,7 +69,6 @@ function UserDashboard() {
           font-size: 1.2rem;
           margin-bottom: 2rem;
         }
-
         .hero-buttons {
           display: flex;
           gap: 1rem;
@@ -83,12 +90,11 @@ function UserDashboard() {
           background: #023e8a;
         }
         .certificate-btn {
-          background: #43a047; /* green */
+          background: #43a047;
         }
         .certificate-btn:hover {
           background: #2e7d32;
         }
-
         .hero-image {
           flex: 1 1 350px;
           display: flex;
@@ -98,7 +104,7 @@ function UserDashboard() {
         .hero-image img {
           max-width: 100%;
           height: auto;
-          max-height: 320px; /* limit height so image doesn't get too tall */
+          max-height: 320px;
           border-radius: 15px;
           box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
           object-fit: contain;
@@ -121,6 +127,8 @@ function UserDashboard() {
           color: #555;
           line-height: 1.6;
         }
+
+        /* Vaccination Centers Scrollable */
         .vaccine-types {
           padding: 3rem 2rem;
           background-color: #e0f7fa;
@@ -131,36 +139,59 @@ function UserDashboard() {
           color: #0077b6;
           margin-bottom: 2rem;
         }
-        .cards {
-          display: flex;
-          gap: 2rem;
-          flex-wrap: wrap;
-          justify-content: center;
+        .center-scroll-container {
+          overflow-x: auto;
+          padding-bottom: 1rem;
+          margin: 0 auto;
         }
-        .card {
+        .cards-scroll {
+          display: flex;
+          flex-wrap: nowrap;
+          gap: 1.5rem;
+          padding: 1rem 1rem 2rem;
+          width: max-content;
+        }
+        .center-card {
           background: white;
           border-radius: 20px;
           box-shadow: 0 6px 12px rgba(0,0,0,0.1);
           padding: 1.5rem;
-          width: 250px;
+          min-width: 260px;
+          max-width: 280px;
+          flex: 0 0 auto;
+          text-align: center;
           transition: transform 0.3s ease;
-          cursor: pointer;
         }
-        .card:hover {
+        .center-card:hover {
           transform: translateY(-8px);
           box-shadow: 0 12px 24px rgba(0,0,0,0.15);
         }
-        .card img {
+        .center-card img {
           border-radius: 10px;
           margin-bottom: 1rem;
           width: 100%;
           height: 140px;
           object-fit: cover;
         }
-        .card h3 {
+        .center-card h3 {
           color: #023e8a;
-          margin: 0;
+          margin-bottom: 0.5rem;
         }
+        .time-phone {
+          font-size: 0.95rem;
+          color: #555;
+          line-height: 1.4;
+        }
+
+        .center-scroll-container::-webkit-scrollbar {
+          height: 8px;
+        }
+        .center-scroll-container::-webkit-scrollbar-thumb {
+          background-color: #aaa;
+          border-radius: 10px;
+        }
+
+        /* News Section */
         .news-section {
           padding: 2rem 1rem 4rem;
           max-width: 900px;
@@ -208,24 +239,24 @@ function UserDashboard() {
           color: #888;
           font-style: italic;
         }
+
+        /* Responsive */
         @media (max-width: 768px) {
           .hero {
             flex-direction: column;
             text-align: center;
           }
-          .cards {
-            flex-direction: column;
-            align-items: center;
-          }
-          .news-section h2 {
-            font-size: 1.6rem;
-          }
           .hero-image img {
             max-height: 220px;
           }
-          .card {
-            width: 90%;
-            max-width: 350px;
+          .cards-scroll {
+            padding-left: 1rem;
+          }
+          .center-card {
+            min-width: 220px;
+          }
+          .time-phone {
+            font-size: 0.85rem;
           }
         }
         @media (max-width: 480px) {
@@ -268,30 +299,21 @@ function UserDashboard() {
         </p>
       </section>
 
-      {/* Vaccine Types */}
+      {/* Vaccination Centers */}
       <section className="vaccine-types">
-        <h2>Popular Vaccines</h2>
-        <div className="cards">
-          <div className="card" tabIndex={0}>
-            <img
-              src="https://images.unsplash.com/photo-1629904853893-c2cf7a5b2b4a?auto=format&fit=crop&w=400&q=80"
-              alt="COVID-19"
-            />
-            <h3>COVID-19</h3>
-          </div>
-          <div className="card" tabIndex={0}>
-            <img
-              src="https://images.unsplash.com/photo-1580281657527-47e0ef42f3f2?auto=format&fit=crop&w=400&q=80"
-              alt="Hepatitis"
-            />
-            <h3>Hepatitis B</h3>
-          </div>
-          <div className="card" tabIndex={0}>
-            <img
-              src="https://images.unsplash.com/photo-1609943248689-10821b750d43?auto=format&fit=crop&w=400&q=80"
-              alt="Influenza"
-            />
-            <h3>Influenza</h3>
+        <h2>Our Vaccination Centers</h2>
+        <div className="center-scroll-container">
+          <div className="cards-scroll">
+            {centers.map((center, index) => (
+              <div className="center-card" tabIndex={0} key={index}>
+                <img src={center.Image} alt={center.center} />
+                <h3>{center.center}</h3>
+                <p className="time-phone">
+                  🕒 {center.startTime} - {center.closeTime}<br />
+                  📞 {center.phone}
+                </p>
+              </div>
+            ))}
           </div>
         </div>
       </section>
@@ -299,9 +321,7 @@ function UserDashboard() {
       {/* News Section */}
       <section className="news-section">
         <h2>
-          <span className="news-icon" role="img" aria-label="news">
-            📢
-          </span>
+          <span className="news-icon" role="img" aria-label="news">📢</span>
           Vaccination News & Updates
         </h2>
         {loading ? (

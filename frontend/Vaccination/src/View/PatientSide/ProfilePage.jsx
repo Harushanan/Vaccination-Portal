@@ -32,108 +32,122 @@ const ProfilePage = () => {
     <>
       <style>{`
         .profile-container {
-          background: linear-gradient(to right, #e0f7fa, #e1f5fe);
+          background: linear-gradient(to right, #f0fdf4, #e0f7fa);
           min-height: 100vh;
-          padding: 30px 20px;
+          padding: 40px 20px;
           display: flex;
           flex-direction: column;
           align-items: center;
         }
+
         .back-button {
           background: #00796b;
           color: #fff;
-          padding: 10px 18px;
-          border-radius: 30px;
+          padding: 10px 20px;
+          border-radius: 25px;
           text-decoration: none;
           font-weight: 500;
-          margin-bottom: 20px;
-          transition: background 0.3s;
+          margin-bottom: 25px;
+          transition: all 0.3s ease-in-out;
         }
+
         .back-button:hover {
           background: #004d40;
+          transform: scale(1.05);
         }
+
         .profile-card {
           background-color: #ffffff;
-          padding: 30px;
-          border-radius: 15px;
-          max-width: 500px;
+          padding: 40px;
+          border-radius: 20px;
+          max-width: 600px;
           width: 100%;
-          box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+          box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
           text-align: center;
+          display: flex;
+          flex-direction: column;
+          gap: 20px;
         }
+
         .profile-image {
-          width: 110px;
-          height: 110px;
+          width: 120px;
+          height: 120px;
           border-radius: 50%;
           object-fit: cover;
           border: 4px solid #00bcd4;
-          margin-bottom: 15px;
+          margin: 0 auto;
         }
+
         .username {
-          font-size: 24px;
-          color: #333;
-          margin-bottom: 20px;
+          font-size: 26px;
+          color: #222;
+          font-weight: 600;
         }
+
         .profile-table {
           width: 100%;
+          margin: 0 auto;
           text-align: left;
-          margin-bottom: 20px;
         }
+
         .profile-table td {
-          padding: 8px 5px;
+          padding: 10px 5px;
           font-size: 16px;
-          color: #555;
+          color: #444;
         }
+
         .button-group {
           display: flex;
           flex-direction: column;
-          gap: 10px;
-          margin-bottom: 20px;
+          gap: 12px;
         }
+
         .btn {
           padding: 12px;
           font-size: 16px;
           font-weight: 600;
           border: none;
           color: white;
-          border-radius: 8px;
+          border-radius: 10px;
           cursor: pointer;
-          transition: opacity 0.3s;
+          transition: all 0.3s ease-in-out;
         }
+
         .btn:hover {
           opacity: 0.9;
+          transform: translateY(-2px);
         }
-        .btn.blue {
-          background-color: #2196f3;
-        }
-        .btn.red {
-          background-color: #f44336;
-        }
-        .btn.green {
-          background-color: #009688;
-        }
-        .report-button {
+
+        .btn.blue { background-color: #2196f3; }
+        .btn.red { background-color: #f44336; }
+        .btn.green { background-color: #009688; }
+
+        .report-button, .others-button {
           display: inline-block;
+          text-align: center;
           background-color: #4caf50;
           color: white;
           padding: 12px 20px;
           font-size: 16px;
-          border-radius: 8px;
-          text-decoration: none;
+          border-radius: 10px;
           font-weight: 600;
-          transition: background-color 0.3s ease;
+          text-decoration: none;
+          transition: background-color 0.3s ease, transform 0.3s;
         }
-        .report-button:hover {
+
+        .report-button:hover, .others-button:hover {
           background-color: #388e3c;
+          transform: translateY(-2px);
         }
+
         @media (max-width: 600px) {
           .profile-card {
-            padding: 20px;
+            padding: 25px;
           }
           .username {
-            font-size: 20px;
+            font-size: 22px;
           }
-          .btn, .report-button {
+          .btn, .report-button, .others-button {
             font-size: 15px;
             padding: 10px;
           }
@@ -144,6 +158,7 @@ const ProfilePage = () => {
       `}</style>
 
       <NormalHeader />
+
       <div className="profile-container">
         <Link
           to={userSession.user?.role === "admin" ? "/adminDashboard" : "/patient/userDashboard"}
@@ -153,15 +168,19 @@ const ProfilePage = () => {
         </Link>
 
         <div className="profile-card">
-         <img src={userSession?.user?.Image ? userSession.user.Image : userprofile} alt="Profile" className="profile-image"/>
+          <img
+            src={userSession?.user?.Image ? userSession.user.Image : userprofile}
+            alt="Profile"
+            className="profile-image"
+          />
 
           <h2 className="username">{userSession.user?.username}</h2>
 
           <table className="profile-table">
             <tbody>
-              <tr><td><strong>Email:</strong></td><td>{userSession.user?.email}</td></tr>
-              <tr><td><strong>Phone:</strong></td><td>{userSession.user?.phone}</td></tr>
-              <tr><td><strong>Address:</strong></td><td>{userSession.user?.address}</td></tr>
+              <tr><td><strong>📧 Email:</strong></td><td>{userSession.user?.email}</td></tr>
+              <tr><td><strong>📞 Phone:</strong></td><td>{userSession.user?.phone}</td></tr>
+              <tr><td><strong>🏠 Address:</strong></td><td>{userSession.user?.address}</td></tr>
             </tbody>
           </table>
 
@@ -172,10 +191,15 @@ const ProfilePage = () => {
           </div>
 
           <Link to="/patient/MyBooking" className="report-button">
-            📄 View My Vaccination booking
+            📄 View My Vaccination Booking
+          </Link>
+
+          <Link to="/patient/OthersBooking" className="others-button">
+            📁 View Others' Bookings
           </Link>
         </div>
       </div>
+
       <Footer />
     </>
   );

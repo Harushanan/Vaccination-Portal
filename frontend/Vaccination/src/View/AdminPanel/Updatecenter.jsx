@@ -185,7 +185,6 @@ function Updatecenter() {
               <select
                 value={JSON.stringify(selectedNurse)}
                 onChange={(e) => setSelectedNurse(JSON.parse(e.target.value))}
-                required
                 style={styles.input}
               >
                 <option value="">-- Select Nurse --</option>
